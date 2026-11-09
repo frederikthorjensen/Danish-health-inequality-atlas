@@ -48,7 +48,9 @@ def overview():
     with st.container(key="home_hero", gap="small"):
         header("Independent public-health analysis · Frederik Jensen", "Danish Health & Life Expectancy",
             "Geographical inequalities across Danish municipalities.")
-        st.markdown("This independent project brings together official Danish municipality-level socioeconomic, health-profile and life-expectancy data. It explores how social conditions and health behaviours are associated with geographical differences in population health, with an emphasis on transparent methods, reproducibility and clear public communication.")
+        with st.container(key="home_intro", gap="xsmall"):
+            st.markdown("This independent project brings together official Danish municipality-level socioeconomic, health-profile and life-expectancy data. Explore how social conditions and health behaviours relate to geographical differences in population health.")
+        st.caption(f"{len(master)} municipalities · Official Danish public data · English & Danish reports")
         with st.container(horizontal=True, gap="small", key="home_actions"):
             if st.button("Explore the dashboard", type="primary", key="home_explore", width=230):
                 st.switch_page("app_pages/inequalities.py")
@@ -57,7 +59,7 @@ def overview():
     with st.container(key="home_purpose", gap="small"):
         st.header("Purpose")
         st.markdown("National averages can hide differences between local populations. Comparing municipalities helps reveal broad patterns in health and living conditions, and identify questions for closer local investigation.")
-        st.markdown("The atlas combines statistical analysis with accessible communication. Its findings are descriptive and exploratory: they show associations between places, not causal effects on individuals.")
+        st.markdown("The atlas combines statistical analysis with accessible communication, transparent methods and reproducible results. Its findings are descriptive and exploratory: they show associations between places, not causal effects on individuals.")
     with st.container(key="home_sources", gap="medium"):
         st.header("What the project combines")
         with st.grid(3, min_column_width=260, gap="medium") as grid:
