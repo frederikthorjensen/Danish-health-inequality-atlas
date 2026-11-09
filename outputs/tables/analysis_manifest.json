@@ -1,0 +1,270 @@
+{
+  "created_at_utc": "2026-11-06T12:27:40.896620+00:00",
+  "status": "complete",
+  "input_file": "data/processed/municipality_master.csv",
+  "input_sha256": "af6f73d32a90089d27fc03f7e286540fb11fbe48a835d1afa35217e7aa8c8c78",
+  "input_provenance_sha256": "a4856792edc261b224fc8405d2ec779543026d1f9a258865b8ee92cf9875c73e",
+  "python": "3.14.8",
+  "package_versions": {
+    "pandas": "3.1.1",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "statsmodels": "0.15.0",
+    "scikit-learn": "1.9.1",
+    "matplotlib": "3.11.2",
+    "threadpoolctl": "3.8.0"
+  },
+  "source_hashes": {
+    "src/analysis.py": "0625b8839bdadbe504d6cbd10bda126a5030d874db744cecdb0f33b7b7c52619",
+    "src/visualization.py": "ec0881dad090e8cef664b1cc320da761b942788e8b92b1be924643c434e8b7bd",
+    "tests/test_analysis.py": "504647bb61f0cde6874ef09ae294423474a8cae7b6c64b0703a44fca4ce12bb2",
+    "report/analysis_methods.md": "7e86059d184159ab19732c078a3594d22eae950cdbbc4b6f304a5c22cd79baa5",
+    "README.md": "290e28af3968ca1998308cac31bf9a573f5df9ad71b4d9b5e2b2f21912aecca9"
+  },
+  "artifacts": [
+    {
+      "file": "outputs/tables/analytic_variable_inventory.csv",
+      "sha256": "6a0bba35d9b778225eedaaefb782c58eaa4568e9b6f7e124c6a8d2abc9abb931"
+    },
+    {
+      "file": "outputs/tables/descriptive_statistics.csv",
+      "sha256": "a6d0f3545761c34b817b72217940a4d7778417ff583941474bd6943eb845e9fb"
+    },
+    {
+      "file": "outputs/tables/analysis_sample_membership.csv",
+      "sha256": "699edf2ed407f924956478fdde93652b311a2c3e1798792131b0ebb91f4c126c"
+    },
+    {
+      "file": "outputs/tables/correlations_full.csv",
+      "sha256": "d371b7df3b660e10024ea422f9ecced3757147d50d4db43cf202fbd23a41969d"
+    },
+    {
+      "file": "outputs/tables/correlations_total_life_expectancy.csv",
+      "sha256": "baa4148309774611ea945c2a8b8fc99a42d5215bd90eb8445ce86bafabf7a391"
+    },
+    {
+      "file": "outputs/tables/correlation_matrix_pearson.csv",
+      "sha256": "ae167a02bd005aed6cb00e0de1b3f30d26f50ca7f6af4f570b330900c6a78df3"
+    },
+    {
+      "file": "outputs/tables/correlation_matrix_spearman.csv",
+      "sha256": "9d3aaf46111b0c946b67b59e6ca3f1be39f0c493ce46a8d462160e97d6e1624b"
+    },
+    {
+      "file": "outputs/tables/correlation_pairwise_N.csv",
+      "sha256": "e07ba98ca2c2b153557e652d390dedd79243f32cf1da80136f8f77ac543424df"
+    },
+    {
+      "file": "outputs/figures/correlation_heatmap.png",
+      "sha256": "42a315e81ca158cefdeccd001e0ec49e75434b1086155b5b5467c3797f8bf1b9"
+    },
+    {
+      "file": "outputs/figures/correlation_heatmap.pdf",
+      "sha256": "6f0aba94cff860f77149ecd3aeaf88380b92f5b1c0218694dfcc1b11f2634bcb"
+    },
+    {
+      "file": "outputs/tables/regression_coefficients.csv",
+      "sha256": "cdbeff4a21ebfde7fac6c2b96e2598b313711764c10c6f9ce64403040c75f87c"
+    },
+    {
+      "file": "outputs/tables/regression_model_fit.csv",
+      "sha256": "a58ec43cd335678e2e7a9aeebc57dafb9ac57a38f2ccf3c865f023f63ea02b3e"
+    },
+    {
+      "file": "outputs/tables/vif.csv",
+      "sha256": "fb233a1a1f91eb6054f67522ccb035b1098d3c14a880441ecf7653ed080ed1be"
+    },
+    {
+      "file": "outputs/figures/model4_coefficients.png",
+      "sha256": "8814531b060929c6faf465b764b8fb97d7a1f29889af918dde3194250e9e3e7d"
+    },
+    {
+      "file": "outputs/figures/model4_coefficients.pdf",
+      "sha256": "8299ea9b8841e787dbc4897b1777e7f516e85f309fefe4540fec7386d4c3c2af"
+    },
+    {
+      "file": "outputs/tables/incremental_explanatory_value.json",
+      "sha256": "8ac0921a5c85f93fe1ef83634d28a69be35e7510c1a29a0cdd79cd8b2c7619ff"
+    },
+    {
+      "file": "outputs/figures/diagnostics_m3.png",
+      "sha256": "750069a97fd44170e4334e87742ee2e5c28b778c62f6ab41ddc828ed691ee5b6"
+    },
+    {
+      "file": "outputs/figures/diagnostics_m3.pdf",
+      "sha256": "ec4b9d1a051d15ea14928e047fbfece4d3ebbacada2ffcbb1a34c9543ed8a309"
+    },
+    {
+      "file": "outputs/figures/cooks_distance_m3.png",
+      "sha256": "8c126202485e5048f2cfc45393b186e5b9d37a837edf0d34cec326075fe9cfae"
+    },
+    {
+      "file": "outputs/figures/cooks_distance_m3.pdf",
+      "sha256": "392f2c7551e30f358cc7d7365c43de2abeea373b8d2364e2fda68d5438207a56"
+    },
+    {
+      "file": "outputs/figures/diagnostics_m4.png",
+      "sha256": "8f67ee26fa3ecaa1f55aff105583ac53d72e186a49bbf5fc7e16b7c110f29cc2"
+    },
+    {
+      "file": "outputs/figures/diagnostics_m4.pdf",
+      "sha256": "5c849019ff6e8da6f46106953e4c51b1a6c6cd5e7d881874eeff17361c6c7f96"
+    },
+    {
+      "file": "outputs/figures/cooks_distance_m4.png",
+      "sha256": "ce5e2b473696e860c7e3de38f736f34a6a1a1740e8a578ba336f5705bb3754cc"
+    },
+    {
+      "file": "outputs/figures/cooks_distance_m4.pdf",
+      "sha256": "a11226e7c82659beef405d5a7074cd2bb3bc8a041975644589f1725ce31d9682"
+    },
+    {
+      "file": "outputs/tables/model_diagnostics.csv",
+      "sha256": "856205bd1339c26ca3522c482e16bae1c639a758c2bb8982052b1c36e576bcf3"
+    },
+    {
+      "file": "outputs/tables/influential_observations.csv",
+      "sha256": "d8f80e27a0b583a274e21cdb34cb0e274088cd4103fb125445867e7a55479860"
+    },
+    {
+      "file": "outputs/tables/sensitivity_analysis.csv",
+      "sha256": "8837880f000e9944b7e4daaf3b21e9e044013b998cdd07bf380b5090d6650baf"
+    },
+    {
+      "file": "outputs/tables/sensitivity_model_fit.csv",
+      "sha256": "806c4898b9c07c80d85d919b6ee0fbf7560feb51aab214454e7eb80bc6d3fad4"
+    },
+    {
+      "file": "outputs/tables/pca_explained_variance.csv",
+      "sha256": "766a6eab15004727b01ea84cf6be375602f9484f7e63fd310d4d1668b279a2ea"
+    },
+    {
+      "file": "outputs/tables/pca_loadings.csv",
+      "sha256": "f096fe70e7650c01b7fee682b490788ae4bf0a3929e64fbee236ba7967664e35"
+    },
+    {
+      "file": "outputs/tables/pca_component_weights.csv",
+      "sha256": "2cb225c07347cf4d12054f31462d3e358879e4bbce20803d78ffa503e1ce1b28"
+    },
+    {
+      "file": "outputs/tables/health_feature_scaling.csv",
+      "sha256": "bc676737e7bb29ac0a226bbbdf22acd9b9b4294ef6914eb66dd1ffa57441f4f9"
+    },
+    {
+      "file": "outputs/tables/municipality_pca_scores.csv",
+      "sha256": "257edb0f01cc4ec1e4fd6784b9e57d0f4abdf445e24e5d484b1407e7954903cc"
+    },
+    {
+      "file": "outputs/tables/cluster_validation.csv",
+      "sha256": "9ac3a77915bcf2660e810032e0ce3ea7e130c45cf8b092de87d878cb5e89e1cf"
+    },
+    {
+      "file": "outputs/tables/cluster_membership.csv",
+      "sha256": "0f17267be6d49ce01bf4b7744f33b7d8838ead08e30e9e88b168c305845c1e58"
+    },
+    {
+      "file": "outputs/tables/cluster_profiles_standardized.csv",
+      "sha256": "36b89a91256a080a8f6bdfe9461a90cbdd78d3482c7f3cf00c73941e8b0032b7"
+    },
+    {
+      "file": "outputs/tables/cluster_profiles_raw_percent.csv",
+      "sha256": "d672a0a7033c8f57fb3e7371451f851078c8b6a562f19b1300f639e62098a584"
+    },
+    {
+      "file": "outputs/tables/cluster_sizes.csv",
+      "sha256": "3281af4d7683ee85df97d80e74f4fd710849d4ecc31574e1e8f9939b379ebc9d"
+    },
+    {
+      "file": "outputs/tables/cluster_seed_stability.csv",
+      "sha256": "0b3f12e072d190d1b03503911efdecbdb4f846de968eeb683b92e26cf6534405"
+    },
+    {
+      "file": "outputs/tables/cluster_solution.json",
+      "sha256": "0c381463613e9af23802bb25ad18d932858bd9b6d57c11be2fb2c0e8932d4be9"
+    },
+    {
+      "file": "outputs/figures/pca_scree.png",
+      "sha256": "e4dcf8cb868e18e719bb64047c7dfd0e89f5eee3ac4f1a06d7f85ecfb6bed4f4"
+    },
+    {
+      "file": "outputs/figures/pca_scree.pdf",
+      "sha256": "11b9ddef93ce852e22544b0bb3195f9b4cc02d306f9dc0d61d22bb1ceb97330a"
+    },
+    {
+      "file": "outputs/figures/cluster_validation.png",
+      "sha256": "ea040547122c9ffaf2a131171433a57fb8edf9b86c94d62e0b08561ee489f8ea"
+    },
+    {
+      "file": "outputs/figures/cluster_validation.pdf",
+      "sha256": "c182f898161fc59085df147915cbc75991e7773adb7f324b0181bf85aed80f53"
+    },
+    {
+      "file": "outputs/figures/cluster_profiles_pca.png",
+      "sha256": "30f828d89dd1087c6c8f7f0e38ce69f2cf0930a459ee792d1f294418210a7247"
+    },
+    {
+      "file": "outputs/figures/cluster_profiles_pca.pdf",
+      "sha256": "b497de6025b675cb2e4b3c4670fd6e29a2d6ac5b0df877a71d60f50fdcf51c7d"
+    },
+    {
+      "file": "outputs/tables/municipality_predictions_residuals.csv",
+      "sha256": "334a764d1326ba3f5c4eaf6a49e25a882e799c26b1743e209d6dbea8bfc188d1"
+    },
+    {
+      "file": "outputs/tables/prediction_quality.json",
+      "sha256": "57bd63bff1c2527139deac1218d56a2fcf96c955fa42a9938cb2052e7d7122d6"
+    },
+    {
+      "file": "outputs/figures/observed_vs_predicted.png",
+      "sha256": "40bd77b818ab1a5d52275fe151e316a0278614151dcd87341704395c0b2c6641"
+    },
+    {
+      "file": "outputs/figures/observed_vs_predicted.pdf",
+      "sha256": "56f20a77b1b2734d79650bdb3a1c42d674481c57fb7e0a26f8bb893c8ad9fbbe"
+    },
+    {
+      "file": "outputs/figures/prediction_residual_ranking.png",
+      "sha256": "03bbe6424b0d48ebad518d460b1c6c391f0d8d5fbc7b033d7b566015df0d213f"
+    },
+    {
+      "file": "outputs/figures/prediction_residual_ranking.pdf",
+      "sha256": "f57ad3d3a473a82e00998377a573d0c40e3b3b4294bca13a439546805129c02d"
+    },
+    {
+      "file": "outputs/tables/secondary_regression_coefficients.csv",
+      "sha256": "061e348b1dbbab3044792b85a237df51886578b5209bd1d7c7427f1631c35429"
+    },
+    {
+      "file": "outputs/tables/secondary_regression_model_fit.csv",
+      "sha256": "718308183fbcc2250e8cdf627275ffaaacbe7c8caf3ecc2472a54a372b6d8af5"
+    },
+    {
+      "file": "outputs/tables/secondary_vif.csv",
+      "sha256": "0ab0343b8f7721f3db41d4cf0717da03e9ffb20c73fe002f2f33ff2f5fcbc4c9"
+    },
+    {
+      "file": "outputs/tables/regression_summaries.txt",
+      "sha256": "ee63535c35c56d26f59c0c5b950272aa46eab2c928c3ee2996cd79098693d33f"
+    },
+    {
+      "file": "outputs/tables/analysis_environment.txt",
+      "sha256": "516093db66954bcad613747f5496a67c262725932c327619b97e14aac4530364"
+    },
+    {
+      "file": "outputs/tables/analysis_summary.json",
+      "sha256": "feb757aff638c1810194738a60dee5976f4aeda0170309d9776abdc9f34ec7c7"
+    },
+    {
+      "file": "outputs/tables/analysis_configuration.json",
+      "sha256": "9c99685b36dd2d48cab7e1198010397ca5743000b86c7357a2a33a33026ad5ac"
+    },
+    {
+      "file": "report/analysis_results.md",
+      "sha256": "4fa103f23947d5d5d8a44eae716c7a858cf6880c3b7482b15c997dd0979ffd3d"
+    },
+    {
+      "file": "report/analysis_artifacts.md",
+      "sha256": "0eb432323ec87a61ef93e5f0f446154e753847729b4ffb27afb0427843f5e88b"
+    }
+  ]
+}

@@ -1,0 +1,145 @@
+{
+  "input_sha256": "af6f73d32a90089d27fc03f7e286540fb11fbe48a835d1afa35217e7aa8c8c78",
+  "primary_N": {
+    "M1": 94,
+    "M2": 94,
+    "M3": 94,
+    "M4": 94
+  },
+  "profile_N": 98,
+  "primary_fit": [
+    {
+      "model": "M1",
+      "outcome": "life_expectancy_total",
+      "N": 94,
+      "predictors": 2,
+      "R_squared": 0.6887769355241593,
+      "adjusted_R_squared": 0.681936868173042,
+      "AIC": 167.19803687212763,
+      "BIC": 174.82792121893763,
+      "residual_df": 91.0,
+      "residual_SD_years": 0.5796768250134431,
+      "condition_number_standardized_design": 2.568816254315545
+    },
+    {
+      "model": "M2",
+      "outcome": "life_expectancy_total",
+      "N": 94,
+      "predictors": 4,
+      "R_squared": 0.6915949335612126,
+      "adjusted_R_squared": 0.6777340316987952,
+      "AIC": 170.34302842894857,
+      "BIC": 183.0595023402986,
+      "residual_df": 89.0,
+      "residual_SD_years": 0.5834941355101694,
+      "condition_number_standardized_design": 5.240682660537134
+    },
+    {
+      "model": "M3",
+      "outcome": "life_expectancy_total",
+      "N": 94,
+      "predictors": 6,
+      "R_squared": 0.7506748302533205,
+      "adjusted_R_squared": 0.7334799909604461,
+      "AIC": 154.3533529061538,
+      "BIC": 172.1564163820438,
+      "residual_df": 87.0,
+      "residual_SD_years": 0.5306329107853412,
+      "condition_number_standardized_design": 7.434701518896972
+    },
+    {
+      "model": "M4",
+      "outcome": "life_expectancy_total",
+      "N": 94,
+      "predictors": 8,
+      "R_squared": 0.7826560273786668,
+      "adjusted_R_squared": 0.7622001240731295,
+      "AIC": 145.4493411064769,
+      "BIC": 168.33899414690694,
+      "residual_df": 85.0,
+      "residual_SD_years": 0.5012277235458485,
+      "condition_number_standardized_design": 8.453506635773147
+    }
+  ],
+  "incremental_value": {
+    "comparison": "M1 to M3 on the same 94 complete cases",
+    "added_predictors": [
+      "daily_smoking_pct",
+      "obesity_pct",
+      "physical_inactivity_pct",
+      "risky_alcohol_pct"
+    ],
+    "delta_R_squared": 0.061897894729161185,
+    "delta_adjusted_R_squared": 0.05154312278740414,
+    "HC3_joint_Wald_F": 5.099963955609102,
+    "df_num": 4.0,
+    "df_denom": 87.0,
+    "p_value": 0.0009708583896919409,
+    "family": "single prespecified block test; unadjusted",
+    "interpretation": "In-sample incremental association, not causality or external predictive validation"
+  },
+  "cluster_solution": {
+    "N": 98,
+    "chosen_k": 2,
+    "seed": 42,
+    "n_init": 50,
+    "rule": "Highest mean silhouette among k=2..6 with every cluster >=5; prefer lower k for exact ties. Inertia/elbow reported alongside, no claimed unique natural partition.",
+    "PC1_coherent_all_loadings_at_least_0_2": false,
+    "PC1_label": "PC1 contrast; not a unidimensional health-risk index",
+    "orientation": "All six inputs higher=more adverse exposure/poorer health; no data-driven reversals. PC1 sign set by positive sum of weights, not to force coherence.",
+    "interpretation": "Exploratory profiles, not natural/causal groups. Numbering by centroid PC1 is a display convention, not a best/worst ranking."
+  },
+  "prediction_quality": {
+    "model": "M3: income, primary education, smoking, obesity, inactivity, alcohol",
+    "N": 94,
+    "in_sample_R_squared": 0.7506748302533204,
+    "in_sample_MAE_years": 0.4042114007463547,
+    "leave_one_out_R_squared": 0.7060994953499171,
+    "leave_one_out_MAE_years": 0.4380840428472416,
+    "method": "Exact OLS leave-one-out PRESS residual e/(1-h); no training prediction for withheld outcomes",
+    "residual_screen": "|externally studentized residual| >=2, descriptive only; not a simultaneous significance test"
+  },
+  "secondary_fit": [
+    {
+      "model": "secondary_life_expectancy_male",
+      "outcome": "life_expectancy_male",
+      "N": 94,
+      "predictors": 6,
+      "R_squared": 0.6943059210058637,
+      "adjusted_R_squared": 0.6732235707304062,
+      "AIC": 194.55953048595944,
+      "BIC": 212.36259396184948,
+      "residual_df": 87.0,
+      "residual_SD_years": 0.6571636748797651,
+      "condition_number_standardized_design": 7.434701518896972
+    },
+    {
+      "model": "secondary_life_expectancy_female",
+      "outcome": "life_expectancy_female",
+      "N": 94,
+      "predictors": 6,
+      "R_squared": 0.6579656329831547,
+      "adjusted_R_squared": 0.6343770559475101,
+      "AIC": 166.55319092830013,
+      "BIC": 184.35625440419017,
+      "residual_df": 87.0,
+      "residual_SD_years": 0.5662089732896796,
+      "condition_number_standardized_design": 7.434701518896972
+    },
+    {
+      "model": "secondary_life_expectancy_sex_gap",
+      "outcome": "life_expectancy_sex_gap",
+      "N": 94,
+      "predictors": 6,
+      "R_squared": 0.18902322738559552,
+      "adjusted_R_squared": 0.13309379479149874,
+      "AIC": 173.14969914049476,
+      "BIC": 190.9527626163848,
+      "residual_df": 87.0,
+      "residual_SD_years": 0.5864286638666878,
+      "condition_number_standardized_design": 7.434701518896972
+    }
+  ],
+  "PC1_variance_ratio": 0.6035526109103065,
+  "PC2_variance_ratio": 0.17811787870736287
+}

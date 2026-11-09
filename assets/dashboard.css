@@ -1,0 +1,129 @@
+/* Scoped presentation rules. Native Streamlit elements retain their semantics. */
+.st-key-atlas_page { font-family: var(--font); }
+.st-key-atlas_page h1 { letter-spacing: -.035em; line-height: 1.15; margin-bottom: .25rem; }
+.st-key-atlas_page h2 { letter-spacing: -.025em; margin-top: .7rem; }
+.st-key-atlas_page h3 { letter-spacing: -.015em; }
+.st-key-atlas_page p { max-width: 78ch; line-height: 1.6; }
+.st-key-atlas_page a { text-underline-offset: .2em; }
+.st-key-atlas_page a:focus-visible, .st-key-atlas_navigation a:focus-visible,
+.st-key-atlas_page button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.st-key-atlas_navigation { padding: .25rem 0 1rem; }
+.st-key-atlas_navigation a {
+  min-height: 2.35rem; border-radius: 0; border-left: 2px solid transparent;
+  padding-left: .75rem; color: var(--muted); transition: color 120ms, background-color 120ms;
+}
+.st-key-atlas_navigation a:hover { background: var(--surface); color: var(--text); }
+.st-key-atlas_navigation .st-key-nav_active a {
+  border-left-color: var(--accent); background: transparent; color: var(--text); font-weight: 600;
+}
+.st-key-atlas_navigation a { background: transparent; }
+.st-key-atlas_navigation .st-key-nav_active a p { color: var(--text); font-weight: 600; }
+.st-key-sidebar_metadata { border-top: 1px solid var(--border); padding-top: 1.25rem; }
+.st-key-sidebar_metadata p { font-size: .8rem; line-height: 1.65; color: var(--muted); }
+.st-key-overview_kpis label p, .st-key-method_summary label p { color: var(--muted); font-size: .85rem; }
+[class*="st-key-municipality_metric_"] p { margin-bottom: .15rem; line-height: 1.4; }
+.st-key-finding_0, .st-key-finding_1, .st-key-finding_2 {
+  padding: 1rem 1.15rem; border-radius: 6px; border-top: 2px solid var(--accent);
+}
+.st-key-finding_1 { border-top-color: var(--secondary); }
+.st-key-finding_2 { border-top-color: var(--border); background: var(--surface); }
+.st-key-finding_0 p, .st-key-finding_1 p, .st-key-finding_2 p { font-size: .92rem; }
+.st-key-selected_municipality { border-bottom: 1px solid var(--border); padding-bottom: .75rem; }
+.st-key-selected_municipality h2 { font-size: 1.9rem; margin: .1rem 0; }
+.st-key-reading_guide, .st-key-residual_definition {
+  background: var(--surface); border-left: 2px solid var(--accent); padding: .8rem 1.1rem; border-radius: 3px;
+}
+.st-key-reading_guide p, .st-key-residual_definition p { font-size: .94rem; margin: .1rem 0; }
+.st-key-obesity_caution { color: var(--warning); background: var(--warning-surface); border-left: 2px solid var(--warning); padding: .7rem 1rem; border-radius: 3px; }
+.st-key-obesity_caution p { color: var(--warning); font-size: .92rem; }
+.st-key-reproducibility_note { border-top: 1px solid var(--border); padding-top: .8rem; }
+@media (max-width: 640px) {
+  .st-key-atlas_page h1 { font-size: 1.9rem; letter-spacing: -.03em; }
+  .st-key-atlas_page h2 { font-size: 1.45rem; }
+  .st-key-atlas_page p { line-height: 1.55; }
+  .st-key-finding_0, .st-key-finding_1, .st-key-finding_2 { padding: .8rem 1rem; }
+}
+@media (prefers-reduced-motion: reduce) { .st-key-atlas_navigation a { transition: none; } }
+.st-key-report_card_en, .st-key-report_card_da { border-top: 2px solid var(--accent); padding: 1.3rem; }
+.st-key-report_card_da { border-top-color: var(--secondary); }
+.st-key-report_card_en a, .st-key-report_card_da a { font-weight: 600; }
+.st-key-report_reader { border-top: 1px solid var(--border); padding-top: 1.5rem; }
+.st-key-report_reader p, .st-key-report_reader li { max-width: 78ch; }
+.st-key-report_reader table { font-size: .85rem; font-variant-numeric: tabular-nums; }
+/* Editorial project homepage, scoped independently of the analytical pages. */
+.st-key-home_hero { padding: .75rem 0 2rem; max-width: 1000px; }
+.st-key-home_hero h1 { max-width: 24ch; margin-top: .25rem; }
+.st-key-home_hero p { max-width: 74ch; }
+.st-key-home_actions { padding-top: .75rem; }
+.st-key-home_actions button { min-height: 2.8rem; }
+.st-key-home_purpose, .st-key-home_sources, .st-key-home_exploration,
+.st-key-home_findings, .st-key-home_author { padding: 1.5rem 0; border-top: 1px solid var(--border); }
+.st-key-home_purpose p, .st-key-home_author p { max-width: 74ch; }
+[class*="st-key-home_source_"] { border-top: 2px solid var(--secondary); padding: 1.1rem; }
+.st-key-home_source_health { border-top-color: var(--accent); }
+[class*="st-key-home_source_"] h3 { font-size: 1.15rem; }
+[class*="st-key-home_source_"] p { font-size: .93rem; }
+[class*="st-key-home_destination_"] { padding: .9rem 1rem; }
+[class*="st-key-home_destination_"] a { padding-left: 0; color: var(--accent); }
+[class*="st-key-home_destination_"] a p { font-weight: 600; font-size: 1.05rem; }
+[class*="st-key-home_destination_"] p { font-size: .92rem; }
+[class*="st-key-home_finding_"] { background: var(--surface); }
+.st-key-home_author h3 { font-size: 1.15rem; }
+.st-key-home_principles { padding: 1rem 0; }
+.st-key-home_final { border-top: 1px solid var(--border); padding: 1.5rem 0 1rem; }
+.st-key-home_final button { min-height: 2.8rem; }
+@media (max-width: 640px) {
+  .st-key-home_hero { padding: .5rem 0 1.25rem; }
+  .st-key-home_purpose, .st-key-home_sources, .st-key-home_exploration,
+  .st-key-home_findings, .st-key-home_author { padding: 1rem 0; }
+  .st-key-home_actions button { width: 100%; }
+}
+/* Executive brief: a report hierarchy with compact topic navigation. */
+.st-key-findings_hero { padding: .25rem 0 1rem; }
+.st-key-findings_hero h1 { margin-bottom: .15rem; }
+.st-key-findings_summary { border-left: 3px solid var(--accent); padding: 1rem 1.3rem; background: var(--surface); border-radius: 3px; }
+.st-key-findings_summary p { max-width: 82ch; margin-bottom: .15rem; }
+.st-key-findings_navigation { padding: 1.1rem 0 .3rem; }
+.st-key-findings_cards [class*="st-key-brief_card_"] { padding: 1.2rem 1.3rem; border-top: 2px solid var(--secondary); }
+.st-key-findings_cards h3 { font-size: 1.25rem; margin: 0; line-height: 1.35; }
+.st-key-findings_cards [class*="st-key-brief_evidence_"] p { color: var(--accent); font-size: 1rem; font-weight: 600; margin: .1rem 0; }
+.st-key-findings_cards [class*="st-key-brief_caution_"] { border-top: 1px solid var(--border); padding-top: .6rem; }
+.st-key-findings_cards [class*="st-key-brief_caution_"] p { color: var(--muted); font-size: .87rem; line-height: 1.5; }
+.st-key-findings_next { margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 1.3rem; }
+.st-key-findings_next a { border: 1px solid var(--border); min-height: 2.8rem; padding: .5rem .8rem; border-radius: 5px; }
+@media (max-width: 640px) {
+  .st-key-findings_cards [class*="st-key-brief_card_"] { padding: 1rem; }
+  .st-key-findings_summary { padding: .9rem 1rem; }
+}
+/* Shared publication system across every app page. */
+.st-key-atlas_page { max-width: 1220px; margin: 0 auto; }
+.st-key-document_breadcrumb { border-bottom: 1px solid var(--border); padding-bottom: .6rem; margin-bottom: 1rem; align-items: center; }
+.st-key-document_breadcrumb a { padding-left: 0; color: var(--accent); font-size: .85rem; }
+.st-key-document_breadcrumb p { font-size: .83rem; margin: 0; }
+.st-key-page_reading_guide { background: var(--surface); border-left: 2px solid var(--accent); border-radius: 3px; padding: .9rem 1.1rem; margin: .3rem 0 .8rem; }
+.st-key-page_reading_guide p { font-size: .94rem; line-height: 1.55; max-width: 88ch; margin-bottom: .1rem; }
+.st-key-atlas_page [class*="st-key-section_"] { border-bottom: 1px solid var(--border); margin-top: .65rem; padding-bottom: .6rem; }
+.st-key-atlas_page [class*="st-key-section_"] h3 { font-size: 1.35rem; margin-top: .1rem; }
+.st-key-atlas_page [class*="st-key-section_"] p { max-width: 82ch; }
+.st-key-atlas_page [class*="st-key-figure_"] { padding: .35rem .6rem; background: var(--card); margin: .3rem 0; }
+.st-key-reading_navigation { margin-top: 2rem; border-top: 1px solid var(--border); padding: 1.25rem 0 .4rem; }
+.st-key-reading_previous, .st-key-reading_next { padding: .7rem 1rem; background: var(--surface); }
+.st-key-reading_navigation a { min-height: 2.4rem; color: var(--accent); }
+.st-key-reading_navigation a p { font-weight: 600; }
+.st-key-home_hero h1 { font-size: 2.5rem; }
+@media (max-width: 640px) {
+  .st-key-atlas_page { width: 100%; }
+  .st-key-page_reading_guide { padding: .8rem .9rem; }
+  .st-key-atlas_page [class*="st-key-figure_"] { padding: .1rem; }
+  .st-key-home_hero h1 { font-size: 1.9rem; }
+}
+/* Direct municipality comparison: readable controls and small-multiple figures. */
+.st-key-comparison_controls { background: var(--surface); padding: 1.1rem 1.2rem; }
+[class*="st-key-comparison_factor_"] { padding: .9rem 1rem; border-top: 2px solid var(--secondary); }
+[class*="st-key-comparison_factor_"] h3 { font-size: 1.2rem; line-height: 1.35; }
+[class*="st-key-comparison_factor_"] p { font-size: .88rem; line-height: 1.5; }
+.st-key-comparison_notes { border-top: 1px solid var(--border); padding-top: 1rem; margin-top: .8rem; }
+@media (max-width: 640px) {
+  .st-key-comparison_controls { padding: .9rem; }
+  [class*="st-key-comparison_factor_"] { padding: .8rem; }
+}

@@ -1,0 +1,11 @@
+{
+  "N": 98,
+  "chosen_k": 2,
+  "seed": 42,
+  "n_init": 50,
+  "rule": "Highest mean silhouette among k=2..6 with every cluster >=5; prefer lower k for exact ties. Inertia/elbow reported alongside, no claimed unique natural partition.",
+  "PC1_coherent_all_loadings_at_least_0_2": false,
+  "PC1_label": "PC1 contrast; not a unidimensional health-risk index",
+  "orientation": "All six inputs higher=more adverse exposure/poorer health; no data-driven reversals. PC1 sign set by positive sum of weights, not to force coherence.",
+  "interpretation": "Exploratory profiles, not natural/causal groups. Numbering by centroid PC1 is a display convention, not a best/worst ranking."
+}

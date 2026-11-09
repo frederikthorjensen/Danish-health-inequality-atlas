@@ -1,0 +1,3 @@
+model,N,Koenker_BP_LM,Koenker_BP_p,BP_F,BP_F_p,Shapiro_W,Shapiro_p,Cook_threshold,high_Cook_N,leverage_threshold,high_leverage_N,large_studentized_residual_N,max_Cook,max_leverage,analysis_role
+M3,94,9.14590855164,0.165537035628,1.56286717276,0.1676547396,0.989915038406,0.698049686995,0.0425531914894,6,0.148936170213,9,5,0.243063270702,0.374226110673,exploratory model diagnostics; no automatic removal
+M4,94,6.11784504129,0.634033301845,0.739650769764,0.656284541999,0.976674660552,0.0909413660432,0.0425531914894,7,0.191489361702,8,6,0.192010604738,0.374885847902,exploratory model diagnostics; no automatic removal

@@ -1,0 +1,17 @@
+{
+  "comparison": "M1 to M3 on the same 94 complete cases",
+  "added_predictors": [
+    "daily_smoking_pct",
+    "obesity_pct",
+    "physical_inactivity_pct",
+    "risky_alcohol_pct"
+  ],
+  "delta_R_squared": 0.061897894729161185,
+  "delta_adjusted_R_squared": 0.05154312278740414,
+  "HC3_joint_Wald_F": 5.099963955609102,
+  "df_num": 4.0,
+  "df_denom": 87.0,
+  "p_value": 0.0009708583896919409,
+  "family": "single prespecified block test; unadjusted",
+  "interpretation": "In-sample incremental association, not causality or external predictive validation"
+}

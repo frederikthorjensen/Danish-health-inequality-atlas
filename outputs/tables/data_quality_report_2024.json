@@ -1,0 +1,241 @@
+{
+  "status": "passed",
+  "errors": [],
+  "expected_municipalities": 98,
+  "matched_municipalities": 98,
+  "missing_values": {
+    "municipality_code": 0,
+    "municipality": 0,
+    "population": 0,
+    "population_year": 0,
+    "population_reference_date": 0,
+    "population_0_17": 0,
+    "age_0_17_share_pct": 0,
+    "age_0_17_share_year": 0,
+    "population_18_64": 0,
+    "age_18_64_share_pct": 0,
+    "age_18_64_share_year": 0,
+    "population_65_plus": 0,
+    "age_65_plus_share_pct": 0,
+    "age_65_plus_share_year": 0,
+    "age_structure_reference_date": 0,
+    "disposable_income_mean_dkk": 0,
+    "disposable_income_year": 0,
+    "education_population_25_64": 0,
+    "primary_education_count_25_64": 0,
+    "education_unknown_count_25_64": 0,
+    "low_education_share_25_64_pct": 0,
+    "education_unknown_share_25_64_pct": 0,
+    "low_education_year": 0,
+    "education_unknown_year": 0,
+    "education_reference_date": 0
+  },
+  "duplicate_codes": 0,
+  "duplicate_names": 0,
+  "source_checks": {
+    "FOLK1A": {
+      "rows": 12446,
+      "expected_rows": 12446,
+      "municipalities": 98,
+      "missing_cells": 0,
+      "duplicate_cells": 0,
+      "unexpected_or_missing_cells": 0,
+      "unexpected_municipality_names": {},
+      "negative_cells": 0
+    },
+    "INDKP106": {
+      "rows": 98,
+      "expected_rows": 98,
+      "municipalities": 98,
+      "missing_cells": 0,
+      "duplicate_cells": 0,
+      "unexpected_or_missing_cells": 0,
+      "unexpected_municipality_names": {},
+      "negative_cells": 0
+    },
+    "HFUDD11": {
+      "rows": 2352,
+      "expected_rows": 2352,
+      "municipalities": 98,
+      "missing_cells": 0,
+      "duplicate_cells": 0,
+      "unexpected_or_missing_cells": 0,
+      "unexpected_municipality_names": {},
+      "negative_cells": 0
+    }
+  },
+  "age_total_mismatches": 0,
+  "education_component_mismatches": 0,
+  "numeric_ranges": {
+    "population": {
+      "min": 1759.0,
+      "max": 659350.0,
+      "allowed_min": 1,
+      "allowed_max": 10000000,
+      "invalid_or_missing": 0,
+      "fractional_counts": 0
+    },
+    "population_year": {
+      "min": 2024.0,
+      "max": 2024.0,
+      "allowed_min": 2024,
+      "allowed_max": 2024,
+      "invalid_or_missing": 0,
+      "fractional_counts": 0
+    },
+    "population_0_17": {
+      "min": 205.0,
+      "max": 110571.0,
+      "allowed_min": 0,
+      "allowed_max": 10000000,
+      "invalid_or_missing": 0,
+      "fractional_counts": 0
+    },
+    "age_0_17_share_pct": {
+      "min": 11.654349061967027,
+      "max": 25.02262096464995,
+      "allowed_min": 0,
+      "allowed_max": 100,
+      "invalid_or_missing": 0,
+      "fractional_counts": 0
+    },
+    "age_0_17_share_year": {
+      "min": 2024.0,
+      "max": 2024.0,
+      "allowed_min": 2024,
+      "allowed_max": 2024,
+      "invalid_or_missing": 0,
+      "fractional_counts": 0
+    },
+    "population_18_64": {
+      "min": 806.0,
+      "max": 478392.0,
+      "allowed_min": 0,
+      "allowed_max": 10000000,
+      "invalid_or_missing": 0,
+      "fractional_counts": 0
+    },
+    "age_18_64_share_pct": {
+      "min": 44.53380994935955,
+      "max": 72.55509213619473,
+      "allowed_min": 0,
+      "allowed_max": 100,
+      "invalid_or_missing": 0,
+      "fractional_counts": 0
+    },
+    "age_18_64_share_year": {
+      "min": 2024.0,
+      "max": 2024.0,
+      "allowed_min": 2024,
+      "allowed_max": 2024,
+      "invalid_or_missing": 0,
+      "fractional_counts": 0
+    },
+    "population_65_plus": {
+      "min": 748.0,
+      "max": 70387.0,
+      "allowed_min": 0,
+      "allowed_max": 10000000,
+      "invalid_or_missing": 0,
+      "fractional_counts": 0
+    },
+    "age_65_plus_share_pct": {
+      "min": 10.675210434518844,
+      "max": 42.52416145537237,
+      "allowed_min": 0,
+      "allowed_max": 100,
+      "invalid_or_missing": 0,
+      "fractional_counts": 0
+    },
+    "age_65_plus_share_year": {
+      "min": 2024.0,
+      "max": 2024.0,
+      "allowed_min": 2024,
+      "allowed_max": 2024,
+      "invalid_or_missing": 0,
+      "fractional_counts": 0
+    },
+    "disposable_income_mean_dkk": {
+      "min": 229128.0,
+      "max": 570329.0,
+      "allowed_min": 1,
+      "allowed_max": 10000000,
+      "invalid_or_missing": 0,
+      "fractional_counts": 0
+    },
+    "disposable_income_year": {
+      "min": 2024.0,
+      "max": 2024.0,
+      "allowed_min": 2024,
+      "allowed_max": 2024,
+      "invalid_or_missing": 0,
+      "fractional_counts": 0
+    },
+    "education_population_25_64": {
+      "min": 724.0,
+      "max": 406877.0,
+      "allowed_min": 1,
+      "allowed_max": 10000000,
+      "invalid_or_missing": 0,
+      "fractional_counts": 0
+    },
+    "primary_education_count_25_64": {
+      "min": 136.0,
+      "max": 39048.0,
+      "allowed_min": 0,
+      "allowed_max": 10000000,
+      "invalid_or_missing": 0,
+      "fractional_counts": 0
+    },
+    "education_unknown_count_25_64": {
+      "min": 11.0,
+      "max": 6239.0,
+      "allowed_min": 0,
+      "allowed_max": 10000000,
+      "invalid_or_missing": 0,
+      "fractional_counts": 0
+    },
+    "low_education_share_25_64_pct": {
+      "min": 6.776859504132231,
+      "max": 28.7001287001287,
+      "allowed_min": 0,
+      "allowed_max": 100,
+      "invalid_or_missing": 0,
+      "fractional_counts": 0
+    },
+    "education_unknown_share_25_64_pct": {
+      "min": 0.6041079339508659,
+      "max": 2.4705790663237472,
+      "allowed_min": 0,
+      "allowed_max": 100,
+      "invalid_or_missing": 0,
+      "fractional_counts": 0
+    },
+    "low_education_year": {
+      "min": 2024.0,
+      "max": 2024.0,
+      "allowed_min": 2024,
+      "allowed_max": 2024,
+      "invalid_or_missing": 0,
+      "fractional_counts": 0
+    },
+    "education_unknown_year": {
+      "min": 2024.0,
+      "max": 2024.0,
+      "allowed_min": 2024,
+      "allowed_max": 2024,
+      "invalid_or_missing": 0,
+      "fractional_counts": 0
+    }
+  },
+  "range_policy": "Shares 0–100%; counts nonnegative integers, positive denominators; income positive. 10 million is a broad screening ceiling, not an estimated bound.",
+  "limitations": [
+    "Common 2024 label: income is annual; population 1 January; education 30 September.",
+    "Education denominator includes unknown attainment; unknown share is retained separately.",
+    "StatBank metadata declares suppressedDataValue=0: confidential small counts may be indistinguishable from genuine zero counts; no imputation performed.",
+    "Municipality names checked against FOLK1A labels; no fuzzy matching."
+  ],
+  "raw_directory": "data/raw/statbank_20261106T114812Z_719d37b0",
+  "raw_manifest_sha256": "b1e94483fecce7de7b1de8c443302c99a839bee0d3c2e867c503bd65b43d150f",
+  "source_retrieval_utc": "2026-11-06T11:48:12.467616+00:00"
+}

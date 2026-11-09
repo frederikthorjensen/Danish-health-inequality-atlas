@@ -1,0 +1,15 @@
+{
+  "text": "#142F43",
+  "muted": "#526B7B",
+  "border": "#DEE6EB",
+  "surface": "#F7F9FA",
+  "card": "#FFFFFF",
+  "accent": "#147486",
+  "secondary": "#294C68",
+  "warning": "#865C31",
+  "warning_surface": "#FAF4EB",
+  "residual_positive": "#147486",
+  "residual_negative": "#294C68",
+  "grid": "#EDF1F4",
+  "font": "Arial, Helvetica, sans-serif"
+}

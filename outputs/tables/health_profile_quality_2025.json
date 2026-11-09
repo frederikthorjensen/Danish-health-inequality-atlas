@@ -1,0 +1,104 @@
+{
+  "status": "passed",
+  "errors": [],
+  "wave": 2025,
+  "automated_acquisition_succeeded": true,
+  "base_municipalities": 98,
+  "raw_directory": "data/raw/health_profile_2025_20261106T120114Z_5041ba1d",
+  "indicators": {
+    "daily_smoking": {
+      "source_rows": 98,
+      "matched_municipalities": 98,
+      "missing_municipalities": [],
+      "unexpected_municipality_names": [],
+      "duplicate_codes": [],
+      "source_status_counts": {
+        "observed": 98
+      },
+      "missing_value_tokens": {},
+      "null_source_values": 0,
+      "min_pct": 5.1,
+      "max_pct": 18.3,
+      "missing_or_suppressed_in_master": 0
+    },
+    "obesity": {
+      "source_rows": 98,
+      "matched_municipalities": 98,
+      "missing_municipalities": [],
+      "unexpected_municipality_names": [],
+      "duplicate_codes": [],
+      "source_status_counts": {
+        "observed": 98
+      },
+      "missing_value_tokens": {},
+      "null_source_values": 0,
+      "min_pct": 7.5,
+      "max_pct": 27.6,
+      "missing_or_suppressed_in_master": 0
+    },
+    "physical_inactivity": {
+      "source_rows": 98,
+      "matched_municipalities": 98,
+      "missing_municipalities": [],
+      "unexpected_municipality_names": [],
+      "duplicate_codes": [],
+      "source_status_counts": {
+        "observed": 98
+      },
+      "missing_value_tokens": {},
+      "null_source_values": 0,
+      "min_pct": 41.0,
+      "max_pct": 63.6,
+      "missing_or_suppressed_in_master": 0
+    },
+    "risky_alcohol": {
+      "source_rows": 98,
+      "matched_municipalities": 98,
+      "missing_municipalities": [],
+      "unexpected_municipality_names": [],
+      "duplicate_codes": [],
+      "source_status_counts": {
+        "observed": 98
+      },
+      "missing_value_tokens": {},
+      "null_source_values": 0,
+      "min_pct": 9.2,
+      "max_pct": 25.5,
+      "missing_or_suppressed_in_master": 0
+    },
+    "good_self_rated_health": {
+      "source_rows": 98,
+      "matched_municipalities": 98,
+      "missing_municipalities": [],
+      "unexpected_municipality_names": [],
+      "duplicate_codes": [],
+      "source_status_counts": {
+        "observed": 98
+      },
+      "missing_value_tokens": {},
+      "null_source_values": 0,
+      "min_pct": 74.3,
+      "max_pct": 87.5,
+      "missing_or_suppressed_in_master": 0
+    },
+    "poor_mental_health": {
+      "source_rows": 98,
+      "matched_municipalities": 98,
+      "missing_municipalities": [],
+      "unexpected_municipality_names": [],
+      "duplicate_codes": [],
+      "source_status_counts": {
+        "observed": 98
+      },
+      "missing_value_tokens": {},
+      "null_source_values": 0,
+      "min_pct": 10.299999999999999,
+      "max_pct": 21.3,
+      "missing_or_suppressed_in_master": 0
+    }
+  },
+  "health_missingness_assessed": true,
+  "suppression_note": "Explicit suppression and ambiguous missing tokens are retained separately. No absent or suppressed value is imputed; no marker occurs in this acquired snapshot unless listed above.",
+  "temporal_alignment": "2025 health with 2024 socioeconomic indicators; each variable retains its own year.",
+  "generated_at_utc": "2026-11-06T12:03:48.403490+00:00"
+}

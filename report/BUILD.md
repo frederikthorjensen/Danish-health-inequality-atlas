@@ -1,0 +1,36 @@
+# Publication build and verification
+
+The English and Danish publications use the same validated analysis snapshot. They do not run data collection, `src.analysis`, statistical tests or new model fits.
+
+## Build
+
+From the repository root:
+
+```sh
+.venv/bin/pip install -r requirements-report.txt
+.venv/bin/playwright install chromium
+.venv/bin/python -m scripts.build_reports
+```
+
+Chromium is used only for local HTML-to-PDF rendering. If using an existing Playwright browser cache, set `PLAYWRIGHT_BROWSERS_PATH` to that cache before the build. The dashboard itself needs only the original requirements and the prebuilt publication files; it does not need a browser or a PDF component.
+
+- Edit prose in `report/templates/report_en.md` and `report/templates/report_da.md` together.
+- `{{field}}` markers are filled from checksum-verified saved tables by `src/reporting.py`.
+- Generated Markdown is the source displayed by the native in-app readers. Each print spread is one reader section; previous/next buttons and a section selector provide navigation.
+- The build creates standalone HTML previews, publication figures in `report/figures/`, and the two named PDFs in the repository root.
+- Four original analysis figures are reused byte-for-byte (coefficients, observed/predicted, residual ranking and scree plot). Six additional publication figures reformat existing observations or saved statistics. Scatter guides reconstruct the saved correlation; they are not new inferential analyses.
+- Both languages use exactly the same ten image assets. English axis labels and decimal points are intentionally shared, with localized captions, prose, table headings and terminology.
+- `publication_manifest.json` stores PDF/source/figure checksums, the original analysis manifest hash and the resolved numerical fields. It is publication metadata, not a new statistical result.
+- The build refuses to render if validated source/artifact hashes differ. It also checks content against every page footer and rejects overflowing pages.
+
+## Verification
+
+```sh
+.venv/bin/python -m unittest discover -s tests -v
+```
+
+Report-specific tests compare the two editions' numerical tables, figure and table numbering, saved result fields, sex-specific corrected findings, withheld municipalities, PDF pagination and delivery checksums. They also smoke-test both readers and their section navigation.
+
+The publications have deliberately explicit page breaks. This preserves captions, tables and interpretation together rather than shrinking the whole document to meet an arbitrary page count. Visual QA should be repeated after any prose or stylesheet change. The PDFs have selectable text and links; the native readers provide a responsive alternative. Formal PDF/UA certification is not claimed.
+
+Rebuilding requires the preserved input and output files listed in the analysis manifest. No claim is made that the external live sources will remain unchanged or indefinitely available.

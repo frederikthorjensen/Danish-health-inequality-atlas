@@ -1,0 +1,7 @@
+variable,mean,SD_ddof0,direction_multiplier
+daily_smoking_pct,10.9540816327,2.48453043925,1
+obesity_pct,20.2173469388,4.26832246143,1
+physical_inactivity_pct,54.0642857143,4.73282609623,1
+risky_alcohol_pct,14.2959183673,2.81058198517,1
+less_good_or_poor_self_rated_health_pct,18.7132653061,2.6647601169,1
+poor_mental_health_pct,15.0071428571,2.1252730917,1

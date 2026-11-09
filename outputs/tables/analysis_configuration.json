@@ -1,0 +1,74 @@
+{
+  "primary_outcome": "life_expectancy_total",
+  "primary_models": {
+    "M1": [
+      "income_per_10000_dkk",
+      "low_education_share_25_64_pct"
+    ],
+    "M2": [
+      "daily_smoking_pct",
+      "obesity_pct",
+      "physical_inactivity_pct",
+      "risky_alcohol_pct"
+    ],
+    "M3": [
+      "income_per_10000_dkk",
+      "low_education_share_25_64_pct",
+      "daily_smoking_pct",
+      "obesity_pct",
+      "physical_inactivity_pct",
+      "risky_alcohol_pct"
+    ],
+    "M4": [
+      "income_per_10000_dkk",
+      "low_education_share_25_64_pct",
+      "daily_smoking_pct",
+      "obesity_pct",
+      "physical_inactivity_pct",
+      "risky_alcohol_pct",
+      "less_good_or_poor_self_rated_health_pct",
+      "poor_mental_health_pct"
+    ]
+  },
+  "secondary_outcomes": [
+    "life_expectancy_male",
+    "life_expectancy_female",
+    "life_expectancy_sex_gap"
+  ],
+  "correlation_variables": [
+    "life_expectancy_total",
+    "life_expectancy_male",
+    "life_expectancy_female",
+    "life_expectancy_sex_gap",
+    "disposable_income_mean_dkk",
+    "low_education_share_25_64_pct",
+    "education_unknown_share_25_64_pct",
+    "population",
+    "age_0_17_share_pct",
+    "age_18_64_share_pct",
+    "age_65_plus_share_pct",
+    "daily_smoking_pct",
+    "obesity_pct",
+    "physical_inactivity_pct",
+    "risky_alcohol_pct",
+    "less_good_or_poor_self_rated_health_pct",
+    "poor_mental_health_pct"
+  ],
+  "health_profile_features": {
+    "daily_smoking_pct": 1,
+    "obesity_pct": 1,
+    "physical_inactivity_pct": 1,
+    "risky_alcohol_pct": 1,
+    "less_good_or_poor_self_rated_health_pct": 1,
+    "poor_mental_health_pct": 1
+  },
+  "missing_data": "complete cases only; no imputation",
+  "robust_covariance": "HC3",
+  "use_t": true,
+  "correlation_FDR": "Separate BH families: all 136 unique pairs per method, plus 16 total-life-expectancy pairs per method",
+  "primary_FDR": "20 non-intercept coefficients across Models 1–4",
+  "secondary_FDR": "18 non-intercept coefficients across 3 secondary models",
+  "sensitivity_exclusion": "Cook distance >4/N, separately for M3 and M4; exploratory only",
+  "cluster_selection": "Highest mean silhouette among k=2..6 with every cluster >=5; prefer lower k for exact ties. Inertia/elbow reported alongside, no claimed unique natural partition.",
+  "seed": 42
+}

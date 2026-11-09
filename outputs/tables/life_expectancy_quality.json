@@ -1,0 +1,112 @@
+{
+  "status": "passed_with_source_missingness",
+  "errors": [],
+  "table": "HISBK",
+  "period": "2021:2025",
+  "master_rows": 98,
+  "matched_municipalities": 98,
+  "municipalities_with_all_three_values": 94,
+  "missing_values": {
+    "life_expectancy_total": 4,
+    "life_expectancy_male": 4,
+    "life_expectancy_female": 4,
+    "life_expectancy_sex_gap": 4,
+    "life_expectancy_period": 0
+  },
+  "unavailable_municipalities": [
+    {
+      "municipality_code": "492",
+      "municipality": "Ærø"
+    },
+    {
+      "municipality_code": "563",
+      "municipality": "Fanø"
+    },
+    {
+      "municipality_code": "741",
+      "municipality": "Samsø"
+    },
+    {
+      "municipality_code": "825",
+      "municipality": "Læsø"
+    }
+  ],
+  "duplicate_municipality_codes": 0,
+  "duplicate_source_cells": 0,
+  "unexpected_or_missing_source_cells": 0,
+  "unexpected_municipality_names": {},
+  "source_status_counts": {
+    "observed": 285,
+    "missing_or_suppressed": 12
+  },
+  "source_footnote": {
+    "text": "Middellevetid for 0-årige i Ærø, Samsø, Fanø og Læsø kommuner er ikke vist i tabellen, da tallene pga. kommunernes størrelse vurderes at være for usikre",
+    "mandatory": false
+  },
+  "national_values_years": {
+    "life_expectancy_total": 81.6,
+    "life_expectancy_male": 79.7,
+    "life_expectancy_female": 83.5
+  },
+  "municipality_ranges_years": {
+    "life_expectancy_total": {
+      "min": 78.6,
+      "max": 84.1,
+      "minimum_municipalities": [
+        "Lolland"
+      ],
+      "maximum_municipalities": [
+        "Gentofte",
+        "Lyngby-Taarbæk"
+      ],
+      "allowed_min": 50,
+      "allowed_max": 110,
+      "invalid_nonmissing": 0
+    },
+    "life_expectancy_male": {
+      "min": 76.0,
+      "max": 82.8,
+      "minimum_municipalities": [
+        "Lolland"
+      ],
+      "maximum_municipalities": [
+        "Allerød"
+      ],
+      "allowed_min": 50,
+      "allowed_max": 110,
+      "invalid_nonmissing": 0
+    },
+    "life_expectancy_female": {
+      "min": 81.4,
+      "max": 85.8,
+      "minimum_municipalities": [
+        "Brøndby",
+        "Ishøj"
+      ],
+      "maximum_municipalities": [
+        "Lyngby-Taarbæk"
+      ],
+      "allowed_min": 50,
+      "allowed_max": 110,
+      "invalid_nonmissing": 0
+    }
+  },
+  "sex_gap_range_years": {
+    "min": 2.0,
+    "max": 5.5,
+    "invalid_nonmissing": 0,
+    "allowed_min": -20,
+    "allowed_max": 20
+  },
+  "quality_only": true,
+  "limitations": [
+    "Five-year period life expectancy at birth, not an annual value or a prediction for a birth cohort.",
+    "Missing/suppressed estimates are not imputed; the sex gap remains null if either sex is unavailable.",
+    "Both-sex life expectancy is retrieved directly, never averaged from male/female values.",
+    "National values are retrieved directly for area 000, never averaged over municipalities.",
+    "Ranges are broad validation screens, not statistical results; missingness is reported without dropping municipalities."
+  ],
+  "raw_directory": "data/raw/hisbk_20261106T121025Z_53322f84",
+  "raw_manifest_sha256": "eb71a83ceaf4a61ed3e71fb81f24a9567427fb6d85c2c4092e805188f3ab5295",
+  "source_retrieval_utc": "2026-11-06T12:10:25.668683+00:00"
+}

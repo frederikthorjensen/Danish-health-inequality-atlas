@@ -1,0 +1,10 @@
+{
+  "model": "M3: income, primary education, smoking, obesity, inactivity, alcohol",
+  "N": 94,
+  "in_sample_R_squared": 0.7506748302533204,
+  "in_sample_MAE_years": 0.4042114007463547,
+  "leave_one_out_R_squared": 0.7060994953499171,
+  "leave_one_out_MAE_years": 0.4380840428472416,
+  "method": "Exact OLS leave-one-out PRESS residual e/(1-h); no training prediction for withheld outcomes",
+  "residual_screen": "|externally studentized residual| >=2, descriptive only; not a simultaneous significance test"
+}
