@@ -11,7 +11,7 @@ from src.dashboard_data import LABELS, METRICS, association_line
 
 TOKENS = json.loads((Path(__file__).resolve().parents[1] / "assets/design_tokens.json").read_text())
 TEAL, BLUE, MUTED = TOKENS["accent"], TOKENS["secondary"], TOKENS["muted"]
-PALETTE = [TEAL, BLUE, "#8DABB4", MUTED]
+PALETTE = [TEAL, BLUE, "#7895A3", "#B1C4CC"]
 CHART_LABELS = {**LABELS, "low_education_share_25_64_pct": "Primary education (25–64)",
     "less_good_or_poor_self_rated_health_pct": "Less-good/poor health",
     "physical_inactivity_pct": "Insufficient activity", "poor_mental_health_pct": "Poor mental health",
@@ -23,14 +23,16 @@ CHART_LABELS = {**LABELS, "low_education_share_25_64_pct": "Primary education (2
 def polish(fig, height=420, x=None, y=None):
     if isinstance(x,str) and len(x)>28:
         x="<br>".join(wrap(x,28,break_long_words=False))
-    fig.update_layout(template="plotly_white", height=height, margin=dict(l=8, r=24, t=22, b=24),
+    fig.update_layout(template="plotly_white", height=height, margin=dict(l=12, r=28, t=28, b=28),
         font=dict(family=TOKENS["font"], size=13, color=TOKENS["text"]),
         paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
-        colorway=PALETTE, legend_title_text="", legend=dict(orientation="h", y=1.12, x=0),
-        hoverlabel=dict(bgcolor="white", bordercolor=TOKENS["border"], font=dict(family=TOKENS["font"],size=13)),
+        colorway=PALETTE, legend_title_text="", legend=dict(orientation="h", y=1.14, x=0,font=dict(size=12)),
+        hoverlabel=dict(bgcolor="white", bordercolor=TOKENS["border"], font=dict(family=TOKENS["font"],size=13,color=TOKENS["text"])),
         hovermode="closest")
-    fig.update_xaxes(title=x, gridcolor=TOKENS["grid"], zeroline=False, automargin=True, tickfont=dict(size=12))
-    fig.update_yaxes(title=y, gridcolor=TOKENS["grid"], zeroline=False, automargin=True, tickfont=dict(size=12))
+    fig.update_xaxes(title=x,gridcolor=TOKENS["grid"],gridwidth=1,zeroline=False,showline=False,automargin=True,
+                     tickfont=dict(size=12,color=TOKENS["muted"]),title_font=dict(size=12,color=TOKENS["muted"]))
+    fig.update_yaxes(title=y,gridcolor=TOKENS["grid"],gridwidth=1,zeroline=False,showline=False,automargin=True,
+                     tickfont=dict(size=12,color=TOKENS["muted"]),title_font=dict(size=12,color=TOKENS["muted"]))
     return fig
 
 
@@ -81,7 +83,7 @@ def heatmap(matrix):
     numbers = list(range(1, len(labels)+1))
     full = [[[labels[j], labels[i]] for j in range(len(labels))] for i in range(len(labels))]
     fig = go.Figure(go.Heatmap(z=matrix.to_numpy(), x=numbers, y=[f"{i+1}. {label}" for i,label in enumerate(labels)], customdata=full,
-        colorscale=[[0, BLUE], [.5, "#F5F8FA"], [1, TEAL]], zmin=-1, zmax=1,
+        colorscale=[[0, BLUE], [.5, "#F4F7F8"], [1, TEAL]], zmin=-1, zmax=1,
         colorbar=dict(title="Pearson r", orientation="h", len=.6, thickness=10, y=-.16),
         hovertemplate="%{customdata[0]}<br>%{customdata[1]}<br>Pearson r=%{z:.3f}<extra></extra>"))
     fig.update_xaxes(tickangle=0, dtick=2)
@@ -92,7 +94,7 @@ def heatmap(matrix):
 def association_scatter(bundle, variable):
     d = bundle["master"].dropna(subset=[variable, "life_expectancy_total"])
     fig = go.Figure(go.Scatter(x=d[variable], y=d.life_expectancy_total, mode="markers", customdata=d.municipality,
-        marker=dict(color=TEAL,size=8,opacity=.8,line=dict(color="white",width=.6)), showlegend=False,
+        marker=dict(color=TEAL,size=9,opacity=.78,line=dict(color="white",width=.8)), showlegend=False,
         hovertemplate=f"<b>%{{customdata}}</b><br>{LABELS[variable]}: %{{x:,.1f}} {METRICS.get(variable, ('', '', ''))[1]}<br>Life expectancy: %{{y:.1f}} years<extra></extra>"))
     x, y = association_line(bundle, variable)
     fig.add_trace(go.Scatter(x=x, y=y, mode="lines", line=dict(color=BLUE, width=1.5), name="Descriptive linear guide", hoverinfo="skip", showlegend=False))
@@ -118,7 +120,7 @@ def prediction_scatter(predictions, highlight=None):
     d = predictions.dropna(subset=["observed", "predicted"])
     hover = "<b>%{customdata[0]}</b><br>Model-predicted life expectancy: %{x:.2f} years<br>Observed life expectancy: %{y:.1f} years<br>Residual: %{customdata[1]:+.2f} years<extra></extra>"
     fig = go.Figure(go.Scatter(x=d.predicted, y=d.observed, mode="markers", customdata=np.column_stack([d.municipality,d.residual]),
-        marker=dict(color=TEAL,size=8,opacity=.75,line=dict(color="white",width=.6)),hovertemplate=hover,showlegend=False))
+        marker=dict(color=TEAL,size=9,opacity=.75,line=dict(color="white",width=.8)),hovertemplate=hover,showlegend=False))
     bounds = [min(d.observed.min(), d.predicted.min())-.2, max(d.observed.max(), d.predicted.max())+.2]
     fig.add_trace(go.Scatter(x=bounds, y=bounds, mode="lines", line=dict(color="#9EB0BC", width=1,dash="dash"), name="Observed = predicted", hoverinfo="skip",showlegend=False))
     fig.update_xaxes(range=bounds)
@@ -173,7 +175,7 @@ def pca_scatter(membership, highlighted):
 
 def model_comparison(fits):
     fig = go.Figure(go.Bar(x=fits.model,y=fits.adjusted_R_squared,
-        marker_color=["#B7C6CF","#B7C6CF",BLUE,TEAL],text=[f"{v:.3f}" for v in fits.adjusted_R_squared],textposition="outside",cliponaxis=False,
+        marker_color=["#BCCBD1","#A9BBC3",BLUE,TEAL],text=[f"{v:.3f}" for v in fits.adjusted_R_squared],textposition="outside",cliponaxis=False,
         customdata=np.column_stack([fits.N,fits.R_squared]),
         hovertemplate="<b>%{x}</b><br>Adjusted R²: %{y:.3f}<br>R²: %{customdata[1]:.3f}<br>Complete cases: %{customdata[0]}<extra></extra>"))
     fig.update_yaxes(range=[0,.88])
@@ -184,7 +186,7 @@ def model_comparison(fits):
 def scree(variance):
     values=variance.explained_variance_ratio
     fig=go.Figure(go.Bar(x=variance.component,y=values,text=[f"{100*v:.1f}%" for v in values],textposition="outside",
-        marker_color=[BLUE,TEAL,*["#B7C6CF"]*(len(values)-2)],
+        marker_color=[BLUE,TEAL,*["#BCCBD1"]*(len(values)-2)],
         hovertemplate="<b>%{x}</b><br>Explained variance: %{y:.1%}<extra></extra>"))
     fig.update_yaxes(tickformat=".0%",range=[0,float(values.max())*1.2])
     return polish(fig,300,"Principal component","Explained variance")

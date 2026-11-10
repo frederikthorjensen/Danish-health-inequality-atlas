@@ -28,7 +28,7 @@ class DashboardTests(unittest.TestCase):
         manifest = json.loads(manifest_path.read_text())
         before = {a["file"]: data.digest(data.ROOT / a["file"]) for a in manifest["artifacts"]}
         app = self.app()
-        for page in ["key_findings", "comparison", "inequalities", "explanation", "explorer", "expected", "profiles", "methods", "data"]:
+        for page in ["key_findings", "comparison", "inequalities", "explanation", "explorer", "expected", "profiles", "methods", "data", "author"]:
             with self.subTest(page=page):
                 app.switch_page(f"app_pages/{page}.py").run()
                 self.assertFalse(app.exception)
@@ -46,11 +46,22 @@ class DashboardTests(unittest.TestCase):
         self.assertEqual(metrics["Combined model"], "R² = 0.751")
         self.assertEqual(len(app.get("plotly_chart")), 0)
 
-    def test_home_orientation_author_and_actions(self):
+    def test_static_footer_contains_copyright_notice(self):
+        app = self.app()
+        footer = app.get_by_key("site_footer")
+        text = "\n".join(item.value for item in footer.caption)
+        self.assertIn("© 2026 Frederik Jensen", text)
+        self.assertIn("Danish Health & Life Expectancy", text)
+        app.switch_page("app_pages/author.py").run()
+        self.assertFalse(app.exception)
+        self.assertIn("© 2026 Frederik Jensen", "\n".join(item.value for item in app.get_by_key("site_footer").caption))
+
+    def test_home_orientation_and_actions(self):
         app = self.app()
         text = "\n".join(item.value for item in app.markdown)
-        for phrase in ["official Danish municipality-level", "descriptive and exploratory", "Professional Bachelor of Physiotherapy", "Master of Science (MSc) in Health in Critical Health Studies (cand.san.)"]:
+        for phrase in ["official Danish municipality-level", "descriptive and exploratory"]:
             self.assertIn(phrase,text)
+        self.assertNotIn("Professional Bachelor of Physiotherapy", text)
         for key,title in [("home_explore","Health inequalities"),("home_report","Danish Health & Life Expectancy"),
             ("home_final_dashboard","Health inequalities"),("home_final_english","Danish Health & Life Expectancy"),
             ("home_final_danish","Sundhed og middellevetid i Danmark"),("home_final_methods","Methods & limitations")]:
@@ -58,6 +69,21 @@ class DashboardTests(unittest.TestCase):
                 current=self.app().button(key=key).click().run()
                 self.assertFalse(current.exception)
                 self.assertTrue(any(t.value==title for t in current.title))
+
+    def test_author_has_dedicated_page_and_verified_qualifications(self):
+        app = self.app().switch_page("app_pages/author.py").run()
+        self.assertFalse(app.exception)
+        self.assertEqual(app.title[0].value, "Frederik Jensen")
+        text = "\n".join(item.value for item in [*app.markdown, *app.caption, *app.header, *app.subheader])
+        for phrase in [
+            "Professional Bachelor’s degree in Physiotherapy",
+            "cand.san. / MSc-level degree in Interdisciplinary Health Studies",
+            "Roskilde University",
+            "SPSS · Jamovi · Excel · SurveyXact",
+            "Capabilities demonstrated in this project",
+            "No institutional or employer affiliation is claimed",
+        ]:
+            self.assertIn(phrase, text)
 
     def test_key_findings_use_saved_values_and_explain_limits(self):
         app=self.app().switch_page("app_pages/key_findings.py").run()

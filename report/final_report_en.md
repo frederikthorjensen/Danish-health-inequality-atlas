@@ -6,12 +6,12 @@ PUBLIC HEALTH · MUNICIPALITY ANALYSIS
 ### Geographical differences in health, socioeconomic conditions and life expectancy across Danish municipalities
 
 **Frederik Jensen**  
-BSc in Physiotherapy  
-cand.san. — Interdisciplinary Health Studies
+Professional Bachelor of Physiotherapy  
+Master of Science (MSc) in Health in Critical Health Studies (cand.san.)
 
 Independent public-health data analysis and portfolio project
 
-6 November 2026 · Version 1.0 · English
+10 November 2026 · Version 1.1 · English edition
 
 This report brings official Danish municipality data together to describe patterns in population health, examine their statistical associations and identify questions for further investigation.
 
@@ -426,6 +426,6 @@ Source records were acquired or checked on **6 November 2026**. Table titles bel
 
 ### Publication record
 
-Author: Frederik Jensen. Independent portfolio analysis; no institutional or employer affiliation is claimed. Analytical values come from the validated project snapshot. Report version 1.0; English and Danish editions have equivalent analytical content, section order, tables and figures.
+Author: Frederik Jensen. Professional Bachelor of Physiotherapy; Master of Science (MSc) in Health in Critical Health Studies (cand.san.). Independent portfolio analysis; no institutional or employer affiliation is claimed. Analytical values come from the validated project snapshot. Report version 1.1; English and Danish editions have equivalent analytical content, section order, tables and figures.
 
 Full unrounded coefficient, correlation, diagnostic and sensitivity tables remain in the project. The report’s selective descriptive display is not a significance filter; all included M4 slopes and all characteristic correlations are shown, and the saved outputs retain every primary and secondary estimate.

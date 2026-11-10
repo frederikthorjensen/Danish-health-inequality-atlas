@@ -3,8 +3,10 @@ import json
 from pathlib import Path
 import re
 import unittest
+from typing import cast
 
 import pandas as pd
+from pypdf.generic import DictionaryObject
 from streamlit.testing.v1 import AppTest
 
 from src.reporting import ROOT, REPORT, PDF_NAMES, load_results, report_context, sha
@@ -96,9 +98,20 @@ class ReportTests(unittest.TestCase):
             pdf=PdfReader(ROOT/PDF_NAMES[lang])
             self.assertEqual(len(pdf.pages),record['pages'])
             self.assertEqual(len(pdf.pages),len(sections))
+            metadata=pdf.metadata
+            self.assertIsNotNone(metadata)
+            if metadata is None:raise AssertionError('PDF metadata missing')
+            self.assertEqual(metadata.author,'Frederik Jensen')
+            self.assertEqual(metadata.title,
+                'Danish Health & Life Expectancy' if lang=='en' else 'Sundhed og middellevetid i Danmark')
+            self.assertEqual(len(pdf.outline),len(sections))
+            root=cast(DictionaryObject,pdf.trailer['/Root'].get_object())
+            mark_info=cast(DictionaryObject,root['/MarkInfo'].get_object())
+            self.assertTrue(mark_info['/Marked'])
             text='\n'.join(p.extract_text() for p in pdf.pages)
             for term in ['Frederik Jensen','0.751','0.706','0.324','0.00097','81.6']:
                 self.assertIn(term,text)
+            self.assertIn('Version 1.1',text)
             self.assertEqual(len(re.findall(r'(?:Figure|Figur) \d+\.',text)),10)
 
     def test_report_navigation_and_separate_readers(self):

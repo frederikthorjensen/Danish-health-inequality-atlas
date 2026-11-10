@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" role="img" aria-label="Danish Health and Life Expectancy">
+  <rect width="48" height="48" rx="8" fill="#0D2636"/>
+  <path d="M9 9V39" stroke="#63C1CA" stroke-width="3"/>
+  <text x="16" y="29" font-family="Arial, sans-serif" font-size="13" font-weight="700" letter-spacing=".5" fill="#FFFFFF">DH</text>
+</svg>

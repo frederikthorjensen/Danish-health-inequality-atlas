@@ -12,6 +12,8 @@ SUBTITLES = {
     'en': 'Geographical differences in health, socioeconomic conditions and life expectancy across Danish municipalities',
     'da': 'Geografiske forskelle i sundhed, socioøkonomiske forhold og middellevetid på tværs af danske kommuner',
 }
+EDITION = {'en': 'English edition', 'da': 'Dansk udgave'}
+VERSION = {'en': 'Version 1.1 · 10 November 2026', 'da': 'Version 1.1 · 10. november 2026'}
 
 
 def publication(lang):
@@ -32,31 +34,38 @@ def publication(lang):
 
 def download(lang, key):
     record,pdf,_,_=publication(lang)
-    st.download_button('Download PDF' if lang=='en' else 'Download PDF',pdf,
-        file_name=PDF_NAMES[lang],mime='application/pdf',key=key,width='stretch')
+    st.download_button('Download the English PDF' if lang=='en' else 'Download dansk PDF',pdf,
+        file_name=PDF_NAMES[lang],mime='application/pdf',key=key,width='stretch',
+        icon=':material/download:',on_click='ignore')
     st.caption(f"{record['pages']} pages · PDF · English" if lang=='en' else f"{record['pages']} sider · PDF · Dansk")
 
 
 def report_home():
-    st.caption('ANALYTICAL REPORT')
+    st.caption('BILINGUAL ANALYTICAL PUBLICATION')
     st.title('Danish Health & Life Expectancy')
-    st.markdown('A complete analytical report is available in English and Danish. Both versions contain the same validated analyses, figures and methodological discussion.')
+    st.markdown('### Read the full analytical report')
+    st.markdown('A publication-ready account of the data, methods, results and limitations. Choose a language to read online or download the designed PDF.')
+    with st.container(horizontal=True,key='report_facts'):
+        st.metric('Report sections','18')
+        st.metric('Figures','10')
+        st.metric('Analytical tables','8')
     with st.grid(2,min_column_width=330,gap='medium') as grid:
-        for lang,heading,button in [('en','English Report','View English Report'),('da','Dansk rapport','Åbn dansk rapport')]:
+        for lang,heading,button in [('en','English report','Read the English report'),('da','Dansk rapport','Læs den danske rapport')]:
             with grid.cell():
                 with st.container(border=True,height='stretch',key=f'report_card_{lang}'):
-                    st.caption('ENGLISH' if lang=='en' else 'DANSK')
+                    st.caption(EDITION[lang].upper())
                     st.subheader(heading)
                     st.markdown(f'**{TITLES[lang]}**')
                     st.markdown(SUBTITLES[lang])
-                    st.caption('Language: English' if lang=='en' else 'Sprog: Dansk')
+                    st.caption(f'{VERSION[lang]} · 18 sections · 10 figures')
                     st.space('stretch')
-                    st.page_link(f'app_pages/report_{lang}.py',label=button,width='stretch')
+                    st.page_link(f'app_pages/report_{lang}.py',label=button,width='stretch',icon=':material/menu_book:')
                     download(lang,f'report_download_{lang}')
-    st.caption('Frederik Jensen · Independent public-health data analysis and portfolio project · Version 1.0 · 6 November 2026')
-    with st.expander('About these publications'):
-        st.markdown('The reports distinguish descriptive patterns, adjusted associations and exploratory profiles. They include nonsignificant results and methodological cautions. The publications use the preserved analysis snapshot; no models are fitted when you open a report.')
-        st.page_link('app_pages/methods.py',label='Methods & limitations')
+    with st.container(border=True,key='report_integrity',gap='small'):
+        st.caption('PUBLICATION STANDARD')
+        st.markdown('Both editions contain equivalent analytical content and use the same checksum-verified result snapshot. They distinguish descriptive patterns, adjusted associations and exploratory profiles; retain nonsignificant results; and state the methodological cautions alongside the findings.')
+        st.page_link('app_pages/methods.py',label='Review methods & limitations',icon=':material/fact_check:')
+    st.caption('Frederik Jensen · Independent public-health data analysis and portfolio project · Version 1.1 · 10 November 2026')
 
 
 def section_title(section, index, lang):
@@ -72,18 +81,20 @@ def navigate_section(key, step, count):
 def report_reader(lang):
     record,_,sections,figures=publication(lang)
     english=lang=='en'
-    st.caption('ENGLISH REPORT' if english else 'DANSK RAPPORT')
+    st.caption(EDITION[lang].upper())
     st.title(TITLES[lang])
+    st.markdown(SUBTITLES[lang])
     with st.container(horizontal=True):
-        st.page_link('app_pages/report.py',label='Report home' if english else 'Rapportoversigt')
-        st.page_link('app_pages/overview.py',label='Dashboard')
-        st.page_link('app_pages/methods.py',label='Methods' if english else 'Metoder')
+        st.page_link('app_pages/report.py',label='Report home' if english else 'Rapportoversigt',icon=':material/library_books:')
+        st.page_link('app_pages/overview.py',label='Dashboard',icon=':material/dashboard:')
+        st.page_link('app_pages/methods.py',label='Methods' if english else 'Metoder',icon=':material/fact_check:')
     with st.container(horizontal=True,vertical_alignment='bottom'):
         with st.container(width=250):download(lang,f'reader_download_{lang}')
-        st.caption('Frederik Jensen · Version 1.0 · 6 November 2026' if english else 'Frederik Jensen · Version 1.0 · 6. november 2026')
+        st.caption(f'Frederik Jensen · {VERSION[lang]} · Validated publication snapshot')
     key=f'report_section_{lang}'
-    index=st.selectbox('Report section' if english else 'Rapportafsnit',range(len(sections)),
+    index=st.selectbox('Go to report section' if english else 'Gå til rapportafsnit',range(len(sections)),
         format_func=lambda n: section_title(sections[n],n,lang),key=key)
+    st.progress((index+1)/len(sections),text=(f'Section {index+1} of {len(sections)}' if english else f'Afsnit {index+1} af {len(sections)}'))
     with st.container(key='report_reader',width=850):
         for part in re.split(r'(!\[[^\]]*\]\([^)]+\))',sections[index]):
             match=re.fullmatch(r'!\[([^\]]*)\]\(([^)]+)\)',part)
@@ -99,9 +110,12 @@ def report_reader(lang):
                     text=re.sub(r'^# .+$','',text,flags=re.M)
                     text=re.sub(r'^### (.+)$',r'## \1',text,flags=re.M)
                 st.markdown(text)
-    with st.container(horizontal=True):
-        st.button('Previous section' if english else 'Forrige afsnit',key=f'report_previous_{lang}',disabled=index==0,
-                  on_click=navigate_section,args=(key,-1,len(sections)))
-        st.caption(f'{index+1} / {len(sections)}')
-        st.button('Next section' if english else 'Næste afsnit',key=f'report_next_{lang}',disabled=index==len(sections)-1,
-                  on_click=navigate_section,args=(key,1,len(sections)))
+    previous_title=section_title(sections[index-1],index-1,lang) if index else ''
+    next_title=section_title(sections[index+1],index+1,lang) if index+1<len(sections) else ''
+    with st.container(horizontal=True,key='report_reader_navigation'):
+        st.button((f'Previous: {previous_title}' if english else f'Forrige: {previous_title}') if previous_title else
+                  ('Previous section' if english else 'Forrige afsnit'),key=f'report_previous_{lang}',disabled=index==0,
+                  on_click=navigate_section,args=(key,-1,len(sections)),icon=':material/arrow_back:',width='stretch')
+        st.button((f'Next: {next_title}' if english else f'Næste: {next_title}') if next_title else
+                  ('Next section' if english else 'Næste afsnit'),key=f'report_next_{lang}',disabled=index==len(sections)-1,
+                  on_click=navigate_section,args=(key,1,len(sections)),icon_position='right',icon=':material/arrow_forward:',width='stretch')

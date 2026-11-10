@@ -22,7 +22,7 @@ def reading_navigation(pages, current):
     if index is None:
         return  # Separate-language document readers supply their own navigation.
     with st.container(key='reading_navigation',gap='small'):
-        st.caption('CONTINUE EXPLORING')
+        st.caption(f'REPORT NAVIGATION · {index+1:02d} / {len(pages):02d}')
         with st.grid(2,min_column_width=240,gap='medium') as grid:
             if index>0:
                 with grid.cell():

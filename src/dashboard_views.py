@@ -26,13 +26,15 @@ def bundle():
 def chart(fig, key, alt):
     with st.container(border=True,key=f"figure_{key}"):
         st.plotly_chart(fig, width="stretch", theme=None, key=key, alt=alt,
-            config={"displaylogo": False, "responsive": True, "modeBarButtonsToRemove": ["lasso2d", "select2d"]})
+            config={"displaylogo": False,"responsive": True,"modeBarButtonsToRemove": ["lasso2d","select2d"],
+                    "toImageButtonOptions":{"format":"png","filename":f"danish-health-{key}","scale":2}})
 
 
 def header(eyebrow, title, description):
-    st.caption(eyebrow.upper())
-    st.title(title)
-    st.markdown(description)
+    with st.container(key="page_header",gap="xsmall"):
+        st.caption(eyebrow.upper())
+        st.title(title)
+        st.markdown(description)
 
 
 def note():
@@ -40,55 +42,82 @@ def note():
 
 
 def overview():
-    """Project Home: orientation first, with a small saved-results preview."""
+    """Editorial project home: orientation, evidence and clear routes forward."""
     b = bundle()
     master = b["master"]
     m3 = b["fits"].set_index("model").loc["M3"]
     strongest = characteristics(b).iloc[0]
-    with st.container(key="home_hero", gap="small"):
-        header("Independent public-health analysis · Frederik Jensen", "Danish Health & Life Expectancy",
-            "Geographical inequalities across Danish municipalities.")
-        st.markdown("This independent project brings together official Danish municipality-level socioeconomic, health-profile and life-expectancy data. It explores how social conditions and health behaviours are associated with geographical differences in population health, with an emphasis on transparent methods, reproducibility and clear public communication.")
-        with st.container(horizontal=True, gap="small", key="home_actions"):
-            if st.button("Explore the dashboard", type="primary", key="home_explore", width=230):
-                st.switch_page("app_pages/inequalities.py")
-            if st.button("Read the analytical report", key="home_report", width=250):
-                st.switch_page("app_pages/report.py")
+    with st.container(key="home_hero",gap="medium"):
+        hero_main,hero_brief=st.columns([1.7,1],gap="large",vertical_alignment="center")
+        with hero_main:
+            header("Independent public-health analysis · Frederik Jensen", "Danish Health & Life Expectancy",
+                "Geographical inequalities across Danish municipalities.")
+            st.markdown("This independent project brings together official Danish municipality-level socioeconomic, health-profile and life-expectancy data. It explores how social conditions and health behaviours are associated with geographical differences in population health, with an emphasis on transparent methods, reproducibility and clear public communication.")
+            with st.container(horizontal=True,gap="small",key="home_actions"):
+                if st.button("Explore the analysis",type="primary",icon=":material/arrow_forward:",icon_position="right",key="home_explore",width=210):
+                    st.switch_page("app_pages/inequalities.py")
+                if st.button("Read the report",icon=":material/menu_book:",key="home_report",width=190):
+                    st.switch_page("app_pages/report.py")
+        with hero_brief:
+            with st.container(border=True,key="home_brief",gap="small"):
+                st.caption("REPORT AT A GLANCE")
+                st.metric("Municipalities included",len(master))
+                st.caption(f"{int(master.life_expectancy_total.count())} published life-expectancy estimates · four withheld values remain missing")
+                st.markdown("**Three official source windows**")
+                with st.container(horizontal=True,gap="small"):
+                    st.badge("2024",color="gray")
+                    st.badge("2025",color="gray")
+                    st.badge("2021–2025",color="gray")
+                st.caption("Validated outputs · no imputation · reproducible workflow")
     with st.container(key="home_purpose", gap="small"):
-        st.header("Purpose")
-        st.markdown("National averages can hide differences between local populations. Comparing municipalities helps reveal broad patterns in health and living conditions, and identify questions for closer local investigation.")
-        st.markdown("The atlas combines statistical analysis with accessible communication. Its findings are descriptive and exploratory: they show associations between places, not causal effects on individuals.")
+        purpose,question=st.columns([1.5,1],gap="large")
+        with purpose:
+            st.caption("WHY THIS REPORT")
+            st.header("A clearer view of local inequality")
+            st.markdown("National averages can hide differences between local populations. Comparing municipalities helps reveal broad patterns in health and living conditions, and identify questions for closer local investigation.")
+            st.markdown("The atlas combines statistical analysis with accessible communication. Its findings are descriptive and exploratory: they show associations between places, not causal effects on individuals.")
+        with question:
+            with st.container(key="home_question",gap="small"):
+                st.caption("RESEARCH QUESTION")
+                st.subheader("What explains geographical differences in health and life expectancy across Danish municipalities?")
+                st.caption("The report examines place-level patterns. It does not estimate individual risk or causal policy effects.")
     with st.container(key="home_sources", gap="medium"):
-        st.header("What the project combines")
+        st.caption("EVIDENCE BASE")
+        st.header("Three official data sources, one municipality view")
         with st.grid(3, min_column_width=260, gap="medium") as grid:
-            for key, title, source, period, text in [
-                ("social", "Socioeconomic conditions", "Statistics Denmark", "2024", "Disposable income, educational attainment and age structure."),
-                ("health", "Health & behaviour", "Danish National Health Profile", "2025", "Smoking, obesity, physical activity, alcohol, self-rated health and mental health."),
-                ("life", "Life expectancy", "Statistics Denmark · HISBK", "2021–2025", "Published municipal life-expectancy estimates, including male and female estimates."),
+            for key,number,title,source,period,text in [
+                ("social","01","Socioeconomic conditions","Statistics Denmark","2024","Disposable income, educational attainment and age structure."),
+                ("health","02","Health & behaviour","Danish National Health Profile","2025","Smoking, obesity, physical activity, alcohol, self-rated health and mental health."),
+                ("life","03","Life expectancy","Statistics Denmark · HISBK","2021–2025","Published municipal life-expectancy estimates, including male and female estimates."),
             ]:
                 with grid.cell():
                     with st.container(border=True, height="stretch", key=f"home_source_{key}", gap="small"):
-                        st.caption(period)
+                        with st.container(horizontal=True,horizontal_alignment="distribute"):
+                            st.caption(number)
+                            st.badge(period,color="gray")
                         st.subheader(title)
                         st.markdown(text)
                         st.caption(source)
     with st.container(key="home_exploration", gap="medium"):
-        st.header("What you can explore")
+        st.caption("INTERACTIVE REPORT")
+        st.header("Explore the evidence by question")
         with st.grid(3, min_column_width=260, gap="medium") as grid:
-            for i, (title, description, path) in enumerate([
-                ("Municipal variation", "Compare life expectancy and health indicators across municipalities.", "inequalities"),
-                ("Associations", "See how social and behavioural indicators relate to life expectancy.", "explanation"),
-                ("Multivariable models", "Explore how associations change when several indicators are considered together.", "explanation"),
-                ("Expected vs observed", "Compare observed life expectancy with predictions from the included indicators.", "expected"),
-                ("Health profiles", "Explore shared patterns using PCA and descriptive clustering.", "profiles"),
-                ("Reports & methods", "Read the English or Danish report, with methodology and limitations.", "report"),
+            for i,(title,description,path,icon) in enumerate([
+                ("Where are inequalities largest?","Compare life expectancy and health indicators across municipalities.","inequalities",":material/bar_chart:"),
+                ("What is associated with longevity?","See how social and behavioural indicators relate to life expectancy.","explanation",":material/query_stats:"),
+                ("How do municipalities compare?","Select places and inspect published values side by side.","comparison",":material/compare_arrows:"),
+                ("Who differs from the fitted pattern?","Compare observed life expectancy with saved model predictions.","expected",":material/scatter_plot:"),
+                ("Which health patterns cluster?","Explore shared patterns using PCA and descriptive profiles.","profiles",":material/hub:"),
+                ("How was the analysis conducted?","Read the reports, methods and interpretation limitations.","report",":material/menu_book:"),
             ]):
                 with grid.cell():
                     with st.container(border=True, height="stretch", key=f"home_destination_{i}", gap="small"):
-                        st.page_link(f"app_pages/{path}.py", label=title)
+                        st.caption(f"0{i+1}")
+                        st.page_link(f"app_pages/{path}.py",label=title,icon=icon)
                         st.markdown(description)
     with st.container(key="home_findings", gap="medium"):
-        st.header("Selected headline findings")
+        st.caption("VALIDATED RESULTS")
+        st.header("Evidence at a glance")
         with st.grid(4, min_column_width=220, gap="medium") as grid:
             for key, label, value, detail, help_text in [
                 ("association", "Strongest simple association", f"r = {strongest.correlation:.3f}", "Low educational attainment", "Strongest absolute saved Pearson correlation among included municipality characteristics; N=94."),
@@ -101,27 +130,122 @@ def overview():
                         st.metric(label, value, help=help_text)
                         st.caption(detail)
         st.caption("These are municipality-level statistical associations and should not be interpreted as causal effects. All results, including nonsignificant estimates, are available in the analytical sections.")
-    with st.container(key="home_author", gap="small"):
-        st.header("About the author")
-        st.subheader("Frederik Jensen")
-        st.markdown("Professional Bachelor of Physiotherapy  \nMaster of Science (MSc) in Health in Critical Health Studies (cand.san.)")
-        st.markdown("With a background in physiotherapy and critical health studies, Frederik Jensen developed this independent portfolio project to bring together public-health data, statistical analysis and clear communication of complex findings.")
     with st.container(key="home_principles", gap="small"):
         st.subheader("Project principles")
         with st.container(horizontal=True, gap="small"):
             for principle in ["Official public data", "Reproducible analysis", "Transparent methods", "No imputation of withheld life-expectancy estimates", "Association ≠ causation"]:
                 st.badge(principle, color="gray")
     with st.container(key="home_final", gap="medium"):
-        st.header("Explore the analysis")
+        st.caption("CONTINUE")
+        st.header("Choose your next view")
         with st.grid(4, min_column_width=200, gap="small"):
-            for key, label, path in [
-                ("dashboard", "Open dashboard", "inequalities"),
-                ("english", "Read English report", "report_en"),
-                ("danish", "Læs dansk rapport", "report_da"),
-                ("methods", "Methods & limitations", "methods"),
+            for key,label,path,icon in [
+                ("dashboard","Open analysis","inequalities",":material/bar_chart:"),
+                ("english","English report","report_en",":material/article:"),
+                ("danish","Dansk rapport","report_da",":material/article:"),
+                ("methods","Methods & limitations","methods",":material/fact_check:"),
             ]:
-                if st.button(label, key=f"home_final_{key}", width="stretch"):
+                if st.button(label,key=f"home_final_{key}",width="stretch",icon=icon):
                     st.switch_page(f"app_pages/{path}.py")
+
+
+def author():
+    """Professional author profile using only qualifications documented in the project."""
+    with st.container(key="author_hero", gap="medium"):
+        profile, identity = st.columns([1.65, .85], gap="large", vertical_alignment="center")
+        with profile:
+            header(
+                "Author & project lead",
+                "Frederik Jensen",
+                "Clinical experience, interdisciplinary health-science training and applied public-health analysis.",
+            )
+            st.markdown(
+                "Frederik Jensen is a physiotherapist (Professional Bachelor, 2023) and holds a cand.san./MSc-level degree in Interdisciplinary Health Studies from Roskilde University (2025). "
+                "His background combines quantitative and qualitative health research, including survey data, interviews, statistical analysis, evidence appraisal and health-science methodology. "
+                "He has worked with SPSS, Jamovi, Excel and SurveyXact, applying descriptive statistics, t-tests, ANOVA and chi-square analysis to health-related data.\n\n"
+                "Experience from private physiotherapy practice and an acute/semi-intensive gastro-surgical hospital setting provides a practical perspective on rehabilitation, interdisciplinary care and the realities behind health data. "
+                "He created Danish Health & Life Expectancy as an independent applied portfolio project, using Python and Streamlit to integrate official municipal data and communicate reproducible analyses. "
+                "His professional interests include public health, health inequality, evaluation, evidence, health administration and clear communication of complex findings."
+            )
+            with st.container(horizontal=True, gap="small", key="author_status"):
+                st.badge("Independent project", color="gray")
+                st.badge("Official public data", color="gray")
+                st.badge("Reproducible analysis", color="gray")
+        with identity:
+            with st.container(key="author_identity", gap="small"):
+                with st.container(key="author_monogram"):
+                    st.markdown("FJ")
+                st.caption("PROJECT AUTHOR")
+                st.header("Frederik Jensen")
+                st.caption("HEALTH · ANALYSIS · COMMUNICATION")
+
+    with st.container(key="author_qualifications", gap="medium"):
+        st.caption("FORMAL QUALIFICATIONS")
+        st.header("Clinical and academic foundation")
+        st.markdown("The formal qualifications listed below are the credentials documented for this project.")
+        with st.grid(2, min_column_width=300, gap="medium") as grid:
+            qualifications = [
+                (
+                    "clinical",
+                    "01",
+                    "Professional Bachelor’s degree in Physiotherapy",
+                    "Clinical foundation",
+                    "Completed in 2023 · Clinical training in human health, function, rehabilitation and evidence-informed practice.",
+                ),
+                (
+                    "academic",
+                    "02",
+                    "cand.san. / MSc-level degree in Interdisciplinary Health Studies",
+                    "Academic degree",
+                    "Roskilde University · completed in 2025 · Quantitative and qualitative health research and methodology.",
+                ),
+            ]
+            for key, number, title, label, description in qualifications:
+                with grid.cell():
+                    with st.container(border=True, height="stretch", key=f"author_qualification_{key}", gap="small"):
+                        with st.container(horizontal=True, horizontal_alignment="distribute"):
+                            st.caption(label.upper())
+                            st.caption(number)
+                        st.subheader(title)
+                        st.markdown(description)
+
+    with st.container(key="author_capabilities", gap="medium"):
+        st.caption("PORTFOLIO CAPABILITIES")
+        st.header("Capabilities demonstrated in this project")
+        st.markdown("These are demonstrated areas of project work, presented separately from formal academic credentials.")
+        with st.grid(2, min_column_width=300, gap="medium") as grid:
+            capabilities = [
+                ("public_health", ":material/public:", "Public-health analysis", "Municipality-level health inequality, life expectancy, socioeconomic conditions and health behaviours."),
+                ("statistics", ":material/query_stats:", "Applied statistics", "Descriptive analysis, correlations, multiple-testing correction, robust regression, diagnostics, PCA and clustering."),
+                ("data", ":material/database:", "Public-data engineering", "Reproducible acquisition, validation and integration of official Statistics Denmark and National Health Profile data."),
+                ("communication", ":material/insert_chart:", "Analytical communication", "Clear reports, interactive visualisation and careful communication of uncertainty, limitations and non-causal findings."),
+            ]
+            for key, icon, title, description in capabilities:
+                with grid.cell():
+                    with st.container(border=True, height="stretch", key=f"author_capability_{key}", gap="xsmall"):
+                        st.badge(title, icon=icon, color="gray")
+                        st.markdown(description)
+
+    with st.container(key="author_toolkit", gap="medium"):
+        toolkit, contribution = st.columns(2, gap="large", vertical_alignment="top")
+        with toolkit:
+            st.caption("TECHNICAL TOOLKIT")
+            st.subheader("Tools used in the project")
+            st.markdown("SPSS · Jamovi · Excel · SurveyXact · applied Python and Streamlit workflow")
+            st.caption("Python and Streamlit are presented as part of this applied portfolio workflow, not as separate certifications.")
+        with contribution:
+            st.caption("PROJECT CONTRIBUTION")
+            st.subheader("End-to-end authorship")
+            st.markdown("Data acquisition and quality assurance · statistical analysis · interpretation · report production · dashboard design · reproducibility documentation")
+
+    with st.container(key="author_perspective", gap="small"):
+        st.caption("PROFESSIONAL PERSPECTIVE")
+        st.subheader("Evidence should be useful without being overstated")
+        st.markdown(
+            "The project is designed around transparent methods, reproducible evidence and cautious interpretation. "
+            "Municipality patterns are treated as descriptive and hypothesis-generating—not as causal effects, individual risk estimates or rankings of municipal performance."
+        )
+        st.caption("Independent portfolio project · No institutional or employer affiliation is claimed")
 
 
 def key_findings():
