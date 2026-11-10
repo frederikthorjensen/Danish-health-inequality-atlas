@@ -20,6 +20,7 @@ st.html("<style>:root{" + variables + "}" + (assets / "dashboard.css").read_text
 pages = [
     st.Page("app_pages/overview.py", title="Home", icon=":material/home:", default=True, help="Project overview, official sources, headline evidence and routes into the analysis."),
     st.Page("app_pages/key_findings.py", title="Key findings", icon=":material/summarize:", url_path="key-findings", help="The main validated findings, with concise explanations and interpretation cautions."),
+    st.Page("app_pages/author.py", title="About the author", icon=":material/person:", url_path="author", help="Read about Frederik Jensen's qualifications, professional perspective and contribution to this independent project."),
     st.Page("app_pages/inequalities.py", title="Health inequalities", icon=":material/bar_chart:", url_path="inequalities", help="Rank and compare published health, socioeconomic and life-expectancy indicators across municipalities."),
     st.Page("app_pages/explanation.py", title="What explains life expectancy?", icon=":material/query_stats:", url_path="associations", help="Explore simple correlations, adjusted models and the conditional estimates behind municipality differences."),
     st.Page("app_pages/explorer.py", title="Municipality explorer", icon=":material/location_on:", url_path="municipality", help="Inspect one municipality in detail and compare every published indicator with transparent reference values."),
@@ -29,7 +30,6 @@ pages = [
     st.Page("app_pages/report.py", title="Report", icon=":material/menu_book:", url_path="report", help="Read the English or Danish analytical report online and download the designed PDF editions."),
     st.Page("app_pages/methods.py", title="Methods & limitations", icon=":material/fact_check:", url_path="methods", help="Review official sources, statistical methods, analytical choices and the limitations that govern interpretation."),
     st.Page("app_pages/data.py", title="Data", icon=":material/database:", url_path="data", help="Inspect the processed data, dictionary and provenance, and download validated datasets and result tables."),
-    st.Page("app_pages/author.py", title="About the author", icon=":material/person:", url_path="author", help="Read about Frederik Jensen's qualifications, professional perspective and contribution to this independent project."),
 ]
 report_readers = [
     st.Page("app_pages/report_en.py", title="English report", icon=":material/article:", url_path="report-en", visibility="hidden"),
