@@ -85,6 +85,11 @@ class DashboardTests(unittest.TestCase):
         ]:
             self.assertIn(phrase, text)
 
+    def test_author_page_is_visible_in_overview_navigation(self):
+        app = self.app()
+        visible_pages = [link.value for link in app.get_by_key("atlas_navigation").page_link]
+        self.assertEqual(visible_pages[:3], ["Home", "Key findings", "About the author"])
+
     def test_key_findings_use_saved_values_and_explain_limits(self):
         app=self.app().switch_page("app_pages/key_findings.py").run()
         self.assertFalse(app.exception)
