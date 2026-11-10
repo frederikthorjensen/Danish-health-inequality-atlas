@@ -1,31 +1,42 @@
 [theme]
 base = "light"
-primaryColor = "#147486"
-backgroundColor = "#FFFFFF"
-secondaryBackgroundColor = "#F7F9FA"
-textColor = "#142F43"
-linkColor = "#147486"
-borderColor = "#DEE6EB"
+primaryColor = "#087586"
+backgroundColor = "#FCFDFD"
+secondaryBackgroundColor = "#F2F6F7"
+textColor = "#102A3A"
+linkColor = "#087586"
+borderColor = "#D7E3E7"
 showWidgetBorder = true
 showSidebarBorder = true
-baseRadius = "6px"
-buttonRadius = "5px"
-font = "Arial"
-baseFontSize = 15
-headingFontSizes = ["34px", "26px", "20px", "18px", "16px", "14px"]
-headingFontWeights = [600, 600, 600, 600, 600, 600]
-metricValueFontSize = "25px"
-paddingTop = "1.5rem"
-paddingBottom = "3rem"
-chartCategoricalColors = ["#147486", "#294C68", "#526B7B", "#8DABB4"]
-dataframeHeaderBackgroundColor = "#F7F9FA"
+baseRadius = "8px"
+buttonRadius = "6px"
+font = "'Source Sans 3':https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap"
+headingFont = "'Source Sans 3':https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap"
+baseFontSize = 16
+baseFontWeight = 400
+headingFontSizes = ["40px", "29px", "22px", "19px", "17px", "15px"]
+headingFontWeights = [700, 700, 650, 650, 600, 600]
+metricValueFontSize = "27px"
+metricValueFontWeight = 700
+paddingTop = "1.25rem"
+paddingBottom = "3.5rem"
+chartCategoricalColors = ["#087586", "#244A64", "#7895A3", "#B1C4CC", "#A85F3D"]
+chartSequentialColors = ["#F1F7F8", "#DCECEF", "#C4E0E4", "#9CCED4", "#70B8C1", "#419BA7", "#087586", "#075F6D", "#064A55", "#043740"]
+chartDivergingColors = ["#173F58", "#315D77", "#5A7F94", "#8FA9B7", "#D4E0E5", "#F2ECE7", "#DFC2B1", "#C58E70", "#A85F3D", "#7D3F25"]
+dataframeHeaderBackgroundColor = "#EAF1F3"
+dataframeHeaderTextColor = "#102A3A"
+dataframeBorderColor = "#D7E3E7"
 
 [theme.sidebar]
-backgroundColor = "#F7F9FA"
-secondaryBackgroundColor = "#EFF3F5"
-textColor = "#142F43"
-primaryColor = "#147486"
-borderColor = "#DEE6EB"
+backgroundColor = "#0D2636"
+secondaryBackgroundColor = "#143648"
+textColor = "#F5F8F9"
+primaryColor = "#6BC4CC"
+linkColor = "#D9F1F3"
+borderColor = "#294656"
+showWidgetBorder = false
+paddingTop = "1rem"
+paddingBottom = "1.5rem"
 
 [browser]
 gatherUsageStats = false

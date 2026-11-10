@@ -6,12 +6,12 @@ FOLKESUNDHED · ANALYSE PÅ KOMMUNENIVEAU
 ### Geografiske forskelle i sundhed, socioøkonomiske forhold og middellevetid på tværs af danske kommuner
 
 **Frederik Jensen**  
-Professionsbachelor i Fysioterapi  
-cand.san. / Tværvidenskabelige Sundhedsstudier
+Professional Bachelor of Physiotherapy  
+Master of Science (MSc) in Health in Critical Health Studies (cand.san.)
 
 Selvstændigt folkesundhedsanalytisk portfolio-projekt
 
-6. november 2026 · Version 1.0 · Dansk
+10. november 2026 · Version 1.1 · Dansk udgave
 
 Rapporten samler officielle danske kommunedata for at beskrive mønstre i befolkningens sundhed, undersøge statistiske sammenhænge og pege på spørgsmål til videre analyse.
 
@@ -368,6 +368,6 @@ Kilderegistreringer er indsamlet eller kontrolleret **6. november 2026**. Tabeln
 
 ### Publikationsoplysninger
 
-Forfatter: Frederik Jensen. Selvstændig portfolio-analyse; ingen institutionel tilknytning eller arbejdsgivertilknytning angives. Analyseværdier stammer fra projektets validerede snapshot. Rapportversion 1.0; dansk og engelsk udgave har tilsvarende analytisk indhold, afsnitsrækkefølge, tabeller og figurer.
+Forfatter: Frederik Jensen. Professional Bachelor of Physiotherapy; Master of Science (MSc) in Health in Critical Health Studies (cand.san.). Selvstændig portfolio-analyse; ingen institutionel tilknytning eller arbejdsgivertilknytning angives. Analyseværdier stammer fra projektets validerede snapshot. Rapportversion 1.1; dansk og engelsk udgave har tilsvarende analytisk indhold, afsnitsrækkefølge, tabeller og figurer.
 
 De fulde uafrundede koefficient-, korrelations-, diagnostik- og følsomhedstabeller bevares i projektet. Rapportens udvalg af deskriptive mål er ikke filtreret efter signifikans; alle M4-hældninger og karakteristikkorrelationer vises, og de gemte output omfatter samtlige primære og sekundære estimater.
