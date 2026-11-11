@@ -86,6 +86,7 @@ class DashboardTests(unittest.TestCase):
             "No institutional or employer affiliation is claimed",
         ]:
             self.assertIn(phrase, text)
+        self.assertNotIn("Health analysis · Public health · Physiotherapist", text)
         self.assertTrue((data.ROOT / "assets/frederik_jensen_profile.png").exists())
         self.assertEqual(len(app.get("image")), 1)
         links = {item.value: item.url for item in app.get("link_button")}

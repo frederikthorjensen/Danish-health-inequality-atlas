@@ -97,7 +97,10 @@ def _portrait() -> None:
             with st.container(key="author_monogram"):
                 st.markdown("FJ")
         st.caption("FREDERIK JENSEN")
-        st.markdown("**Health analysis · Public health · Physiotherapist**")
+        st.markdown(
+            "**Master of Science (MSc) in Critical Health Studies**  \n"
+            "**Professional Bachelor’s Degree in Physiotherapy**"
+        )
 
 
 def _project_card(project: dict[str, str]) -> None:
