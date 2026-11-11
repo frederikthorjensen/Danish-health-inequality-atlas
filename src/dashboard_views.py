@@ -252,7 +252,7 @@ def inequalities():
                 "Municipality values ordered by the selected published indicator",
                 f"Published {LABELS[variable].lower()} values ordered across the selected municipalities, with the municipality median as a reference.",
                 range_finding,
-                "Each point is one municipality and the vertical reference line is the unweighted municipality median. The axis uses the indicator's original unit. The view is descriptive: a higher or lower position is not automatically better, and it does not account for population size or source uncertainty.")
+                "Each lollipop marks one municipality and the vertical reference line is the unweighted municipality median. The axis uses the indicator's original unit and a local range; stem lengths are not differences from zero. Ties retain their published values and source order. The view is descriptive: a higher or lower position is not automatically better, and it does not account for population size or source uncertainty.")
     else:
         with st.container():
             st.subheader("The distribution across municipalities")
@@ -291,7 +291,7 @@ def explanation():
             pair_r = b["matrix"].loc[pair_a, pair_b]
             chart(charts.heatmap(b["matrix"]), "correlation_heatmap",
                 "Saved Pearson correlation matrix for all 17 continuous analytic variables",
-                "Pairwise Pearson relationships among all continuous indicators; stronger colour and printed cells indicate larger absolute correlations.",
+                "Pairwise Pearson relationships among all continuous indicators; stronger colour indicates larger absolute correlations; numbered columns correspond to the full row labels.",
                 f"The strongest off-diagonal relationship is between {LABELS.get(pair_a, pair_a)} and {LABELS.get(pair_b, pair_b)} (r = {pair_r:+.3f}).",
                 "Read across a row to see how one indicator relates to every other indicator. Teal denotes positive and navy negative relationships; pale cells are closer to zero. Correlated predictors overlap statistically, which is why individual adjusted coefficients and VIFs require caution. Correlation does not establish causation.")
             st.caption("Pearson r · pairwise N=94–98. Columns use the row numbers; hover for full indicator names. The three age shares are compositional; life-expectancy outcomes are related.")
@@ -394,7 +394,7 @@ def explorer():
                 "Six health indicators relative to the saved municipality means and standard deviations",
                 f"The selected municipality's six health-profile indicators relative to the 98-municipality mean.",
                 f"{LABELS[furthest]} is furthest from the municipality mean at {profile_z[furthest]:+.2f} standard deviations.",
-                "The vertical zero line is the unweighted municipality mean. Points to the right are above that mean and points to the left are below it; this direction is descriptive and not automatically favourable or unfavourable. The indicators remain separate—no overall score is calculated.")
+                "The vertical zero line is the unweighted municipality mean. Bars to the right are above that mean and bars to the left are below it; this direction is descriptive and not automatically favourable or unfavourable. The indicators remain separate—no overall score is calculated.")
             st.caption("Uses saved scaling parameters. Each indicator retains its original direction; alcohol does not share the direction of PC1. No combined risk rating is assigned.")
     if detail == "Model comparison":
         section_heading("02", "Observed and model-predicted", "This uses the saved combined Model 3; it is not an evaluation of municipal policy.")
@@ -412,7 +412,7 @@ def explorer():
 
 def expected():
     b = bundle()
-    header("Beyond the fitted pattern", "Expected vs observed life expectancy", "Which municipalities have higher/lower life expectancy than predicted by the included municipality indicators?")
+    header("Beyond the fitted pattern", "Expected vs observed life expectancy", "Which municipalities have higher or lower life expectancy than fitted by the included indicators?")
     reading_guide("Use the comparison chart to inspect individual municipalities, or switch to residuals to see observed-minus-predicted differences. The model-performance view explains how training fit differs from internal validation.")
     with st.container(key="residual_definition"):
         st.markdown("**Residual = observed life expectancy − model-predicted life expectancy.**")
@@ -428,21 +428,22 @@ def expected():
         highlight = st.selectbox("Highlight a municipality", ["None", *sorted(b["master"].municipality.tolist())], key="prediction_highlight")
         selected_prediction = b["predictions"].set_index("municipality").loc[highlight] if highlight != "None" else None
         prediction_finding = (f"{highlight} is {selected_prediction.residual:+.2f} years from its fitted value—"
-                              f"{'higher' if selected_prediction.residual > 0 else 'lower'} than predicted by the included indicators."
+                              f"{'higher than' if selected_prediction.residual > 0 else 'lower than' if selected_prediction.residual < 0 else 'equal to'} its fitted value from the included indicators."
                               if selected_prediction is not None and pd.notna(selected_prediction.residual)
                               else f"The combined model has in-sample R² = {quality['in_sample_R_squared']:.3f}; remaining vertical distances are municipality residuals.")
         chart(charts.prediction_scatter(b["predictions"], None if highlight == "None" else highlight), "prediction_scatter",
             "Saved observed and fitted life expectancy with equality line and optional municipality highlight",
-            "Observed life expectancy against the value fitted by the saved combined Model 3 for 94 municipalities.",
+            "Observed life expectancy against the value fitted by the saved combined Model 3 for 94 municipalities. Teal circles are at or above fitted values; navy diamonds are below. The diagonal is observed = fitted.",
             prediction_finding,
             "The diagonal line represents an exact match between observed and predicted values. Points above it have higher life expectancy than predicted by the included indicators; points below it have lower. The vertical distance is the residual. This is an in-sample model diagnostic, not a municipality performance score.")
+        st.caption("Teal circles: at or above fitted · Navy diamonds: below fitted · Dashed diagonal: observed = fitted. These are descriptive differences, not performance grades.")
         if highlight != "None" and b["predictions"].set_index("municipality").loc[highlight, "analysis_status"].startswith("withheld"):
             st.info("This municipality’s life expectancy is withheld. It has no fitted prediction or residual in this analysis.")
     elif view == "Municipality residuals":
         section_heading("02", "Differences from the fitted pattern", "Positive and negative residuals describe differences from the included indicators, not best/worst municipalities.")
         with st.grid(2, min_column_width=300, gap="medium") as grid:
             available = b["predictions"].dropna(subset=["residual"])
-            for title, selected in [("Higher than predicted", available.nlargest(5, "residual")), ("Lower than predicted", available.nsmallest(5, "residual"))]:
+            for title, selected in [("Higher than fitted", available.nlargest(5, "residual")), ("Lower than fitted", available.nsmallest(5, "residual"))]:
                 with grid.cell():
                     with st.container(border=True, height="stretch"):
                         st.subheader(title)
@@ -517,6 +518,15 @@ def health_profiles():
             for item in b["sizes"].itertuples():
                 st.metric(f"Profile {item.cluster}", f"{item.N} municipalities", border=True)
         st.markdown("**Profile 1** has lower smoking, obesity, inactivity and poorer-health indicators, but higher alcohol exposure. **Profile 2** shows the opposite relative pattern. Profiles describe differences across indicators, not an overall quality ranking.")
+        profiles = b["profiles"].set_index("cluster")
+        chart(charts.cluster_comparison(profiles,FEATURES), "cluster_profiles",
+            "Saved standardized mean health indicators for each profile; patterns and colours distinguish profiles",
+            "The average standardized value of each health indicator within the two saved profiles.",
+            "Profile 1 is lower on smoking, obesity, inactivity and poorer-health indicators but higher on risky alcohol consumption; Profile 2 shows the opposite relative pattern.",
+            "Zero is the 98-municipality mean for each indicator. Bars to the right are above that indicator's mean and bars to the left are below it. Because indicators retain their original direction and alcohol differs from the others, the profiles must not be collapsed into a single healthier-versus-less-healthy ranking.")
+        st.caption("Alcohol differs from the other indicators. Profiles should not be read as an overall health ranking: these are descriptive profiles, not natural or causal groups.")
+        st.subheader("Explore the PCA projection")
+        st.caption("PC1 and PC2 summarize shared variation in the six health indicators. Distances are exploratory; the profiles are not natural or causal groups.")
         highlight = st.selectbox("Locate a municipality in the PCA projection", ["None", *sorted(b["memberships"].municipality.tolist())], key="profile_highlight")
         fig = charts.pca_scatter(b["memberships"], None if highlight == "None" else highlight)
         fig.update_xaxes(title=f"PC1 · {100*variance.loc['PC1','explained_variance_ratio']:.1f}%")
@@ -527,13 +537,7 @@ def health_profiles():
             f"The profiles contain {int(b['sizes'].iloc[0].N)} and {int(b['sizes'].iloc[1].N)} municipalities and overlap in the two-dimensional projection, consistent with the mean silhouette of {silhouette:.3f}.",
             "Nearby points have more similar combinations of the six standardized health indicators in this two-component view. PC1 and PC2 summarize most, but not all, of the six-dimensional information used for clustering. The selected municipality is outlined. Profile membership is descriptive and is not an overall health grade.")
         st.caption("All 98 municipalities. Clustering uses all six standardized health indicators, not only these two plotted components.")
-        profiles = b["profiles"].set_index("cluster")
-        chart(charts.cluster_comparison(profiles,FEATURES), "cluster_profiles",
-            "Saved standardized mean health indicators for each profile; symbols and colours distinguish profiles",
-            "The average standardized value of each health indicator within the two saved profiles.",
-            "Profile 1 is lower on smoking, obesity, inactivity and poorer-health indicators but higher on risky alcohol consumption; Profile 2 shows the opposite relative pattern.",
-            "Zero is the 98-municipality mean for each indicator. Points to the right are above that indicator's mean and points to the left are below it. Because indicators retain their original direction and alcohol differs from the others, the profiles must not be collapsed into a single healthier-versus-less-healthy ranking.")
-        st.caption("Alcohol differs from the other indicators. Profiles should not be read as an overall health ranking: these are descriptive profiles, not natural or causal groups.")
+
     note()
 
 

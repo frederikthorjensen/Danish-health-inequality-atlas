@@ -65,6 +65,9 @@ def report_home():
         st.caption('PUBLICATION STANDARD')
         st.markdown('Both editions contain equivalent analytical content and use the same checksum-verified result snapshot. They distinguish descriptive patterns, adjusted associations and exploratory profiles; retain nonsignificant results; and state the methodological cautions alongside the findings.')
         st.page_link('app_pages/methods.py',label='Review methods & limitations',icon=':material/fact_check:')
+    with st.expander('Author qualification wording in this publication'):
+        st.markdown('The current qualification is **Master of Science (MSc) in Critical Health Studies, Roskilde University, completed 2025**. Version 1.1 of the archived reports retains an earlier English degree wording. The published PDFs and their analytical content have been preserved.')
+        st.page_link('app_pages/author.py', label='Read the current author profile')
     st.caption('Frederik Jensen · Independent public-health data analysis and portfolio project · Version 1.1 · 10 November 2026')
 
 

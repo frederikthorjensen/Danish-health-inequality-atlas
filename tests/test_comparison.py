@@ -40,15 +40,15 @@ class ComparisonTests(unittest.TestCase):
         missing=comparison_table(self.master,['Ærø','Fanø'],['life_expectancy_total'],'Ærø')
         figure=comparison_figure(missing,'life_expectancy_total')
         self.assertEqual(len(figure.data),0)
-        self.assertEqual(sum(a.text=='Not published' for a in figure.layout.annotations),2)
+        self.assertEqual(sum('Not published' in a.text for a in figure.layout.annotations),2)
         self.assertIn('Difference unavailable',difference_text(np.nan,'life_expectancy_total'))
 
     def test_charts_show_published_points_and_human_tooltips(self):
         table=comparison_table(self.master,['København','Aarhus'],['daily_smoking_pct'],'København')
         figure=comparison_figure(table,'daily_smoking_pct')
-        for trace,row in zip(figure.data,table.itertuples(),strict=True):
+        for trace,row in zip([t for t in figure.data if t.mode=="markers"],table.itertuples(),strict=True):
             self.assertEqual(trace.x[0],row.value)
-            self.assertEqual(trace.y[0],row.municipality)
+            self.assertEqual(trace.y[0],0)
             self.assertIn(row.municipality,trace.hovertemplate)
             self.assertIn('Daily smoking',trace.hovertemplate)
             self.assertNotIn('_pct',trace.hovertemplate)
@@ -81,7 +81,7 @@ class ComparisonTests(unittest.TestCase):
             story=app.get_by_key(f"chart_story_comparison_{variable}")
             text="\n".join(item.value for item in story.markdown)
             self.assertIn("**What it shows**",text)
-            self.assertIn("**Key finding**",text)
+            self.assertIn("**What to notice:**",text)
             self.assertIsNotNone(app.get_by_key(f"chart_detail_comparison_{variable}"))
 
     def test_explorer_handoff_preserves_the_selected_municipality(self):

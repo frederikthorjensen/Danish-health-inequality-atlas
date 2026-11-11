@@ -239,7 +239,7 @@ class DashboardTests(unittest.TestCase):
             story = app.get_by_key(f"chart_story_{key}")
             text = "\n".join(item.value for item in story.markdown)
             self.assertIn("**What it shows**", text)
-            self.assertIn("**Key finding**", text)
+            self.assertIn("**What to notice:**", text)
             self.assertIsNotNone(app.get_by_key(f"chart_detail_{key}"))
 
         for page, keys in [
