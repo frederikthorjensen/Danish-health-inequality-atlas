@@ -87,6 +87,7 @@ class DashboardTests(unittest.TestCase):
         ]:
             self.assertIn(phrase, text)
         self.assertTrue((data.ROOT / "assets/frederik_jensen_profile.png").exists())
+        self.assertEqual(len(app.get("image")), 1)
         links = {item.value: item.url for item in app.get("link_button")}
         self.assertEqual(
             links["Connect on LinkedIn"],
@@ -239,8 +240,9 @@ class DashboardTests(unittest.TestCase):
             story = app.get_by_key(f"chart_story_{key}")
             text = "\n".join(item.value for item in story.markdown)
             self.assertIn("**What it shows**", text)
-            self.assertIn("**What to notice:**", text)
-            self.assertIsNotNone(app.get_by_key(f"chart_detail_{key}"))
+            self.assertIn("**Key finding**", text)
+            detail = app.toggle(key=f"chart_detail_{key}")
+            self.assertEqual(detail.label, "Show detailed explanation")
 
         for page, keys in [
             ("inequalities", ["inequality_ranked"]),
@@ -253,6 +255,12 @@ class DashboardTests(unittest.TestCase):
             self.assertFalse(app.exception)
             for key in keys:
                 assert_story(key)
+
+        app.switch_page("app_pages/inequalities.py").run()
+        app.toggle(key="chart_detail_inequality_ranked").set_value(True).run()
+        detail_body = app.get_by_key("chart_detail_body_inequality_ranked")
+        self.assertTrue(detail_body.markdown)
+        self.assertFalse(app.exception)
 
         app.switch_page("app_pages/explanation.py").run()
         app.get_by_key("explanation_view").set_value("Adjusted models").run()

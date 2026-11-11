@@ -81,8 +81,12 @@ class ComparisonTests(unittest.TestCase):
             story=app.get_by_key(f"chart_story_comparison_{variable}")
             text="\n".join(item.value for item in story.markdown)
             self.assertIn("**What it shows**",text)
-            self.assertIn("**What to notice:**",text)
-            self.assertIsNotNone(app.get_by_key(f"chart_detail_comparison_{variable}"))
+            self.assertIn("**Key finding**",text)
+            detail=app.toggle(key=f"chart_detail_comparison_{variable}")
+            self.assertEqual(detail.label,"Show detailed explanation")
+        first=PRESETS["Key indicators"][0]
+        app.toggle(key=f"chart_detail_comparison_{first}").set_value(True).run()
+        self.assertTrue(app.get_by_key(f"chart_detail_body_comparison_{first}").markdown)
 
     def test_explorer_handoff_preserves_the_selected_municipality(self):
         app=AppTest.from_file(str(ROOT/'app.py'),default_timeout=30).run().switch_page('app_pages/explorer.py').run()

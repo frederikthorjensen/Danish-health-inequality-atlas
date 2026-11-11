@@ -19,10 +19,17 @@ def section_heading(number, title, description=None):
 def chart_explanation(key, shows, finding, detail):
     """Add a consistent, concise reading guide beneath an analytical figure."""
     with st.container(key=f'chart_story_{key}', gap='xsmall'):
-        st.markdown(f'**What to notice:** {finding}')
-        with st.expander('Read how to interpret this figure', key=f'chart_detail_{key}'):
-            st.markdown(f'**What it shows** — {shows}')
-            st.markdown(detail)
+        st.caption('CHART GUIDE')
+        st.markdown(f'**What it shows** — {shows}')
+        st.markdown(f'**Key finding** — {finding}')
+        show_detail = st.toggle(
+            'Show detailed explanation',
+            key=f'chart_detail_{key}',
+            help='Open or close the methodological and interpretive explanation for this chart.',
+        )
+        if show_detail:
+            with st.container(key=f'chart_detail_body_{key}', gap='xsmall'):
+                st.markdown(detail)
 
 
 def reading_navigation(pages, current):

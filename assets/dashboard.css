@@ -142,10 +142,34 @@
 .st-key-atlas_page [class*="st-key-chart_story_"] {
   margin: .1rem 0 0; padding: .25rem .2rem 0; background: transparent;
 }
-.st-key-atlas_page [class*="st-key-chart_story_"] p {
-  max-width: 92ch; margin: .05rem 0; font-size: .88rem; line-height: 1.5;
+.st-key-atlas_page [class*="st-key-chart_story_"] > p {
+  max-width: 92ch;
+  margin: .05rem 0;
+  font-size: .88rem;
+  line-height: 1.5;
 }
-.st-key-atlas_page [class*="st-key-chart_detail_"] { margin-top: .1rem; color: var(--muted); }
+.st-key-atlas_page [class*="st-key-chart_story_"] > p:first-child {
+  color: var(--accent);
+  font-size: .66rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+.st-key-atlas_page [class*="st-key-chart_detail_"] {
+  margin-top: .45rem;
+  color: var(--muted);
+}
+.st-key-atlas_page [class*="st-key-chart_detail_body_"] {
+  padding: .75rem .9rem;
+  border-left: 2px solid var(--accent);
+  border-radius: 0 5px 5px 0;
+  background: var(--card);
+}
+.st-key-atlas_page [class*="st-key-chart_detail_body_"] p {
+  max-width: 90ch;
+  margin: 0;
+  font-size: .88rem;
+  line-height: 1.58;
+}
 
 /* Editorial landing page */
 .st-key-home_hero { padding: 1.8rem 0 3.1rem; }

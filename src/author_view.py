@@ -90,7 +90,9 @@ def _header(eyebrow: str, title: str, description: str) -> None:
 def _portrait() -> None:
     with st.container(key="author_portrait", gap="small"):
         if PROFILE_IMAGE.exists():
-            st.image(str(PROFILE_IMAGE), alt="Portrait of Frederik Jensen", width="stretch")
+            # Pass bytes to Streamlit so the portrait is bundled into the media
+            # response independently of the process working directory.
+            st.image(PROFILE_IMAGE.read_bytes(), alt="Portrait of Frederik Jensen", width="stretch")
         else:
             with st.container(key="author_monogram"):
                 st.markdown("FJ")
