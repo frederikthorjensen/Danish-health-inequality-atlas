@@ -19,10 +19,9 @@ def section_heading(number, title, description=None):
 def chart_explanation(key, shows, finding, detail):
     """Add a consistent, concise reading guide beneath an analytical figure."""
     with st.container(key=f'chart_story_{key}', gap='xsmall'):
-        st.caption('CHART GUIDE')
-        st.markdown(f'**What it shows** — {shows}')
-        st.markdown(f'**Key finding** — {finding}')
-        with st.expander('Read the chart explanation', key=f'chart_detail_{key}', icon=':material/read_more:'):
+        st.markdown(f'**What to notice:** {finding}')
+        with st.expander('Read how to interpret this figure', key=f'chart_detail_{key}'):
+            st.markdown(f'**What it shows** — {shows}')
             st.markdown(detail)
 
 

@@ -117,8 +117,8 @@
   line-height: 1.55;
 }
 .st-key-atlas_page [class*="st-key-section_"] {
-  margin: 1.15rem 0 .8rem;
-  padding: .75rem 0 .7rem;
+  margin: .65rem 0 .4rem;
+  padding: .4rem 0 .45rem;
   border-bottom: 1px solid var(--border);
 }
 .st-key-atlas_page [class*="st-key-section_"] > p:first-child {
@@ -132,42 +132,20 @@
 
 /* Charts are publication figures, not generic widget boxes. */
 .st-key-atlas_page [class*="st-key-figure_"] {
-  margin: .65rem 0 1.2rem;
-  padding: .7rem .85rem .8rem;
+  margin: .35rem 0 .65rem;
+  padding: .35rem .55rem .45rem;
   border-color: var(--border);
   border-radius: 9px;
   background: var(--card);
-  box-shadow: 0 6px 20px #102A3A0A;
+  box-shadow: none;
 }
 .st-key-atlas_page [class*="st-key-chart_story_"] {
-  margin: .2rem .15rem 0;
-  padding: .85rem 1rem .25rem;
-  border-top: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
-  border-radius: 0 0 6px 3px;
-  background: var(--surface);
+  margin: .1rem 0 0; padding: .25rem .2rem 0; background: transparent;
 }
-.st-key-atlas_page [class*="st-key-chart_story_"] > p {
-  max-width: 92ch;
-  margin: .08rem 0;
-  font-size: .88rem;
-  line-height: 1.5;
+.st-key-atlas_page [class*="st-key-chart_story_"] p {
+  max-width: 92ch; margin: .05rem 0; font-size: .88rem; line-height: 1.5;
 }
-.st-key-atlas_page [class*="st-key-chart_story_"] > p:first-child {
-  color: var(--accent);
-  font-size: .66rem;
-  font-weight: 700;
-  letter-spacing: .12em;
-}
-.st-key-atlas_page [class*="st-key-chart_detail_"] {
-  margin-top: .45rem;
-  color: var(--muted);
-}
-.st-key-atlas_page [class*="st-key-chart_detail_"] p {
-  max-width: 90ch;
-  font-size: .88rem;
-  line-height: 1.58;
-}
+.st-key-atlas_page [class*="st-key-chart_detail_"] { margin-top: .1rem; color: var(--muted); }
 
 /* Editorial landing page */
 .st-key-home_hero { padding: 1.8rem 0 3.1rem; }
@@ -554,4 +532,16 @@
   [class*="st-key-home_destination_"],
   .st-key-report_card_en,
   .st-key-report_card_da { transition: none; }
+}
+
+/* Analytical figures retain readable names within the narrow content column. */
+.st-key-atlas_page [data-testid="stPlotlyChart"] { min-width: 0; }
+.st-key-atlas_page [data-testid="stPlotlyChart"] .modebar { background: var(--card); }
+.st-key-page_header { padding-bottom: .8rem; }
+.st-key-atlas_page button:focus-visible, .st-key-atlas_page summary:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 3px;
+}
+@media (max-width: 640px) {
+  .st-key-atlas_page [class*="st-key-chart_story_"] { padding: .2rem 0 0; }
+  .st-key-home_actions { flex-wrap: wrap; }
 }
