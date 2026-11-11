@@ -270,15 +270,35 @@
   object-fit: cover;
   object-position: center top;
 }
-.st-key-author_portrait > p { margin: 0 .45rem; color: #F5F8F9; }
-.st-key-author_portrait > p:nth-last-child(2) {
-  margin-top: .35rem;
+.st-key-author_identity {
+  margin: .55rem .45rem 0;
+}
+.st-key-author_identity p {
+  margin: 0;
   color: #6BC4CC;
   font-size: .67rem;
   font-weight: 700;
   letter-spacing: .12em;
 }
-.st-key-author_portrait > p:last-child { color: #D5E0E5; font-size: .88rem; }
+.st-key-author_credentials {
+  margin: .55rem .45rem 0;
+  padding-top: .55rem;
+  border-top: 1px solid #FFFFFF1F;
+}
+.st-key-author_credentials_label p {
+  margin: 0 0 .1rem;
+  color: #91A8B4;
+  font-size: .56rem;
+  font-weight: 700;
+  letter-spacing: .11em;
+}
+[class*="st-key-author_degree_"] p {
+  margin: 0;
+  color: #D5E0E5;
+  font-size: .72rem;
+  font-weight: 500;
+  line-height: 1.45;
+}
 .st-key-author_monogram {
   display: flex;
   min-height: 17rem;

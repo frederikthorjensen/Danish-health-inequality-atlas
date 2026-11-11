@@ -96,11 +96,15 @@ def _portrait() -> None:
         else:
             with st.container(key="author_monogram"):
                 st.markdown("FJ")
-        st.caption("FREDERIK JENSEN")
-        st.markdown(
-            "**Master of Science (MSc) in Critical Health Studies**  \n"
-            "**Professional Bachelor’s Degree in Physiotherapy**"
-        )
+        with st.container(key="author_identity", gap=None):
+            st.caption("FREDERIK JENSEN")
+        with st.container(key="author_credentials", gap="small"):
+            with st.container(key="author_credentials_label", gap=None):
+                st.caption("FORMAL QUALIFICATIONS")
+            with st.container(key="author_degree_msc", gap=None):
+                st.markdown("Master of Science (MSc) in Critical Health Studies")
+            with st.container(key="author_degree_physiotherapy", gap=None):
+                st.markdown("Professional Bachelor’s Degree in Physiotherapy")
 
 
 def _project_card(project: dict[str, str]) -> None:
