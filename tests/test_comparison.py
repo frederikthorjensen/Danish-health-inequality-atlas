@@ -5,7 +5,7 @@ import pandas as pd
 from streamlit.testing.v1 import AppTest
 
 from src.dashboard_data import ROOT,load_dashboard,METRICS
-from src.dashboard_comparison import comparison_table,comparison_figure,difference_text
+from src.dashboard_comparison import PRESETS,comparison_table,comparison_figure,difference_text
 
 
 class ComparisonTests(unittest.TestCase):
@@ -73,6 +73,16 @@ class ComparisonTests(unittest.TestCase):
         app.multiselect(key='comparison_municipalities').set_value([]).run()
         self.assertFalse(app.exception)
         self.assertTrue(any('at least two municipalities' in item.value for item in app.info))
+
+    def test_comparison_charts_have_explanations(self):
+        app=self.app()
+        self.assertFalse(app.exception)
+        for variable in PRESETS["Key indicators"]:
+            story=app.get_by_key(f"chart_story_comparison_{variable}")
+            text="\n".join(item.value for item in story.markdown)
+            self.assertIn("**What it shows**",text)
+            self.assertIn("**Key finding**",text)
+            self.assertIsNotNone(app.get_by_key(f"chart_detail_comparison_{variable}"))
 
     def test_explorer_handoff_preserves_the_selected_municipality(self):
         app=AppTest.from_file(str(ROOT/'app.py'),default_timeout=30).run().switch_page('app_pages/explorer.py').run()

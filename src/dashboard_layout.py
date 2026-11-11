@@ -16,6 +16,16 @@ def section_heading(number, title, description=None):
             st.markdown(description)
 
 
+def chart_explanation(key, shows, finding, detail):
+    """Add a consistent, concise reading guide beneath an analytical figure."""
+    with st.container(key=f'chart_story_{key}', gap='xsmall'):
+        st.caption('CHART GUIDE')
+        st.markdown(f'**What it shows** — {shows}')
+        st.markdown(f'**Key finding** — {finding}')
+        with st.expander('Read the chart explanation', key=f'chart_detail_{key}', icon=':material/read_more:'):
+            st.markdown(detail)
+
+
 def reading_navigation(pages, current):
     """Every page has an explicit next step, including when the sidebar is collapsed."""
     index=next((i for i,p in enumerate(pages) if p.url_path==current.url_path),None)

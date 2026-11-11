@@ -115,7 +115,7 @@ After deployment, smoke-test all pages and downloads, then replace the public-da
 
 **Frederik Jensen**  
 Professional Bachelor of Physiotherapy  
-Master of Science (MSc) in Health in Critical Health Studies (cand.san.)
+Master of Science (MSc) in Critical Health Studies
 
 Independent portfolio project focused on public-health data, statistical analysis, reproducibility and clear communication. No institutional or employer affiliation is claimed.
 

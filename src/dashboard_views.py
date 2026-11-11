@@ -9,7 +9,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from src import dashboard_charts as charts
-from src.dashboard_layout import reading_guide, section_heading
+from src.dashboard_layout import chart_explanation, reading_guide, section_heading
 from src.dashboard_data import ROOT, FEATURES, LABELS, METRICS, MODEL_LABELS, benchmark, characteristics, descriptive_rank, digest, format_value, load_dashboard, rank_label
 
 
@@ -23,11 +23,12 @@ def bundle():
         st.stop()
 
 
-def chart(fig, key, alt):
+def chart(fig, key, alt, shows, finding, detail):
     with st.container(border=True,key=f"figure_{key}"):
         st.plotly_chart(fig, width="stretch", theme=None, key=key, alt=alt,
             config={"displaylogo": False,"responsive": True,"modeBarButtonsToRemove": ["lasso2d","select2d"],
                     "toImageButtonOptions":{"format":"png","filename":f"danish-health-{key}","scale":2}})
+        chart_explanation(key, shows, finding, detail)
 
 
 def header(eyebrow, title, description):
@@ -150,102 +151,10 @@ def overview():
 
 
 def author():
-    """Professional author profile using only qualifications documented in the project."""
-    with st.container(key="author_hero", gap="medium"):
-        profile, identity = st.columns([1.65, .85], gap="large", vertical_alignment="center")
-        with profile:
-            header(
-                "Author & project lead",
-                "Frederik Jensen",
-                "Clinical experience, interdisciplinary health-science training and applied public-health analysis.",
-            )
-            st.markdown(
-                "Frederik Jensen is a physiotherapist (Professional Bachelor, 2023) and holds a cand.san./MSc-level degree in Interdisciplinary Health Studies from Roskilde University (2025). "
-                "His background combines quantitative and qualitative health research, including survey data, interviews, statistical analysis, evidence appraisal and health-science methodology. "
-                "He has worked with SPSS, Jamovi, Excel and SurveyXact, applying descriptive statistics, t-tests, ANOVA and chi-square analysis to health-related data.\n\n"
-                "Experience from private physiotherapy practice and an acute/semi-intensive gastro-surgical hospital setting provides a practical perspective on rehabilitation, interdisciplinary care and the realities behind health data. "
-                "He created Danish Health & Life Expectancy as an independent applied portfolio project, using Python and Streamlit to integrate official municipal data and communicate reproducible analyses. "
-                "His professional interests include public health, health inequality, evaluation, evidence, health administration and clear communication of complex findings."
-            )
-            with st.container(horizontal=True, gap="small", key="author_status"):
-                st.badge("Independent project", color="gray")
-                st.badge("Official public data", color="gray")
-                st.badge("Reproducible analysis", color="gray")
-        with identity:
-            with st.container(key="author_identity", gap="small"):
-                with st.container(key="author_monogram"):
-                    st.markdown("FJ")
-                st.caption("PROJECT AUTHOR")
-                st.header("Frederik Jensen")
-                st.caption("HEALTH · ANALYSIS · COMMUNICATION")
+    """Backward-compatible route to the dedicated author presentation module."""
+    from src.author_view import author as render_author
 
-    with st.container(key="author_qualifications", gap="medium"):
-        st.caption("FORMAL QUALIFICATIONS")
-        st.header("Clinical and academic foundation")
-        st.markdown("The formal qualifications listed below are the credentials documented for this project.")
-        with st.grid(2, min_column_width=300, gap="medium") as grid:
-            qualifications = [
-                (
-                    "clinical",
-                    "01",
-                    "Professional Bachelor’s degree in Physiotherapy",
-                    "Clinical foundation",
-                    "Completed in 2023 · Clinical training in human health, function, rehabilitation and evidence-informed practice.",
-                ),
-                (
-                    "academic",
-                    "02",
-                    "cand.san. / MSc-level degree in Interdisciplinary Health Studies",
-                    "Academic degree",
-                    "Roskilde University · completed in 2025 · Quantitative and qualitative health research and methodology.",
-                ),
-            ]
-            for key, number, title, label, description in qualifications:
-                with grid.cell():
-                    with st.container(border=True, height="stretch", key=f"author_qualification_{key}", gap="small"):
-                        with st.container(horizontal=True, horizontal_alignment="distribute"):
-                            st.caption(label.upper())
-                            st.caption(number)
-                        st.subheader(title)
-                        st.markdown(description)
-
-    with st.container(key="author_capabilities", gap="medium"):
-        st.caption("PORTFOLIO CAPABILITIES")
-        st.header("Capabilities demonstrated in this project")
-        st.markdown("These are demonstrated areas of project work, presented separately from formal academic credentials.")
-        with st.grid(2, min_column_width=300, gap="medium") as grid:
-            capabilities = [
-                ("public_health", ":material/public:", "Public-health analysis", "Municipality-level health inequality, life expectancy, socioeconomic conditions and health behaviours."),
-                ("statistics", ":material/query_stats:", "Applied statistics", "Descriptive analysis, correlations, multiple-testing correction, robust regression, diagnostics, PCA and clustering."),
-                ("data", ":material/database:", "Public-data engineering", "Reproducible acquisition, validation and integration of official Statistics Denmark and National Health Profile data."),
-                ("communication", ":material/insert_chart:", "Analytical communication", "Clear reports, interactive visualisation and careful communication of uncertainty, limitations and non-causal findings."),
-            ]
-            for key, icon, title, description in capabilities:
-                with grid.cell():
-                    with st.container(border=True, height="stretch", key=f"author_capability_{key}", gap="xsmall"):
-                        st.badge(title, icon=icon, color="gray")
-                        st.markdown(description)
-
-    with st.container(key="author_toolkit", gap="medium"):
-        toolkit, contribution = st.columns(2, gap="large", vertical_alignment="top")
-        with toolkit:
-            st.caption("TECHNICAL TOOLKIT")
-            st.subheader("Tools used in the project")
-            st.markdown("SPSS · Jamovi · Excel · SurveyXact · applied Python and Streamlit workflow")
-            st.caption("Python and Streamlit are presented as part of this applied portfolio workflow, not as separate certifications.")
-        with contribution:
-            st.caption("PROJECT CONTRIBUTION")
-            st.subheader("End-to-end authorship")
-            st.markdown("Data acquisition and quality assurance · statistical analysis · interpretation · report production · dashboard design · reproducibility documentation")
-
-    with st.container(key="author_perspective", gap="small"):
-        st.caption("PROFESSIONAL PERSPECTIVE")
-        st.subheader("Evidence should be useful without being overstated")
-        st.markdown(
-            "The project is designed around transparent methods, reproducible evidence and cautious interpretation. "
-            "Municipality patterns are treated as descriptive and hypothesis-generating—not as causal effects, individual risk estimates or rankings of municipal performance."
-        )
-        st.caption("Independent portfolio project · No institutional or employer affiliation is claimed")
+    render_author()
 
 
 def key_findings():
@@ -324,6 +233,10 @@ def inequalities():
     options = ["life_expectancy_total", *FEATURES, "disposable_income_mean_dkk", "low_education_share_25_64_pct"]
     variable = st.selectbox("Choose an indicator", options, format_func=lambda c: LABELS[c], key="inequality_variable")
     valid = b["master"][variable].dropna()
+    low_row = b["master"].loc[valid.idxmin()]
+    high_row = b["master"].loc[valid.idxmax()]
+    range_finding = (f"Published values range from {format_value(low_row[variable], variable)} in {low_row.municipality} "
+                     f"to {format_value(high_row[variable], variable)} in {high_row.municipality}.")
     with st.grid(3, min_column_width=190):
         st.metric("Published municipalities", len(valid), border=True)
         st.metric("Municipality median", format_value(valid.median(), variable), border=True)
@@ -335,11 +248,19 @@ def inequalities():
         ranking = st.segmented_control("Ranked view", ["Lowest 20", "Highest 20", "All published"], default="Lowest 20", key="inequality_range")
         with st.container():
             st.subheader(f"{LABELS[variable]} by municipality")
-            chart(charts.ranked(b["master"], variable, ranking), "inequality_ranked", "Municipality values ordered by the selected published indicator")
+            chart(charts.ranked(b["master"], variable, ranking), "inequality_ranked",
+                "Municipality values ordered by the selected published indicator",
+                f"Published {LABELS[variable].lower()} values ordered across the selected municipalities, with the municipality median as a reference.",
+                range_finding,
+                "Each point is one municipality and the vertical reference line is the unweighted municipality median. The axis uses the indicator's original unit. The view is descriptive: a higher or lower position is not automatically better, and it does not account for population size or source uncertainty.")
     else:
         with st.container():
             st.subheader("The distribution across municipalities")
-            chart(charts.distribution(b["master"], variable), "inequality_distribution", "Distribution of the selected municipality indicator")
+            chart(charts.distribution(b["master"], variable), "inequality_distribution",
+                "Distribution of the selected municipality indicator",
+                f"How the {len(valid)} published municipality values are distributed, with the municipality median marked.",
+                f"The median is {format_value(valid.median(), variable)}. {range_finding}",
+                "Each bar counts municipalities within a value interval; municipalities are weighted equally. A narrow shape means values are relatively concentrated, while a wider shape indicates more geographical variation. This is not a population-weighted national distribution.")
             st.caption("Each municipality has equal weight. The municipality median is not a population-weighted national estimate.")
     note()
 
@@ -357,29 +278,55 @@ def explanation():
         section_heading("01", "Relationships between indicators", "Compare the strength and direction of the saved correlations, then inspect individual municipalities.")
         method = st.segmented_control("Correlation method", ["Pearson", "Spearman"], default="Pearson", key="correlation_method")
         d = characteristics(b, method)
-        chart(charts.correlation_bars(d, limit=len(d)), "association_bars", f"All saved {method} correlations between municipality characteristics and total life expectancy")
+        strongest = d.iloc[0]
+        chart(charts.correlation_bars(d, limit=len(d)), "association_bars",
+            f"All saved {method} correlations between municipality characteristics and total life expectancy",
+            f"The direction and strength of each saved {method} association with total life expectancy.",
+            f"{LABELS.get(strongest.other_variable, strongest.other_variable)} has the strongest absolute association: r = {strongest.correlation:+.3f}.",
+            "Bars to the left indicate that higher indicator values tend to occur with lower life expectancy; bars to the right indicate the opposite. Bar length represents association strength, not effect size or causality. Hover for sample size, p-value and the declared false-discovery-rate adjusted q-value.")
         st.caption("Hover for N, p and BH-adjusted q. Q-values use all 136 unique variable pairs separately for each correlation method.")
         with st.expander("Explore the full correlation matrix"):
-            chart(charts.heatmap(b["matrix"]), "correlation_heatmap", "Saved Pearson correlation matrix for all 17 continuous analytic variables")
+            matrix_abs = b["matrix"].abs().mask(np.eye(len(b["matrix"]), dtype=bool))
+            pair_a, pair_b = matrix_abs.stack().idxmax()
+            pair_r = b["matrix"].loc[pair_a, pair_b]
+            chart(charts.heatmap(b["matrix"]), "correlation_heatmap",
+                "Saved Pearson correlation matrix for all 17 continuous analytic variables",
+                "Pairwise Pearson relationships among all continuous indicators; stronger colour and printed cells indicate larger absolute correlations.",
+                f"The strongest off-diagonal relationship is between {LABELS.get(pair_a, pair_a)} and {LABELS.get(pair_b, pair_b)} (r = {pair_r:+.3f}).",
+                "Read across a row to see how one indicator relates to every other indicator. Teal denotes positive and navy negative relationships; pale cells are closer to zero. Correlated predictors overlap statistically, which is why individual adjusted coefficients and VIFs require caution. Correlation does not establish causation.")
             st.caption("Pearson r · pairwise N=94–98. Columns use the row numbers; hover for full indicator names. The three age shares are compositional; life-expectancy outcomes are related.")
         st.subheader("Look at the municipalities behind an association")
         variable = st.selectbox("Municipality characteristic", d.other_variable.tolist(), format_func=lambda c: LABELS.get(c, c), key="scatter_variable")
         row = characteristics(b).set_index("other_variable").loc[variable]
         st.caption(f"Pearson r = {row.correlation:+.3f} · N = {int(row.N)} · global BH q = {row.q_value_BH_all_pairs:.3g}")
-        chart(charts.association_scatter(b, variable), "association_scatter", "Municipality scatterplot with a descriptive line reconstructed from the saved Pearson correlation")
+        direction = "lower" if row.correlation < 0 else "higher"
+        chart(charts.association_scatter(b, variable), "association_scatter",
+            "Municipality scatterplot with a descriptive line reconstructed from the saved Pearson correlation",
+            f"Each point is a municipality, comparing {LABELS.get(variable, variable).lower()} with published life expectancy.",
+            f"Municipalities with higher {LABELS.get(variable, variable).lower()} generally have {direction} life expectancy (Pearson r = {row.correlation:+.3f}, N = {int(row.N)}).",
+            "The solid line is a descriptive guide reconstructed from the saved Pearson correlation; it is not a new fitted inferential model. The dotted reference lines show municipality means. Vertical scatter around the line shows that municipalities with similar indicator values can still have different life expectancy. Hover to identify each municipality.")
         st.caption("The line visualizes the saved Pearson result using the plotted sample’s means and standard deviations. No new inferential model or confidence band is fitted.")
     else:
         section_heading("02", "Considering indicators together", "Compare model fit and conditional estimates. The full set of specified predictors is retained.")
         st.subheader("From simple associations to adjusted models")
         fits = b["fits"].copy()
         fits["Specification"] = fits.model.map(MODEL_LABELS)
-        chart(charts.model_comparison(fits), "model_comparison", "Saved adjusted R squared for Models 1 through 4; combined and expanded models are highlighted without ranking them as best")
+        m1, m3, m4 = (fits.set_index("model").loc[name] for name in ("M1", "M3", "M4"))
+        chart(charts.model_comparison(fits), "model_comparison",
+            "Saved adjusted R squared for Models 1 through 4; combined and expanded models are highlighted without ranking them as best",
+            "Adjusted R² for four prespecified models using the same 94 complete municipalities.",
+            f"Adjusted R² rises from {m1.adjusted_R_squared:.3f} in the socioeconomic model to {m3.adjusted_R_squared:.3f} in the combined model and {m4.adjusted_R_squared:.3f} in the expanded model.",
+            "A taller bar means the model accounts for more observed between-municipality variation after accounting for model size. M1 contains income and education; M2 contains four health behaviours; M3 combines them; M4 adds self-rated and mental health. Better in-sample fit is not proof of causality or future predictive performance.")
         st.markdown("**M1:** income + education · **M2:** four health behaviours · **M3:** M1 + M2 · **M4:** M3 + self-rated and mental health. All use the same 94 complete cases.")
         increment = b["increment"]
         st.markdown(f"Adding health behaviours to the socioeconomic model increased R² by **{increment['delta_R_squared']:.3f}**, with joint HC3 robust **p = {increment['p_value']:.5f}**.")
         st.subheader("The fully adjusted model")
         mode = st.segmented_control("Coefficient scale", ["Standardized beta", "Original units"], default="Standardized beta", key="coefficient_scale")
-        chart(charts.coefficients(b["coefficients"], mode), "model4_coefficients", "All eight Model 4 coefficients with saved 95 percent HC3 confidence intervals")
+        chart(charts.coefficients(b["coefficients"], mode), "model4_coefficients",
+            "All eight Model 4 coefficients with saved 95 percent HC3 confidence intervals",
+            f"Conditional Model 4 estimates on the {(mode or 'Standardized beta').lower()} scale; intervals crossing zero indicate greater uncertainty about direction.",
+            "Income and primary education retain the clearest adjusted associations, while the positive obesity coefficient is a suppression-sensitive conditional estimate and must not be read as protective.",
+            "Each dot is the saved coefficient after holding the other Model 4 indicators constant; the horizontal line is its HC3 robust 95% confidence interval. Distance from zero shows magnitude on the selected scale. These conditional contrasts differ from simple correlations because the predictors overlap substantially.")
         st.caption("Original units: years per DKK 10,000 income or per percentage point for education/health. Hover for robust p-values and q-values across all 20 primary coefficient tests.")
         with st.container(key="obesity_caution"):
             st.markdown("**Interpretation caution.** The positive adjusted obesity coefficient should not be interpreted as protective. Its simple correlation is negative; collinearity and statistical suppression can reverse a conditional coefficient.")
@@ -440,7 +387,14 @@ def explorer():
     if detail not in ("Social conditions", "Model comparison"):
         with st.container():
             st.subheader("A profile, not a score")
-            chart(charts.explorer_profile(b, row), "municipality_profile", "Six health indicators relative to the saved municipality means and standard deviations")
+            scaling = b["scaling"].set_index("variable")
+            profile_z = (row[FEATURES].astype(float) - scaling.loc[FEATURES, "mean"]) / scaling.loc[FEATURES, "SD_ddof0"]
+            furthest = profile_z.abs().idxmax()
+            chart(charts.explorer_profile(b, row), "municipality_profile",
+                "Six health indicators relative to the saved municipality means and standard deviations",
+                f"The selected municipality's six health-profile indicators relative to the 98-municipality mean.",
+                f"{LABELS[furthest]} is furthest from the municipality mean at {profile_z[furthest]:+.2f} standard deviations.",
+                "The vertical zero line is the unweighted municipality mean. Points to the right are above that mean and points to the left are below it; this direction is descriptive and not automatically favourable or unfavourable. The indicators remain separate—no overall score is calculated.")
             st.caption("Uses saved scaling parameters. Each indicator retains its original direction; alcohol does not share the direction of PC1. No combined risk rating is assigned.")
     if detail == "Model comparison":
         section_heading("02", "Observed and model-predicted", "This uses the saved combined Model 3; it is not an evaluation of municipal policy.")
@@ -472,7 +426,16 @@ def expected():
     if view in (None,"Observed vs predicted"):
         section_heading("01", "Observed and predicted values", "Points on the diagonal match the model prediction; points above it have higher observed life expectancy.")
         highlight = st.selectbox("Highlight a municipality", ["None", *sorted(b["master"].municipality.tolist())], key="prediction_highlight")
-        chart(charts.prediction_scatter(b["predictions"], None if highlight == "None" else highlight), "prediction_scatter", "Saved observed and fitted life expectancy with equality line and optional municipality highlight")
+        selected_prediction = b["predictions"].set_index("municipality").loc[highlight] if highlight != "None" else None
+        prediction_finding = (f"{highlight} is {selected_prediction.residual:+.2f} years from its fitted value—"
+                              f"{'higher' if selected_prediction.residual > 0 else 'lower'} than predicted by the included indicators."
+                              if selected_prediction is not None and pd.notna(selected_prediction.residual)
+                              else f"The combined model has in-sample R² = {quality['in_sample_R_squared']:.3f}; remaining vertical distances are municipality residuals.")
+        chart(charts.prediction_scatter(b["predictions"], None if highlight == "None" else highlight), "prediction_scatter",
+            "Saved observed and fitted life expectancy with equality line and optional municipality highlight",
+            "Observed life expectancy against the value fitted by the saved combined Model 3 for 94 municipalities.",
+            prediction_finding,
+            "The diagonal line represents an exact match between observed and predicted values. Points above it have higher life expectancy than predicted by the included indicators; points below it have lower. The vertical distance is the residual. This is an in-sample model diagnostic, not a municipality performance score.")
         if highlight != "None" and b["predictions"].set_index("municipality").loc[highlight, "analysis_status"].startswith("withheld"):
             st.info("This municipality’s life expectancy is withheld. It has no fitted prediction or residual in this analysis.")
     elif view == "Municipality residuals":
@@ -486,10 +449,20 @@ def expected():
                         for item in selected.itertuples():
                             st.markdown(f"**{item.municipality}** · {item.residual:+.2f} years")
         st.caption("Five largest positive and negative saved residuals. These exploratory ranks are not best/worst labels and do not establish statistically unusual performance.")
-        chart(charts.residual_ranking(b["predictions"]), "residual_ranking", "Largest absolute saved municipality residuals, observed minus predicted")
+        highest_residual = available.loc[available.residual.idxmax()]
+        lowest_residual = available.loc[available.residual.idxmin()]
+        chart(charts.residual_ranking(b["predictions"]), "residual_ranking",
+            "Largest absolute saved municipality residuals, observed minus predicted",
+            "The 16 municipalities with the largest absolute differences between observed and Model 3-predicted life expectancy.",
+            f"{highest_residual.municipality} is highest above its fitted value ({highest_residual.residual:+.2f} years), while {lowest_residual.municipality} is furthest below ({lowest_residual.residual:+.2f} years).",
+            "Teal bars are positive residuals and navy bars are negative residuals. Bar length is observed minus predicted life expectancy. The chart intentionally shows the largest absolute residuals to support exploration; it does not label municipalities as best or worst and does not test whether individual residuals are statistically exceptional.")
         fig = px.histogram(available, x="residual", nbins=16, color_discrete_sequence=[charts.TEAL],labels={"residual":"Residual (years)"})
         fig.add_vline(x=0, line_color=charts.BLUE, line_dash="dash")
-        chart(charts.polish(fig, 300, "Observed − predicted (years)", "Municipalities"), "residual_distribution", "Distribution of all 94 saved Model 3 residuals")
+        chart(charts.polish(fig, 300, "Observed − predicted (years)", "Municipalities"), "residual_distribution",
+            "Distribution of all 94 saved Model 3 residuals",
+            "How the 94 observed-minus-predicted differences are distributed around zero.",
+            f"Residuals range from {available.residual.min():+.2f} to {available.residual.max():+.2f} years and are centred around zero by construction of the fitted OLS model.",
+            "Bars count municipalities within residual intervals. A symmetric, compact distribution would indicate errors of similar size on both sides of zero; wider tails show municipalities less closely represented by the included indicators. The distribution reflects in-sample fit and does not include the four withheld outcomes.")
     else:
         section_heading("03", "How well does the model predict?", "In-sample R² describes fit to the observations used to estimate the model. Leave-one-out R² predicts each municipality without using it in the fit.")
         st.markdown(f"**In-sample R²: {quality['in_sample_R_squared']:.3f}** · **Leave-one-out R²: {quality['leave_one_out_R_squared']:.3f}**")
@@ -514,15 +487,29 @@ def health_profiles():
     view = st.segmented_control("Explore", ["Municipality profiles", "PCA explained", "Choosing the profiles"], default="Municipality profiles", key="profiles_view")
     if view == "PCA explained":
         section_heading("02", "What the components represent", "Explained variance describes the six health indicators, not variation in life expectancy. Loadings show the direction and strength of each indicator’s relationship with a component.")
-        chart(charts.scree(b["variance"]), "pca_scree", "Saved explained variance for all six principal components")
+        combined_variance = variance.loc["PC1", "explained_variance_ratio"] + variance.loc["PC2", "explained_variance_ratio"]
+        chart(charts.scree(b["variance"]), "pca_scree",
+            "Saved explained variance for all six principal components",
+            "The share of variation across the six standardized health indicators summarized by each principal component.",
+            f"PC1 explains {variance.loc['PC1','explained_variance_ratio']:.1%} and PC2 {variance.loc['PC2','explained_variance_ratio']:.1%}; together they summarize {combined_variance:.1%}.",
+            "PCA creates components in descending order of explained variance. A taller bar means that component summarizes more of the shared pattern across the six health indicators. Explained variance refers to these indicators—not life expectancy—and does not make PC1 an overall health-risk score.")
         pc = st.segmented_control("Component loadings", ["PC1", "PC2"], default="PC1", key="loading_component")
         loadings = b["loadings"].copy()
-        chart(charts.loading_chart(loadings,pc), "pca_loadings", "Saved component loadings with indicators in their original health-exposure direction")
+        strongest_loading = loadings.loc[loadings[pc].abs().idxmax()]
+        chart(charts.loading_chart(loadings,pc), "pca_loadings",
+            "Saved component loadings with indicators in their original health-exposure direction",
+            f"How strongly and in which direction each health indicator contributes to {pc}.",
+            f"{LABELS[strongest_loading.variable]} has the largest absolute {pc} loading ({strongest_loading[pc]:+.2f}).",
+            "Loadings farther from zero contribute more strongly to the component. Indicators on the same side tend to vary together along that component; opposite signs indicate contrast. The sign of a PCA component can be reversed without changing the solution, so interpretation should focus on the relative pattern. Alcohol behaves differently from several other indicators.")
     elif view == "Choosing the profiles":
         section_heading("03", "Why two profiles?", "The choice follows the saved silhouette comparison. It does not establish natural groups.")
         st.markdown("The analysis evaluated k=2–6, retaining candidate solutions with at least five municipalities per group. Two profiles had the highest average silhouette. The inertia curve is a complementary diagnostic, not evidence of a unique natural partition.")
         fig = px.line(b["cluster_validation"].dropna(subset=["silhouette"]), x="k", y="silhouette", markers=True, color_discrete_sequence=[charts.TEAL],labels={"k":"Number of profiles","silhouette":"Mean silhouette"})
-        chart(charts.polish(fig, 280, "Number of profiles", "Mean silhouette"), "cluster_selection", "Saved silhouette scores for every evaluated cluster count")
+        chart(charts.polish(fig, 280, "Number of profiles", "Mean silhouette"), "cluster_selection",
+            "Saved silhouette scores for every evaluated cluster count",
+            "Average silhouette for each evaluated k, measuring how clearly municipalities separate into the candidate profiles.",
+            f"The selected two-profile solution has the highest saved mean silhouette ({silhouette:.3f}); the modest value indicates overlap rather than sharply separated groups.",
+            "Silhouette ranges from −1 to 1: higher values indicate that municipalities are more similar to their assigned profile than to the nearest alternative. The maximum supports choosing k=2 among the evaluated candidates, but it does not prove that two natural or causal groups exist.")
     else:
         section_heading("01", "Compare the descriptive profiles", "Locate a municipality in the projection, then compare the indicators below. Shapes and colours distinguish profiles.")
         st.subheader("Two descriptive municipality profiles")
@@ -534,10 +521,18 @@ def health_profiles():
         fig = charts.pca_scatter(b["memberships"], None if highlight == "None" else highlight)
         fig.update_xaxes(title=f"PC1 · {100*variance.loc['PC1','explained_variance_ratio']:.1f}%")
         fig.update_yaxes(title=f"PC2 · {100*variance.loc['PC2','explained_variance_ratio']:.1f}%")
-        chart(fig, "cluster_pca", "Municipalities in the saved PCA projection, coloured by their saved two-profile membership")
+        chart(fig, "cluster_pca",
+            "Municipalities in the saved PCA projection, coloured by their saved two-profile membership",
+            "Municipalities projected onto PC1 and PC2, with colour and shape showing the saved two-profile clustering.",
+            f"The profiles contain {int(b['sizes'].iloc[0].N)} and {int(b['sizes'].iloc[1].N)} municipalities and overlap in the two-dimensional projection, consistent with the mean silhouette of {silhouette:.3f}.",
+            "Nearby points have more similar combinations of the six standardized health indicators in this two-component view. PC1 and PC2 summarize most, but not all, of the six-dimensional information used for clustering. The selected municipality is outlined. Profile membership is descriptive and is not an overall health grade.")
         st.caption("All 98 municipalities. Clustering uses all six standardized health indicators, not only these two plotted components.")
         profiles = b["profiles"].set_index("cluster")
-        chart(charts.cluster_comparison(profiles,FEATURES), "cluster_profiles", "Saved standardized mean health indicators for each profile; symbols and colours distinguish profiles")
+        chart(charts.cluster_comparison(profiles,FEATURES), "cluster_profiles",
+            "Saved standardized mean health indicators for each profile; symbols and colours distinguish profiles",
+            "The average standardized value of each health indicator within the two saved profiles.",
+            "Profile 1 is lower on smoking, obesity, inactivity and poorer-health indicators but higher on risky alcohol consumption; Profile 2 shows the opposite relative pattern.",
+            "Zero is the 98-municipality mean for each indicator. Points to the right are above that indicator's mean and points to the left are below it. Because indicators retain their original direction and alcohol differs from the others, the profiles must not be collapsed into a single healthier-versus-less-healthy ranking.")
         st.caption("Alcohol differs from the other indicators. Profiles should not be read as an overall health ranking: these are descriptive profiles, not natural or causal groups.")
     note()
 

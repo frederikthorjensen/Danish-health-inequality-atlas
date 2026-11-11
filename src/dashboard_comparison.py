@@ -7,7 +7,7 @@ import streamlit as st
 from src.dashboard_data import METRICS, LABELS, FEATURES, format_value
 from src.dashboard_charts import polish, TEAL, BLUE, MUTED
 from src.dashboard_views import bundle, header
-from src.dashboard_layout import reading_guide
+from src.dashboard_layout import chart_explanation, reading_guide
 
 PRESETS = {
     'Key indicators': ['life_expectancy_total','disposable_income_mean_dkk','low_education_share_25_64_pct','daily_smoking_pct'],
@@ -133,6 +133,24 @@ def compare_municipalities():
                         # Existing figure wrapper would add a second border inside each comparison card.
                         st.plotly_chart(comparison_figure(table,variable),key=f'comparison_plot_{variable}',theme=None,width='stretch',
                             alt=f'Published {LABELS[variable]} for selected municipalities, with {reference} as the reference',config={'displaylogo':False,'responsive':True})
+                        published = table.loc[table.variable.eq(variable)].dropna(subset=['value'])
+                        if len(published) > 1:
+                            high = published.loc[published.value.idxmax()]
+                            low = published.loc[published.value.idxmin()]
+                            finding = (f'Among the selected municipalities, {high.municipality} has the highest published value '
+                                       f'({format_value(high.value, variable)}) and {low.municipality} the lowest '
+                                       f'({format_value(low.value, variable)}).')
+                        elif len(published) == 1:
+                            only = published.iloc[0]
+                            finding = f'Only {only.municipality} has a published value in this selection: {format_value(only.value, variable)}.'
+                        else:
+                            finding = 'No selected municipality has a published value for this indicator.'
+                        chart_explanation(
+                            f'comparison_{variable}',
+                            f'Published {LABELS[variable].lower()} values for the selected municipalities; the dotted line marks {reference}.',
+                            finding,
+                            'Each municipality is identified by name, colour and shape. Values use the indicator’s original unit, and each chart has its own scale. The dotted reference line supports direct numerical comparison; it does not define a target. Higher or lower values are descriptive and are not automatically better or worse.',
+                        )
                         for row in table.loc[table.variable.eq(variable) & table.municipality.ne(reference)].itertuples():
                             st.markdown(f'**{row.municipality}** · {difference_text(row.difference,variable)} vs {reference}')
                         if table.loc[table.variable.eq(variable),'reference_value'].isna().all():

@@ -76,14 +76,23 @@ class DashboardTests(unittest.TestCase):
         self.assertEqual(app.title[0].value, "Frederik Jensen")
         text = "\n".join(item.value for item in [*app.markdown, *app.caption, *app.header, *app.subheader])
         for phrase in [
-            "Professional Bachelor’s degree in Physiotherapy",
-            "cand.san. / MSc-level degree in Interdisciplinary Health Studies",
+            "Professional Bachelor’s Degree in Physiotherapy",
+            "Master of Science (MSc) in Critical Health Studies",
             "Roskilde University",
-            "SPSS · Jamovi · Excel · SurveyXact",
-            "Capabilities demonstrated in this project",
+            "Narratives of Health Inequality",
+            "Municipal Governance and Strategy for Youth Mental Health",
+            "Factors Associated with Muscle Dysmorphia among Young Men",
+            "Qualitative interviews · coding · document and discourse analysis",
             "No institutional or employer affiliation is claimed",
         ]:
             self.assertIn(phrase, text)
+        self.assertTrue((data.ROOT / "assets/frederik_jensen_profile.png").exists())
+        links = {item.value: item.url for item in app.get("link_button")}
+        self.assertEqual(
+            links["Connect on LinkedIn"],
+            "https://www.linkedin.com/in/frederik-thor-jensen-887839111/",
+        )
+        self.assertEqual(len([item for item in app.expander if item.label == "Read the project description"]), 3)
 
     def test_author_page_is_visible_in_overview_navigation(self):
         app = self.app()
@@ -222,6 +231,45 @@ class DashboardTests(unittest.TestCase):
                     self.assertIn("customdata",template)
         self.assertNotEqual(charts.pca_scatter(b["memberships"],None).data[0].marker.symbol,
                             charts.pca_scatter(b["memberships"],None).data[1].marker.symbol)
+
+    def test_charts_have_summary_findings_and_detailed_explanations(self):
+        app = self.app()
+
+        def assert_story(key):
+            story = app.get_by_key(f"chart_story_{key}")
+            text = "\n".join(item.value for item in story.markdown)
+            self.assertIn("**What it shows**", text)
+            self.assertIn("**Key finding**", text)
+            self.assertIsNotNone(app.get_by_key(f"chart_detail_{key}"))
+
+        for page, keys in [
+            ("inequalities", ["inequality_ranked"]),
+            ("explanation", ["association_bars", "correlation_heatmap", "association_scatter"]),
+            ("explorer", ["municipality_profile"]),
+            ("expected", ["prediction_scatter"]),
+            ("profiles", ["cluster_pca", "cluster_profiles"]),
+        ]:
+            app.switch_page(f"app_pages/{page}.py").run()
+            self.assertFalse(app.exception)
+            for key in keys:
+                assert_story(key)
+
+        app.switch_page("app_pages/explanation.py").run()
+        app.get_by_key("explanation_view").set_value("Adjusted models").run()
+        for key in ["model_comparison", "model4_coefficients"]:
+            assert_story(key)
+
+        app.switch_page("app_pages/expected.py").run()
+        app.get_by_key("expected_view").set_value("Municipality residuals").run()
+        for key in ["residual_ranking", "residual_distribution"]:
+            assert_story(key)
+
+        app.switch_page("app_pages/profiles.py").run()
+        app.get_by_key("profiles_view").set_value("PCA explained").run()
+        for key in ["pca_scree", "pca_loadings"]:
+            assert_story(key)
+        app.get_by_key("profiles_view").set_value("Choosing the profiles").run()
+        assert_story("cluster_selection")
 
     def test_text_palette_meets_normal_text_contrast(self):
         def luminance(colour):
