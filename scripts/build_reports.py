@@ -232,7 +232,7 @@ def _set_pdf_metadata(path, lang):
         '/Keywords':meta['keywords'], '/Creator':'Danish Health Inequality Atlas publication build',
     })
     for index,title in enumerate(_section_titles(lang)):
-        writer.add_outline_item(title,index)
+        writer.add_outline_item(title=title, page_number=index)
     temporary=path.with_suffix('.metadata.pdf')
     with temporary.open('wb') as stream:writer.write(stream)
     temporary.replace(path)
