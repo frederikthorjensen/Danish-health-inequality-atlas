@@ -54,6 +54,7 @@ with st.sidebar:
         st.badge("Validated snapshot", icon=":material/verified:", color="green")
         st.caption("Life expectancy **2021–2025**  \nSocioeconomic data **2024**  \nHealth profile **2025**")
         st.caption("Official Danish public data  \nAssociations, not causal effects")
+        st.caption("Publication **v2.0 · 12 Nov 2026**")
 with st.container(key="atlas_page"):
     if page.url_path:
         with st.container(key="document_breadcrumb",horizontal=True,gap="small"):
@@ -63,6 +64,6 @@ with st.container(key="atlas_page"):
     reading_navigation(pages,page)
     with st.container(key="site_footer",gap="xsmall"):
         with st.container(horizontal=True,horizontal_alignment="distribute"):
-            st.caption("© 2026 Frederik Jensen")
+            st.caption("© 2026 Frederik Jensen · Version 2.0")
             st.caption("Danish Health & Life Expectancy")
         st.caption("Independent public-health portfolio · Official Danish public data · Validated analysis snapshot")

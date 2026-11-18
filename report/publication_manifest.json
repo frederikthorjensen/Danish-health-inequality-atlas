@@ -1,34 +1,44 @@
 {
-  "created_at_utc": "2026-11-10T08:41:57.109887+00:00",
+  "created_at_utc": "2026-11-12T10:36:37.470811+00:00",
   "analysis_manifest_sha256": "75d50669b9064162ab712ee3aa3a5019ff4fe0ef4ce64cc64c0725bc6b18acff",
   "analysis_input_sha256": "af6f73d32a90089d27fc03f7e286540fb11fbe48a835d1afa35217e7aa8c8c78",
   "reports": [
     {
       "language": "en",
       "file": "Danish_Health_Life_Expectancy_Report_EN.pdf",
-      "pages": 18,
-      "sha256": "8ca02848667d1cf3a882209448482eae8a766a624a97dc7ec485ff6967269cf7",
-      "markdown_sha256": "497f476a9efad4c36c4428916be9669ea671c9f0869dadf8b3bf35c33efa9cbd"
+      "pages": 19,
+      "sha256": "0f9bf5a909b7033e33175a18e1c52af6b6e019c03520a1e77da290baa6c02640",
+      "markdown_sha256": "c9fe3492b06829490ec571adbacbae87d2fdee31abda7a0b6ed9f8ba9ead45ad"
     },
     {
       "language": "da",
       "file": "Sundhed_og_Middellevetid_i_Danmark_Rapport_DA.pdf",
-      "pages": 18,
-      "sha256": "22895158ec39fa5d8f844c94925182d5ea20965af1cc59eb44450e1e28892be2",
-      "markdown_sha256": "9db33678aaa23d24f1ad1d7aa48571a90dfc69c565ec12a7287951e1d1534d48"
+      "pages": 19,
+      "sha256": "73b7a496e02caaf142d8b25203ff2a379c0ecc5fa55c3eb98280bc47edf022df",
+      "markdown_sha256": "4a2fa25063f6148482512e54edd5e311682ed7b940e70cafa298c73727738ca9"
     }
   ],
   "figure_sources": {
-    "figures/variation.png": "7432a12121454623f5c7fd529b84c2a279ede550fd448fa1a1e2935c3682e7e4",
-    "figures/correlations.png": "c576446629d6c6e89988642571afc614621e623217ab30e2b183dafe941cc293",
-    "figures/associations.png": "c921e0396cdc4ddb11d20c4e62544a3a34acc07772d036ce229f40f73e368503",
-    "figures/models.png": "99958df30ff90e83007e3fddf9ecd1d462e61c954435fa47e523e9be3b157326",
-    "../outputs/figures/model4_coefficients.png": "8814531b060929c6faf465b764b8fb97d7a1f29889af918dde3194250e9e3e7d",
-    "../outputs/figures/observed_vs_predicted.png": "40bd77b818ab1a5d52275fe151e316a0278614151dcd87341704395c0b2c6641",
-    "../outputs/figures/prediction_residual_ranking.png": "03bbe6424b0d48ebad518d460b1c6c391f0d8d5fbc7b033d7b566015df0d213f",
-    "../outputs/figures/pca_scree.png": "e4dcf8cb868e18e719bb64047c7dfd0e89f5eee3ac4f1a06d7f85ecfb6bed4f4",
-    "figures/loadings.png": "338c706ac5c38ab5f23e9db005be4de7080894ad446a92ed194674380a975561",
-    "figures/profiles.png": "62d25662b9bb453319464729a59f3bffbe1e8d6601660d4ba7b026e8863b2fd3"
+    "figures/en/variation.png": "a527b561d2f78f91abcfe96241c18b115dbe7072a6825b09ac9bded4c97838ea",
+    "figures/en/correlations.png": "b2f892f12ec5960bc7b790b0585a6026b9393680a948150b6e407cd9b8a6c186",
+    "figures/en/associations.png": "1beb4114920b99dedf10b759434945cbc676c9c62317a9f3952f3dd6c17be0b1",
+    "figures/en/models.png": "c1be7f8e80dd1e2066506438ae0622281e4f71faa7c2ed13ad38a875a36fe8ba",
+    "figures/en/coefficients.png": "90243afe81230c8b54e8d7cf6b8716afd346c267600d0424be86a03a83fbedc3",
+    "figures/en/predictions.png": "9228d29c585d591f11cac5dfe2109d926724f36ddcefe8bb28aac3473a197056",
+    "figures/en/residuals.png": "f0a45f252969282f90101d0775032532e3bb1249c8e836c88a8e305c49698175",
+    "figures/en/scree.png": "163fc8b8b54ca81ba32c64682b84f935b5ef0f2adec5f53f7c1f1635f6af0769",
+    "figures/en/loadings.png": "f8e3e7da90ca3bfbd90eefe0f8ec8139e21f901deb1982d05f0e85ab1b989ab4",
+    "figures/en/profiles.png": "a7bb86e06b1979a750942f1eb4bcb3e6d7a88e877ecbd1185ddf2b4dee29faab",
+    "figures/da/variation.png": "6e8bda3cb5233fd3936298df1f59eac97c1fcdf14978d1f52c4b2f3d1160614f",
+    "figures/da/correlations.png": "28e1e27996b1e94d3c23192a7d1a902c4c67be594a6593262d32ce183b5cb912",
+    "figures/da/associations.png": "097cfb35d659552e03b32f3fe2cfa02051d42b20fabbb99d529ddc62a4372e73",
+    "figures/da/models.png": "95d6a190948f2ffa22e20c94fb81efb9734446080b88120442b5a87d54a12aa4",
+    "figures/da/coefficients.png": "25a1b143f04e7942d5b8efd49cb2ac5c3f69b8132d7c91004f1a1829e3e920d8",
+    "figures/da/predictions.png": "2ad0f02104d3446537af9c3d0a78f95e266dec36c6b34b84f682c2798914d8ab",
+    "figures/da/residuals.png": "9a4067add54d543fc3e5930317ccdd2bb49f6e97f879653d98588248e9c9e531",
+    "figures/da/scree.png": "a53b07328c852674cc8f274900a2a38a0337b48aab0c27265e30e8e4c9e8499b",
+    "figures/da/loadings.png": "ea0b8c4e74004633c623a9b9d0b522ca7f0650d85bb31a0947eacb9a5d458511",
+    "figures/da/profiles.png": "f8f8f26e1e304d40f51af3c8a8b24bdaf6fc5e54991869242da7258173f0e218"
   },
   "facts": {
     "en": {

@@ -1,5 +1,6 @@
 """Presentation changes must preserve published values, uncertainty and missingness."""
 import unittest
+from collections import Counter
 import numpy as np
 from src import dashboard_charts as charts
 from src.dashboard_data import load_dashboard, characteristics, METRICS, FEATURES
@@ -17,8 +18,11 @@ class PresentationIntegrityTests(unittest.TestCase):
             for selection,expected in [('Lowest 20',source.head(20)),('Highest 20',source.tail(20)),('All published',source)]:
                 with self.subTest(variable=variable,view=selection):
                     fig=charts.ranked(self.b['master'],variable,selection)
-                    np.testing.assert_array_equal(fig.data[0].x,expected[variable])
-                    self.assertEqual(list(fig.data[0].y),expected.municipality.tolist())
+                    # Trace 0 draws the lollipop stems; trace 1 contains the
+                    # published observations and their municipality labels.
+                    observed=Counter(zip(fig.data[1].y,fig.data[1].x,strict=True))
+                    published=Counter(zip(expected.municipality,expected[variable],strict=True))
+                    self.assertEqual(observed,published)
                     median=float(source[variable].median())
                     self.assertEqual(fig.layout.shapes[0].x0,median)
 
@@ -26,11 +30,12 @@ class PresentationIntegrityTests(unittest.TestCase):
         for method in ['Pearson','Spearman']:
             source=characteristics(self.b,method)
             fig=charts.correlation_bars(source,limit=len(source))
-            np.testing.assert_allclose(fig.data[0].x,source.correlation)
-            np.testing.assert_allclose(np.asarray(fig.data[0].customdata,dtype=float),source[['N','p_value','q_value_BH_all_pairs']])
+            expected=source.sort_values('correlation',key=abs,ascending=False)
+            np.testing.assert_allclose(fig.data[0].x,expected.correlation)
+            np.testing.assert_allclose(np.asarray(fig.data[0].customdata,dtype=float),expected[['N','p_value','q_value_BH_all_pairs']])
             self.assertEqual(fig.layout.xaxis.range[0],-fig.layout.xaxis.range[1])
-            for label,variable in zip(fig.data[0].y,source.other_variable,strict=True):
-                self.assertEqual(label.replace('<br>',' '),charts.LABELS[variable])
+            for label,variable in zip(fig.data[0].y,expected.other_variable,strict=True):
+                self.assertEqual(label.replace('<br>',' '),charts.CHART_LABELS[variable])
 
     def test_both_forest_scales_keep_saved_estimates_and_hc3_intervals(self):
         source=self.b['coefficients'].loc[lambda d:d.model.eq('M4') & d.term.ne('const')].iloc[::-1]
@@ -44,17 +49,17 @@ class PresentationIntegrityTests(unittest.TestCase):
         row=self.b['master'].set_index('municipality').loc['Odder']
         scaling=self.b['scaling'].set_index('variable')
         source=(row[scaling.index].astype(float)-scaling['mean'])/scaling.SD_ddof0
-        np.testing.assert_allclose(charts.explorer_profile(self.b,row).data[0].x,source)
+        np.testing.assert_allclose(charts.explorer_profile(self.b,row).data[1].x,source)
         profiles=self.b['profiles'].set_index('cluster')
         fig=charts.cluster_comparison(profiles,FEATURES)
-        for trace,(_,profile) in zip(fig.data,profiles.iterrows(),strict=True):
+        for trace,(_,profile) in zip(fig.data[1:],profiles.iterrows(),strict=True):
             np.testing.assert_allclose(trace.x,profile[FEATURES])
         self.assertGreater(profiles.loc[1,'risky_alcohol_pct'],0)
         self.assertLess(profiles.loc[1,'daily_smoking_pct'],0)
 
     def test_residuals_keep_largest_absolute_saved_values(self):
         source=self.b['predictions'].dropna(subset=['residual'])
-        expected=source.loc[source.residual.abs().sort_values(ascending=False,kind='stable').head(16).index]
+        expected=source.loc[source.residual.abs().sort_values(ascending=False,kind='stable').head(16).index].sort_values('residual')
         trace=charts.residual_ranking(self.b['predictions']).data[0]
         np.testing.assert_allclose(trace.x,expected.residual)
         self.assertEqual(list(trace.y),expected.municipality.tolist())
@@ -68,12 +73,14 @@ class PresentationIntegrityTests(unittest.TestCase):
                 expected=table.loc[table.variable.eq(variable)]
                 self.assertEqual(len(points),len(names))
                 for trace,row in zip(points,expected.itertuples(),strict=True):
-                    self.assertEqual(trace.x[0],row.value)
+                    self.assertEqual(trace.x[0],row.municipality)
+                    self.assertEqual(trace.y[0],row.value)
                     self.assertEqual(trace.customdata[0][1],names[-1])
         # A tied dumbbell is still two observations, not a fabricated difference.
         table=comparison_table(self.b['master'],['København','Aarhus'],['daily_smoking_pct'],'København')
         table['value']=10.0; table['reference_value']=10.0; table['difference']=0.0
         fig=comparison_figure(table,'daily_smoking_pct')
-        self.assertEqual([t.x[0] for t in fig.data[:2]],[10.,10.])
-        self.assertLess(fig.layout.xaxis.range[0],10.)
-        self.assertGreater(fig.layout.xaxis.range[1],10.)
+        points=[trace for trace in fig.data if trace.mode=='markers+text']
+        self.assertEqual([t.y[0] for t in points],[10.,10.])
+        self.assertLess(fig.layout.yaxis.range[0],10.)
+        self.assertGreater(fig.layout.yaxis.range[1],10.)

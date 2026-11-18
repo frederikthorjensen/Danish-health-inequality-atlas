@@ -36,15 +36,16 @@ class ReportTests(unittest.TestCase):
         figures=[]
         tables=[]
         for lang,source in self.sources.items():
-            self.assertEqual(len(source.split('<!-- page -->')),19)
+            self.assertEqual(len(source.split('<!-- page -->')),20)
             refs=re.findall(r'!\[[^\]]*\]\(([^)]+)\)',source)
             self.assertEqual(len(refs),10)
+            self.assertTrue(all(ref.startswith(f'figures/{lang}/') for ref in refs))
             figures.append(refs)
-            # Source description table has localized prose. All seven analytical tables share exact numbers.
+            # TOC and source-description tables are localized. Seven analytical tables share exact numbers.
             blocks=re.findall(r'(?:^\|.*\n)+',source,re.M)
-            self.assertEqual(len(blocks),8)
+            self.assertEqual(len(blocks),9)
             numeric=[]
-            for table in blocks[1:]:
+            for table in blocks[2:]:
                 rows=[]
                 for line in table.splitlines()[2:]:
                     cells=[v.strip() for v in line.strip('|').split('|')[1:]]
@@ -60,7 +61,8 @@ class ReportTests(unittest.TestCase):
                 self.assertEqual(len(re.findall(rf'\*\*{word} {i}\.',source)),1)
             for name in ['Ærø','Fanø','Samsø','Læsø']:
                 self.assertIn(name,source)
-        self.assertEqual(figures[0],figures[1])
+        self.assertEqual([Path(ref).name for ref in figures[0]],[Path(ref).name for ref in figures[1]])
+        self.assertNotEqual(figures[0],figures[1])
         self.assertEqual(tables[0],tables[1])
 
     def test_prose_headlines_match_saved_details(self):
@@ -103,7 +105,7 @@ class ReportTests(unittest.TestCase):
             if metadata is None:raise AssertionError('PDF metadata missing')
             self.assertEqual(metadata.author,'Frederik Jensen')
             self.assertEqual(metadata.title,
-                'Danish Health & Life Expectancy' if lang=='en' else 'Sundhed og middellevetid i Danmark')
+                'Danish Health Inequality Atlas' if lang=='en' else 'Dansk Atlas over Ulighed i Sundhed')
             self.assertEqual(len(pdf.outline),len(sections))
             root=cast(DictionaryObject,pdf.trailer['/Root'].get_object())
             mark_info=cast(DictionaryObject,root['/MarkInfo'].get_object())
@@ -111,8 +113,14 @@ class ReportTests(unittest.TestCase):
             text='\n'.join(p.extract_text() for p in pdf.pages)
             for term in ['Frederik Jensen','0.751','0.706','0.324','0.00097','81.6']:
                 self.assertIn(term,text)
-            self.assertIn('Version 1.1',text)
-            self.assertEqual(len(re.findall(r'(?:Figure|Figur) \d+\.',text)),10)
+            self.assertIn('Version 2.0',text)
+            contents=pdf.pages[1].extract_text()
+            self.assertIn('03',contents)
+            self.assertIn('19',contents)
+            self.assertEqual(len(pdf.pages[1].get('/Annots',[])),17)
+            figure_word='Figure' if lang=='en' else 'Figur'
+            for number in range(1,11):
+                self.assertRegex(text,rf'{figure_word}\s+{number}\s*\.')
 
     def test_report_navigation_and_separate_readers(self):
         app=AppTest.from_file(str(ROOT/'app.py'),default_timeout=30).run()

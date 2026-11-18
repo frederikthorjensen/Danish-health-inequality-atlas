@@ -225,7 +225,7 @@ p:has(> strong:first-child) { break-after: avoid; }
 .cover-monogram {
   display: inline-grid;
   place-items: center;
-  width: 10mm;
+  width: 12mm;
   height: 10mm;
   color: white;
   background: var(--teal);
@@ -233,6 +233,27 @@ p:has(> strong:first-child) { break-after: avoid; }
   font-size: 7pt;
   letter-spacing: .04em;
 }
+
+/* A true publication contents page with aligned, clickable folios. */
+.toc h2 { margin-bottom: 4mm; }
+.toc-intro { max-width: 132mm; color: var(--muted); margin-bottom: 8mm; }
+.toc-list { display: grid; gap: 0; }
+.toc-entry {
+  display: grid;
+  grid-template-columns: auto 1fr 9mm;
+  align-items: baseline;
+  gap: 2.2mm;
+  min-height: 8.8mm;
+  padding: 1.8mm 0 1.5mm;
+  border: 0;
+  border-bottom: .22mm solid var(--line);
+  color: var(--ink);
+  text-decoration: none;
+  break-inside: avoid;
+}
+.toc-entry span { font-weight: 600; }
+.toc-entry i { border-bottom: .25mm dotted #a9bac2; transform: translateY(-1.1mm); }
+.toc-entry strong { color: var(--teal); text-align: right; font-size: 8.5pt; }
 .cover main > p:first-of-type { display: none; }
 .cover h1 { margin-top: 12mm; max-width: 145mm; }
 .cover h3 {
@@ -269,10 +290,10 @@ p:has(> strong:first-child) { break-after: avoid; }
 /* Dense result spreads receive slightly tighter figure bounds, not smaller body text. */
 img[alt^="Figure 10."], img[alt^="Figur 10."] { max-height: 105mm; }
 img[alt^="Figure 5."], img[alt^="Figur 5."] { max-height: 79mm; }
-.page-10 img, .page-11 img { max-height: 58mm; }
-.page-7 { font-size: 9.35pt; line-height: 1.43; }
-.page-7 p:has(> img) { margin: 3mm 0 1.5mm; padding: 1.5mm; }
-.page-7 img { max-height: 59mm; }
+.page-11 img, .page-12 img { max-height: 58mm; }
+.page-8 { font-size: 9.35pt; line-height: 1.43; }
+.page-8 p:has(> img) { margin: 3mm 0 1.5mm; padding: 1.5mm; }
+.page-8 img { max-height: 59mm; }
 
 @media screen {
   .sheet { margin: 18px auto; box-shadow: 0 8px 28px #102a3a14; }

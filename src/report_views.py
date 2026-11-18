@@ -7,13 +7,13 @@ import streamlit as st
 
 from src.reporting import ROOT, REPORT, PDF_NAMES, sha
 
-TITLES = {'en': 'Danish Health & Life Expectancy', 'da': 'Sundhed og middellevetid i Danmark'}
+TITLES = {'en': 'Danish Health Inequality Atlas', 'da': 'Dansk Atlas over Ulighed i Sundhed'}
 SUBTITLES = {
     'en': 'Geographical differences in health, socioeconomic conditions and life expectancy across Danish municipalities',
     'da': 'Geografiske forskelle i sundhed, socioøkonomiske forhold og middellevetid på tværs af danske kommuner',
 }
 EDITION = {'en': 'English edition', 'da': 'Dansk udgave'}
-VERSION = {'en': 'Version 1.1 · 10 November 2026', 'da': 'Version 1.1 · 10. november 2026'}
+VERSION = {'en': 'Version 2.0 · 12 November 2026', 'da': 'Version 2.0 · 12. november 2026'}
 
 
 def publication(lang):
@@ -42,11 +42,13 @@ def download(lang, key):
 
 def report_home():
     st.caption('BILINGUAL ANALYTICAL PUBLICATION')
-    st.title('Danish Health & Life Expectancy')
-    st.markdown('### Read the full analytical report')
-    st.markdown('A publication-ready account of the data, methods, results and limitations. Choose a language to read online or download the designed PDF.')
+    st.title('Publication library')
+    st.markdown('Read the complete municipality health analysis online or download either designed PDF edition. Both editions use the same validated result snapshot.')
+    records={lang:publication(lang) for lang in PDF_NAMES}
+    sections=len(records['en'][2])
     with st.container(horizontal=True,key='report_facts'):
-        st.metric('Report sections','18')
+        st.metric('Pages per edition',records['en'][0]['pages'])
+        st.metric('Online sections',sections)
         st.metric('Figures','10')
         st.metric('Analytical tables','8')
     with st.grid(2,min_column_width=330,gap='medium') as grid:
@@ -57,7 +59,7 @@ def report_home():
                     st.subheader(heading)
                     st.markdown(f'**{TITLES[lang]}**')
                     st.markdown(SUBTITLES[lang])
-                    st.caption(f'{VERSION[lang]} · 18 sections · 10 figures')
+                    st.caption(f"{VERSION[lang]} · {records[lang][0]['pages']} pages · 10 figures")
                     st.space('stretch')
                     st.page_link(f'app_pages/report_{lang}.py',label=button,width='stretch',icon=':material/menu_book:')
                     download(lang,f'report_download_{lang}')
@@ -65,10 +67,7 @@ def report_home():
         st.caption('PUBLICATION STANDARD')
         st.markdown('Both editions contain equivalent analytical content and use the same checksum-verified result snapshot. They distinguish descriptive patterns, adjusted associations and exploratory profiles; retain nonsignificant results; and state the methodological cautions alongside the findings.')
         st.page_link('app_pages/methods.py',label='Review methods & limitations',icon=':material/fact_check:')
-    with st.expander('Author qualification wording in this publication'):
-        st.markdown('The current qualification is **Master of Science (MSc) in Critical Health Studies, Roskilde University, completed 2025**. Version 1.1 of the archived reports retains an earlier English degree wording. The published PDFs and their analytical content have been preserved.')
-        st.page_link('app_pages/author.py', label='Read the current author profile')
-    st.caption('Frederik Jensen · Independent public-health data analysis and portfolio project · Version 1.1 · 10 November 2026')
+    st.caption('Frederik Jensen · Independent public-health analysis and portfolio project · Version 2.0 · 12 November 2026')
 
 
 def section_title(section, index, lang):

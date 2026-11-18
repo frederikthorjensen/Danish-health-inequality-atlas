@@ -4,11 +4,10 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
-from src.dashboard_data import METRICS, LABELS, FEATURES, format_value
-from src.dashboard_charts import polish, TEAL, BLUE, MUTED
-from textwrap import wrap
+from src.dashboard_data import METRICS, LABELS, FEATURES, format_difference, format_value, semantic_badge_colour, semantic_state
+from src.dashboard_charts import polish, TEAL, BLUE, MUTED, NEUTRAL_LINE, REFERENCE_LINE, MARKER_SIZE
 from src.dashboard_views import bundle, header
-from src.dashboard_layout import chart_explanation, reading_guide
+from src.dashboard_layout import reading_guide
 
 PRESETS = {
     'Key indicators': ['life_expectancy_total','disposable_income_mean_dkk','low_education_share_25_64_pct','daily_smoking_pct'],
@@ -16,8 +15,7 @@ PRESETS = {
     'Health & behaviour': FEATURES,
     'Social conditions': ['disposable_income_mean_dkk','low_education_share_25_64_pct','population','age_0_17_share_pct','age_18_64_share_pct','age_65_plus_share_pct'],
 }
-COLOURS = [TEAL,'#6D6385',MUTED]
-SYMBOLS = ['circle','square','triangle-up']
+COLOURS = [TEAL,BLUE,'#6D6385',MUTED]
 
 
 def comparison_table(master, names, variables, reference):
@@ -44,62 +42,51 @@ def comparison_table(master, names, variables, reference):
 
 
 def difference_text(value, variable):
-    if pd.isna(value):
-        return 'Difference unavailable'
-    unit=METRICS[variable][1]
-    decimals=0 if unit in ('DKK','people') else 1
-    suffix='pp' if unit=='%' else unit
-    displayed=round(float(value),decimals)
-    if displayed==0:displayed=0.0
-    return f'{displayed:+,.{decimals}f} {suffix}'
+    return format_difference(value,variable)
 
 
 def comparison_figure(table, variable):
-    """Two-place dumbbell, or compact named dot rows; no scale mixing or imputation."""
+    """Vertical comparison: category positions on x and published values on y."""
     d=table.loc[table.variable.eq(variable)]
     reference=d.reference_municipality.iloc[0]
     ref=d.reference_value.iloc[0]
-    unit=METRICS[variable][1]
-    two=len(d)==2
-    observed=d.value.dropna()
     fig=go.Figure()
+    unit=METRICS[variable][1]
+    published=d.dropna(subset=['value'])
+    if len(d)==2 and len(published)==2:
+        fig.add_trace(go.Scatter(x=published.municipality,y=published.value,mode='lines',
+            line=dict(color=NEUTRAL_LINE,width=2),hoverinfo='skip',showlegend=False))
     for i,row in enumerate(d.itertuples()):
-        is_reference=row.municipality==reference
-        label="<br>".join(wrap(row.municipality,18,break_long_words=False))
-        if is_reference:
-            label+="<br>(reference)"
-        other_index=0 if is_reference else [n for n in d.municipality if n!=reference].index(row.municipality)
-        colour=BLUE if is_reference else COLOURS[other_index]
         if pd.notna(row.value):
-            value=format_value(row.value,variable)
-            fig.add_trace(go.Scatter(x=[row.value],y=[0 if two else label],name=row.municipality,
-                mode='markers' if two else 'markers+text',
-                text=None if two else [value],textposition='middle right',cliponaxis=False,
-                marker=dict(color=colour,symbol='diamond' if is_reference else SYMBOLS[other_index],size=12,line=dict(color='white',width=1)),
-                customdata=[[value,reference,difference_text(row.difference,variable),row.period]],
+            is_reference=row.municipality==reference
+            fig.add_trace(go.Scatter(x=[row.municipality],y=[row.value],mode='markers+text',showlegend=False,
+                marker=dict(color=TEAL if is_reference else COLOURS[(i+1)%4],
+                            symbol='diamond' if is_reference else 'circle',size=MARKER_SIZE+2 if is_reference else MARKER_SIZE,
+                            line=dict(color='white',width=1.5)),
+                text=[format_value(row.value,variable)],textposition='top center',
+                cliponaxis=False,
+                customdata=[[format_value(row.value,variable),reference,difference_text(row.difference,variable),row.period]],
                 hovertemplate=f'<b>{row.municipality}</b><br>{LABELS[variable]}: %{{customdata[0]}}<br>Difference from %{{customdata[1]}}: %{{customdata[2]}}<br>Period: %{{customdata[3]}}<extra></extra>'))
-            if two:
-                fig.add_annotation(x=row.value,y=0,text=f'{label}<br><b>{value}</b>',showarrow=False,
-                    yshift=14 if i==0 else -14,yanchor='bottom' if i==0 else 'top',font=dict(size=12,color=colour))
         else:
-            fig.add_annotation(x=.5,xref='paper',y=.9-i*1.8 if two else label,
-                text=f'{label}: Not published' if two else 'Not published',showarrow=False,font=dict(size=12,color=MUTED))
-    if two and len(observed)==2:
-        fig.add_trace(go.Scatter(x=observed.tolist(),y=[0,0],mode='lines',line=dict(color='#9EB0BC',width=3),hoverinfo='skip',showlegend=False))
-    elif not two and pd.notna(ref):
-        fig.add_vline(x=float(ref),line_color=MUTED,line_dash='dot',line_width=1)
-    polish(fig,210 if two else len(d)*60+85,unit,None)
-    fig.update_layout(showlegend=False,margin=dict(l=8 if two else 155,r=20,t=20,b=35))
+            fig.add_annotation(x=row.municipality,xref='x',y=.5,yref='paper',text='Not published',showarrow=False,
+                               font=dict(size=12,color=MUTED))
+    observed=d.value.dropna()
     if len(observed):
-        span=max(float(observed.max()-observed.min()),abs(float(observed.mean()))*.02,.1)
-        fig.update_xaxes(range=[float(observed.min())-span*.65,float(observed.max())+span*.85],nticks=3,
-                         tickformat=',.0f' if unit in ('DKK','people') else '.1f')
+        span=max(float(observed.max()-observed.min()),abs(float(observed.mean()))*.035,.1)
+        lower=float(observed.min())-span*.30
+        upper=float(observed.max())+span*.38
+        if variable!='life_expectancy_sex_gap': lower=max(0,lower)
+        fig.update_yaxes(range=[lower,upper])
     else:
-        fig.update_xaxes(visible=False)
-    if two:
-        fig.update_yaxes(visible=False,range=[-1.2,1.2],fixedrange=True)
-    else:
-        fig.update_yaxes(type='category',autorange='reversed',showgrid=False)
+        fig.update_yaxes(visible=False)
+    polish(fig,300,None,f'{LABELS[variable]} ({unit})')
+    fig.update_layout(showlegend=False,margin=dict(l=72,r=28,t=42,b=68))
+    fig.update_xaxes(type='category',categoryorder='array',categoryarray=d.municipality.tolist(),showgrid=False,
+                     tickfont=dict(size=12,color=MUTED),tickangle=0)
+    fig.update_yaxes(nticks=4,tickformat=',.0f' if unit in ('DKK','people') else '.1f',gridcolor='rgba(167,184,193,.22)')
+    if pd.notna(ref):
+        fig.add_annotation(x=reference,xref='x',y=1.02,yref='paper',text='Reference',showarrow=False,
+                           yanchor='bottom',font=dict(size=10,color=REFERENCE_LINE))
     return fig
 
 
@@ -112,7 +99,7 @@ def apply_preset():
 def compare_municipalities():
     b=bundle()
     header('Places side by side','Compare municipalities','Choose the places and factors that interest you. See published values and the differences from a reference municipality.')
-    reading_guide('Select two to four municipalities, then choose up to six indicators. A navy diamond identifies your reference municipality; a dotted line marks its value in comparisons of three or four places. Differences are numerical comparisons, not rankings of health or municipal performance.')
+    reading_guide('Select two to four municipalities, then choose up to six indicators. The dotted line marks your reference municipality. Differences are numerical comparisons, not rankings of health or municipal performance.')
     names=sorted(b['master'].municipality.tolist())
     with st.container(border=True,key='comparison_controls',gap='medium'):
         if 'comparison_municipalities' not in st.session_state:
@@ -142,7 +129,7 @@ def compare_municipalities():
     if not missing.empty:
         st.info('Some selected estimates are not published: '+ '; '.join(f'{r.municipality} — {r.indicator}' for r in missing.itertuples())+'. These remain missing; no values or differences are imputed.')
     if view!='Table':
-        with st.grid(2,min_column_width=440,gap='medium') as grid:
+        with st.grid(2,min_column_width=420,gap='medium') as grid:
             for variable in variables:
                 with grid.cell():
                     with st.container(border=True,height='stretch',key=f'comparison_factor_{variable}',gap='small'):
@@ -151,32 +138,21 @@ def compare_municipalities():
                         # Existing figure wrapper would add a second border inside each comparison card.
                         st.plotly_chart(comparison_figure(table,variable),key=f'comparison_plot_{variable}',theme=None,width='stretch',
                             alt=f'Published {LABELS[variable]} for selected municipalities, with {reference} as the reference',config={'displaylogo':False,'responsive':True})
-                        published = table.loc[table.variable.eq(variable)].dropna(subset=['value'])
-                        if len(selected)==2 and len(published)==2:
-                            other=published.loc[published.municipality.ne(reference)].iloc[0]
-                            finding=f'{other.municipality}: {difference_text(other.difference,variable)} relative to {reference}.'
-                        elif len(published) > 1:
-                            high = published.loc[published.value.idxmax()]
-                            low = published.loc[published.value.idxmin()]
-                            finding = (f'Among the selected municipalities, {high.municipality} has the highest published value '
-                                       f'({format_value(high.value, variable)}) and {low.municipality} the lowest '
-                                       f'({format_value(low.value, variable)}).')
-                        elif len(published) == 1:
-                            only = published.iloc[0]
-                            finding = f'Only {only.municipality} has a published value in this selection: {format_value(only.value, variable)}.'
-                        else:
-                            finding = 'No selected municipality has a published value for this indicator.'
-                        chart_explanation(
-                            f'comparison_{variable}',
-                            f'Published {LABELS[variable].lower()} values for the selected municipalities; the navy diamond identifies {reference} as the reference.',
-                            finding,
-                            'Each municipality is identified by name, colour and shape. Values use the indicator’s original unit, and each chart has its own scale. The connecting line in a two-place comparison shows the numerical gap; a dotted reference line is used for three or four places. Neither defines a target. Higher or lower values are descriptive and are not automatically better or worse.',
-                        )
-                        if len(selected)>2:
-                            for row in table.loc[table.variable.eq(variable) & table.municipality.ne(reference)].itertuples():
-                                st.caption(f'{row.municipality}: {difference_text(row.difference,variable)} vs {reference}')
+                        for row in table.loc[table.variable.eq(variable) & table.municipality.ne(reference)].itertuples():
+                            with st.container(horizontal=True,gap='small',vertical_alignment='center',key=f'comparison_delta_{variable}_{row.municipality}'):
+                                st.markdown(f'**{row.municipality}**')
+                                st.badge(f'{difference_text(row.difference,variable)} vs {reference}',
+                                    color=semantic_badge_colour(variable,row.difference),
+                                    help=f'{semantic_state(variable,row.difference).capitalize()} benchmark difference. The signed value is {row.municipality} minus {reference}.')
                         if table.loc[table.variable.eq(variable),'reference_value'].isna().all():
                             st.caption('Reference estimate not published. The other published values are shown, but differences cannot be calculated.')
+        with st.expander('How to interpret these comparisons',key='comparison_interpretation',icon=':material/read_more:'):
+            st.markdown(
+                'Each indicator uses its own original-unit scale, so distances should only be compared within a chart. '
+                'For percentage indicators, differences are **percentage points**, not relative percentages. '
+                f'The dotted line consistently marks **{reference}**, the selected reference municipality. '
+                'Higher or lower values do not automatically mean better or worse outcomes; all comparisons are descriptive and no overall score is calculated.'
+            )
     else:
         # Format strings only for presentation; the download below preserves numeric precision.
         rows=[]
@@ -191,6 +167,5 @@ def compare_municipalities():
             alt='Exact published values and numerical differences for the selected municipalities and indicators')
         st.caption('The indicator column remains visible when scrolling. A difference is unavailable if either source value is missing.')
     with st.container(key='comparison_notes',gap='small'):
-        st.caption('Each chart uses its own original-unit axis; scales differ between indicators. Percentage differences are percentage points (pp), not relative percentages. Higher or lower does not automatically mean better or worse. No overall health score is created.')
         st.download_button('Download this comparison',table.to_csv(index=False),file_name='atlas-municipality-comparison.csv',mime='text/csv',key='comparison_download')
         st.page_link('app_pages/explorer.py',label='Open the single-municipality explorer')

@@ -1,17 +1,17 @@
 <!-- page -->
-FOLKESUNDHED · ANALYSE PÅ KOMMUNENIVEAU
+SELVSTÆNDIG FOLKESUNDHEDSANALYSE
 
-# Sundhed og middellevetid i Danmark
+# Dansk Atlas over Ulighed i Sundhed
 
 ### Geografiske forskelle i sundhed, socioøkonomiske forhold og middellevetid på tværs af danske kommuner
 
 **Frederik Jensen**  
-Professional Bachelor of Physiotherapy  
-Master of Science (MSc) in Health in Critical Health Studies (cand.san.)
+Professional Bachelor’s Degree in Physiotherapy  
+Master of Science (MSc) in Critical Health Studies
 
-Selvstændigt folkesundhedsanalytisk portfolio-projekt
+Selvstændigt folkesundhedsanalytisk porteføljeprojekt
 
-10. november 2026 · Version 1.1 · Dansk udgave
+12. november 2026 · Version 2.0 · Dansk udgave
 
 Rapporten samler officielle danske kommunedata for at beskrive mønstre i befolkningens sundhed, undersøge statistiske sammenhænge og pege på spørgsmål til videre analyse.
 
@@ -21,7 +21,30 @@ Den Nationale Sundhedsprofil: 2025
 Periodemiddellevetid for 0-årige: 2021–2025
 
 **Omfang**  
-98 kommuner i atlasset · 94 komplette observationer i modeller for middellevetid · Ingen imputation
+98 kommuner i atlasset · 94 kommuner i modellerne for middellevetid · Ingen imputering
+
+<!-- page -->
+## Indholdsfortegnelse
+
+| Afsnit | Side |
+| --- | ---: |
+| Resumé | 3 |
+| 1. Baggrund | 4 |
+| 2. Formål og undersøgelsesspørgsmål | 4 |
+| 3. Datakilder og opbygning af datasæt | 5 |
+| 4. Analytiske metoder | 6 |
+| 5. Geografisk variation i sundhed | 7 |
+| 6. Simple sammenhænge med middellevetid | 8 |
+| 7. Multivariable modeller | 9 |
+| 8. Fuldt justerede resultater og kollinearitet | 11 |
+| 9. Modelberegnet og observeret middellevetid | 12 |
+| 10. PCA og kommunale sundhedsprofiler | 14 |
+| 11. Kønsspecifikke analyser | 16 |
+| 12. Diagnostik og følsomhed | 16 |
+| 13. Diskussion | 17 |
+| 14. Begrænsninger | 18 |
+| 15. Konklusion | 18 |
+| Referencer | 19 |
 
 <!-- page -->
 ## Resumé
@@ -47,7 +70,7 @@ Model 3 har R² = 0.706 ved leave-one-out-validering, hvilket er lavere end ved 
 **Fortolkning:** 13 Diskussion · 14 Begrænsninger · 15 Konklusion  
 **Dokumentation:** Reproducerbarhed · Kilder
 
-Begge sprogversioner anvender decimalpunktum i de numeriske tabeller for at gøre resultaterne direkte sammenlignelige. Figurerne er identiske i de to versioner og har engelske aksetekster.
+Begge sprogversioner anvender decimalpunktum i de numeriske tabeller, så resultaterne kan sammenlignes direkte. Figurerne bygger på de samme gemte værdier, mens aksetekster og visningsetiketter er tilpasset rapportens sprog.
 
 <!-- page -->
 ## 1. Baggrund
@@ -72,7 +95,7 @@ De supplerende spørgsmål er:
 4. Hvilke kommuner har højere eller lavere observeret middellevetid end beregnet ud fra de inkluderede indikatorer?
 5. Er mønstrene forskellige for mænds og kvinders middellevetid?
 
-De fire primære modelspecifikationer blev fastlagt i projektets kode før estimering. Dette selvstændige portfolio-projekt er ikke eksternt præregistreret. Korrelationer, profiler, residualrangeringer, udelukkelse af indflydelsesrige observationer og kønsspecifikke modeller er eksplorative eller sekundære analyser.
+De fire primære modelspecifikationer blev fastlagt i projektets kode før estimering. Dette selvstændige porteføljeprojekt er ikke eksternt præregistreret. Korrelationer, profiler, residualrangeringer, udelukkelse af indflydelsesrige observationer og kønsspecifikke modeller er eksplorative eller sekundære analyser.
 
 <!-- page -->
 ## 3. Datakilder og opbygning af datasæt
@@ -92,7 +115,7 @@ Tabel 1 angiver datakilder og referenceperioder. Offentlige svar fra Statistikba
 
 *Kilde: bevarede indsamlingsmetadata, kildeoversigt og analytisk variabelfortegnelse. Tabel 1 beskriver kilderne og er ikke et nyt dataudtræk.*
 
-**Dækning.** Atlasset indeholder 98 kommuner. Middellevetid offentliggøres ikke for Ærø, Fanø, Samsø og Læsø, fordi Danmarks Statistik vurderer estimaterne som for usikre. De resterende 94 kommuner indgår i alle primære og kønsspecifikke modeller. Alle 98 indgår i PCA og klyngeanalyse af sundhedsprofiler. Manglende eller tilbageholdte værdier imputeres ikke, og kommuner uden offentliggjort middellevetid får ingen modelprædiktion.
+**Dækning.** Atlasset indeholder 98 kommuner. Middellevetid offentliggøres ikke for Ærø, Fanø, Samsø og Læsø, fordi Danmarks Statistik vurderer estimaterne som for usikre. De resterende 94 kommuner indgår i alle primære og kønsspecifikke modeller. Alle 98 indgår i PCA og klyngeanalyse af sundhedsprofiler. Manglende eller tilbageholdte værdier imputeres ikke, og kommuner uden offentliggjort middellevetid får ingen modelberegnet værdi.
 
 **Definitionerne er afgørende.** Kort uddannelse betyder grundskole som højeste fuldførte uddannelse blandt 25–64-årige. Svær overvægt er BMI ≥30 baseret på selvrapporteret højde og vægt. Utilstrækkelig fysisk aktivitet følger portalens gemte ugentlige WHO-definition og afgrænsning, herunder advarslen om spørgeskemasammenlignelighed. Alkohol angiver over 10 genstande i en typisk uge, ikke rusdrikning eller afhængighed.
 
@@ -130,7 +153,7 @@ Residualer i M3 er observeret minus modelberegnet middellevetid. Leave-one-out-v
 
 Den offentliggjorte kommunale middellevetid varierer fra **78.6 til 84.1 år**. Figur 1 viser fordelingen og udvalgte kommuner i hver ende af den numeriske rækkefølge. Det er en beskrivelse af offentliggjorte estimater, ikke kvalitetsvurderinger eller test af parvise forskelle.
 
-![Figur 1. Kommunal variation i middellevetid](figures/variation.png)
+![Figur 1. Kommunal variation i middellevetid](figures/da/variation.png)
 
 **Figur 1. Offentliggjort kommunal middellevetid, 2021–2025.** Fordeling og fem kommuner i hver ende af den observerede rækkefølge; 94 offentliggjorte estimater. Landstallet er hentet direkte fra HISBK og er ikke et kommunegennemsnit. Kilde: HISBK og det validerede masterdatasæt.
 
@@ -159,7 +182,7 @@ Tabel 2 sammenholder variationen med udvalgte sociale forhold og sundhedsindikat
 
 Kort uddannelse (r = -0.814) og rygning (r = -0.810) har de stærkeste negative simple sammenhænge: højere andele optræder typisk med lavere middellevetid. Indkomst er positivt forbundet med middellevetid (r = +0.709). Figur 2 viser alle karakteristika uanset signifikans.
 
-![Figur 2. Rangering af korrelationer](figures/correlations.png)
+![Figur 2. Rangering af korrelationer](figures/da/correlations.png)
 
 **Figur 2. Pearson-korrelationer med samlet middellevetid.** De algebraisk beslægtede mål for middellevetid er udeladt af denne visning af karakteristika. Positive og negative retninger fremgår eksplicit. Kilde: gemte korrelationsresultater, N=94 for hvert vist par.
 
@@ -188,7 +211,7 @@ Selvvurderet helbred, aktivitet og svær overvægt viser også stærke negative 
 <!-- page -->
 ## 6. Simple sammenhænge med middellevetid — fortsat
 
-![Figur 3. Punktdiagrammer for uddannelse og rygning](figures/associations.png)
+![Figur 3. Punktdiagrammer for uddannelse og rygning](figures/da/associations.png)
 
 **Figur 3. Kommunemønstre bag to stærke simple sammenhænge.** Hvert punkt er en kommune med offentliggjort middellevetid. Linjerne er beskrivende hjælpelinjer genskabt fra de gemte Pearson-korrelationer samt den viste stikprøves gennemsnit og standardafvigelser; der estimeres ingen ny inferentiel model. Kilde: valideret masterdatasæt og gemte korrelationer, N=94.
 
@@ -223,15 +246,15 @@ Alle modeller anvender de samme 94 komplette observationer. M1 og M2 er alternat
 
 *Kilde: gemt OLS-modeltabel. Kommuner vægtes ens; alle modeller har konstantled, som ikke tælles med blandt prædiktorerne. HC3 anvendes til inferens om koefficienter og omdefinerer ikke R².*
 
-![Figur 4. Sammenligning af modeltilpasning](figures/models.png)
+![Figur 4. Sammenligning af modeltilpasning](figures/da/models.png)
 
 **Figur 4. R² og justeret R² for de faste primærmodeller.** Tekstetiketter skelner mellem de to mål; fremhævelsen af de kombinerede specifikationer udpeger ikke en universelt foretrukken model. Kilde: gemte modelresultater.
 
 Når sundhedsadfærd tilføjes til M1, stiger R² med **0.062**. Den samlede HC3-bloktest har **p = 0.00097**. Den kombinerede model indeholder dermed yderligere statistisk information ud over indkomst og uddannelse i dette datasæt. Testen vedrører blokken samlet og dokumenterer ikke en selvstændig effekt af hver adfærd.
 
-M3 beskriver ca. 75% af den observerede variation mellem kommuner (R² = 0.751; justeret R² = 0.733). M4 har R² = 0.783 og justeret R² = 0.762. Bedre tilpasning med flere helbredsindikatorer fastslår hverken deres kausale bidrag eller fremtidig prædiktionsnøjagtighed. Målene beskriver dette datasæt og disse specifikationer.
+M3 beskriver ca. 75% af den observerede variation mellem kommuner (R² = 0.751; justeret R² = 0.733). M4 har R² = 0.783 og justeret R² = 0.762. Bedre tilpasning med flere helbredsindikatorer fastslår hverken deres kausale bidrag eller nøjagtigheden af fremtidige forudsigelser. Målene beskriver dette datasæt og disse specifikationer.
 
-De tilføjede indikatorer for selvvurderet helbred og mental sundhed beskriver delvist samtidig helbredsstatus. Det ændrer spørgsmålet: M4 er en udvidet model for betingede sammenhænge, mens den gemte residual- og prædiktionsanalyse bevidst anvender M3. Denne skelnen forhindrer, at den mere omfattende justering fremstår som den eneste mulige fortolkning af data.
+De tilføjede indikatorer for selvvurderet helbred og mental sundhed beskriver delvist samtidig helbredsstatus. Det ændrer spørgsmålet: M4 er en udvidet model for betingede sammenhænge, mens analysen af residualer og modelberegnede værdier bevidst anvender M3. Denne skelnen forhindrer, at den mere omfattende justering fremstår som den eneste mulige fortolkning af data.
 
 <!-- page -->
 ## 8. Fuldt justerede resultater og kollinearitet
@@ -253,9 +276,9 @@ Tabel 5 viser alle M4-hældningskoefficienter, også de ikke-signifikante. Indko
 
 *Kilde: gemte regressionskoefficienter. b angiver år pr. 10.000 kr. for indkomst og pr. procentpoint for øvrige indikatorer. β er standardiseret beta. Intervaller anvender HC3-kovarians og t-reference med residualfrihedsgrader; q omfatter alle 20 primære hældningstest. Alle estimater har N=94.*
 
-![Figur 5. Fuldt justerede standardiserede koefficienter](../outputs/figures/model4_coefficients.png)
+![Figur 5. Fuldt justerede standardiserede koefficienter](figures/da/coefficients.png)
 
-**Figur 5. Standardiserede koefficienter og 95% HC3-intervaller i M4.** Gengivet uændret fra den validerede analysefigur. Retningen er betinget af øvrige prædiktorer; intervallet viser usikkerhed, ikke kausal sikkerhed. Kilde: gemt output fra Model 4.
+**Figur 5. Standardiserede koefficienter og 95% HC3-konfidensintervaller i M4.** Figuren er en dansksproget visning af det gemte Model 4-output; modellen er ikke estimeret på ny. Retningen er betinget af de øvrige prædiktorer, og intervallet viser statistisk usikkerhed, ikke kausal sikkerhed.
 
 **Hvorfor fortegnet for svær overvægt kræver forsigtighed.** Svær overvægt har en negativ simpel sammenhæng, men en positiv justeret koefficient. Når prædiktorer med meget fælles variation holdes konstante, kan den resterende kontrast skifte fortegn: et suppressions- eller kollinearitetsmønster. Højeste M4-VIF er 9.56. Det er **ikke dokumentation for, at svær overvægt beskytter**, og koefficienten bør ikke omsættes til en indsatsanbefaling. Aktivitet, alkohol og selvvurderet helbred har også usikre betingede estimater; manglende signifikans dokumenterer ikke fravær af en folkesundhedsmæssig sammenhæng.
 
@@ -264,13 +287,13 @@ Tabel 5 viser alle M4-hældningskoefficienter, også de ikke-signifikante. Indko
 
 **Residual = observeret middellevetid − modelberegnet middellevetid.** Positive værdier betyder højere middellevetid end beregnet ud fra de inkluderede kommuneindikatorer; negative værdier betyder lavere. Figur 6 sammenligner observationer med M3’s tilpassede værdier; figur 7 viser de største positive og negative gemte residualer.
 
-![Figur 6. Observeret og modelberegnet middellevetid](../outputs/figures/observed_vs_predicted.png)
+![Figur 6. Observeret og modelberegnet middellevetid](figures/da/predictions.png)
 
-**Figur 6. Observeret og M3-beregnet middellevetid.** Identitetslinjen svarer til præcist sammenfald. Prædiktionerne er tilpassede værdier for de 94 kommuner i estimeringsgrundlaget; fire kommuner uden offentliggjort udfald får ingen prædiktion. Kilde: uændret valideret prædiktionsfigur.
+**Figur 6. Observeret og M3-beregnet middellevetid.** Lighedslinjen viser præcist sammenfald. De modelberegnede værdier er gemte tilpassede værdier for de 94 kommuner i estimeringsgrundlaget; fire kommuner uden offentliggjort udfald får ingen værdi. Figuren er en dansksproget visning af de gemte resultater.
 
-![Figur 7. Kommunale residualer](../outputs/figures/prediction_residual_ranking.png)
+![Figur 7. Kommunale residualer](figures/da/residuals.png)
 
-**Figur 7. Udvalgte positive og negative M3-residualer.** Værdierne er observeret minus tilpasset middellevetid i år. Det er en eksplorativ rækkefølge efter residualer, ikke en rangering af kommunal præstation eller dokumentation for statistisk usædvanlige udfald. Kilde: uændret valideret residualfigur.
+**Figur 7. Udvalgte positive og negative M3-residualer.** Værdierne er observeret minus modelberegnet middellevetid i år. Figuren viser gemte residualer og er ikke en rangering af kommunal præstation eller dokumentation for statistisk usædvanlige udfald.
 
 <!-- page -->
 ## 9. Modelberegnet og observeret middellevetid — fortsat
@@ -292,7 +315,7 @@ Tabel 6 angiver de samme eksempler som figur 7, afrundet til to decimaler. En nu
 | Aalborg | 81.1 | 82.06 | -0.96 |
 | Brønderslev | 80.9 | 81.76 | -0.86 |
 
-*Kilde: gemte M3-prædiktioner og residualer, ikke en ny rangeringsmodel. Observeret middellevetid offentliggøres med én decimal; prædiktioner og residualer beregnes ved gemt præcision før afrunding. Alle forskelle angives i år.*
+*Kilde: gemte modelberegnede M3-værdier og residualer, ikke en ny rangeringsmodel. Observeret middellevetid offentliggøres med én decimal; modelberegnede værdier og residualer er gemt med fuld præcision før afrunding. Alle forskelle angives i år.*
 
 Odder og København illustrerer henholdsvis højere og lavere middellevetid end beregnet ud fra de inkluderede kommuneindikatorer. Ingen af eksemplerne identificerer årsagen til forskellen. Udeladte forhold, kildeusikkerhed, aggregering, målefejl og tilfældig variation kan bidrage.
 
@@ -305,13 +328,13 @@ Odder og København illustrerer henholdsvis højere og lavere middellevetid end 
 
 PCA sammenfatter fælles mønstre i seks standardiserede sundhedsindikatorer for alle 98 kommuner. PC1 beskriver **60.4%** og PC2 **17.8%** af variationen i indikatorerne. Figur 8 viser komponenternes bidrag; figur 9 viser indholdet i de to første komponenter.
 
-![Figur 8. Scree-plot for PCA](../outputs/figures/pca_scree.png)
+![Figur 8. Scree-plot for PCA](figures/da/scree.png)
 
-**Figur 8. Variation beskrevet af de seks hovedkomponenter.** Gengivet uændret fra gemt PCA-output; procentandelene vedrører sundhedsindikatorerne, ikke variation i middellevetid. Kilde: valideret PCA, N=98.
+**Figur 8. Variation beskrevet af de seks hovedkomponenter.** Figuren er en dansksproget visning af det gemte PCA-output; procentandelene vedrører sundhedsindikatorerne, ikke variation i middellevetid. PCA er ikke beregnet på ny, N=98.
 
-![Figur 9. PCA-loadings](figures/loadings.png)
+![Figur 9. PCA-loadings](figures/da/loadings.png)
 
-**Figur 9. Indikatorernes korrelation med PC1 og PC2.** Loadings med fortegn er gemte indikator–komponent-korrelationer, ikke egenvektorvægte. Kilde: gemte PCA-loadings. Samme figur anvendes i begge sprogversioner.
+**Figur 9. Indikatorernes korrelation med PC1 og PC2.** Loadings med fortegn er gemte korrelationer mellem indikatorer og komponenter, ikke egenvektorvægte. Begge sprogversioner anvender de samme gemte værdier med sprogligt tilpassede etiketter.
 
 PC1 har positive loadings for selvvurderet helbred (+0.912), svær overvægt (+0.908), utilstrækkelig aktivitet (+0.887), rygning (+0.855) og mental sundhed (+0.443), men en negativ loading for alkohol (−0.501). Komponenten er derfor en **sammensat kontrastdimension, ikke en simpel sundhedsrisikoscore**. Alkohol blev ikke vendt for at tvinge indikatorerne i samme retning; fortegnet dokumenterer ingen beskyttende eksponering. Komponenternes fortegn følger en visningskonvention og er ikke i sig selv et substantielt resultat.
 
@@ -320,7 +343,7 @@ PC1 har positive loadings for selvvurderet helbred (+0.912), svær overvægt (+0
 
 Den valgte k-means-løsning har **to profiler** med **34 og 64 kommuner** og gennemsnitlig silhouette **0.324**. Den har højest gennemsnitlig silhouette blandt de tilladte løsninger med k=2–6. Målet beskriver adskillelse i forhold til lighed inden for profilerne og fastslår ikke to naturlige kommunetyper.
 
-![Figur 10. Kommuneprojektion og beskrivende profiler](figures/profiles.png)
+![Figur 10. Kommuneprojektion og beskrivende profiler](figures/da/profiles.png)
 
 **Figur 10. Gemte kommuneprofiler i PCA-rummet og på tværs af de seks indikatorer.** Både symboler og farver skelner profilerne. Projektionen viser PC1 og PC2, men klyngeanalysen anvendte alle seks standardiserede indikatorer. Profilgennemsnit er afvigelser fra gennemsnittet for 98 kommuner målt i standardafvigelser. Kilde: gemte scorer, medlemskaber og standardiserede profiler.
 
@@ -376,7 +399,7 @@ Det opdeler ikke befolkningens sundhed i adskilte sociale og adfærdsmæssige å
 
 **Simple sammenhænge og betingede kontraster har forskellige formål.** Kort uddannelse og rygning identificerer stærke geografiske mønstre. De enkelte M4-hældninger er vanskeligere at fortolke, fordi beslægtede prædiktorer holdes konstante samtidig. En svækket koefficient eller et fortegnsskift ophæver ikke den beskrivende sammenhæng. Svær overvægts fortegnsskift er et konkret eksempel: den betingede kontrast er hverken en anbefaling om at øge forekomsten eller dokumentation for, at den negative simple sammenhæng var uden betydning.
 
-**Modeltilpasning forklarer ikke mekanismer.** M3’s R² på ca. 75% i estimeringsgrundlaget viser betydelig statistisk overensstemmelse med observerede forskelle. Det betyder ikke, at indikatorerne forårsager denne andel af middellevetiden, og M4’s højere tilpasning udpeger ikke en bedre indsatsstrategi. Intern validering er mere krævende end træningstilpasning, men er fortsat ikke prædiktion i fremtidige perioder eller geografisk uafhængige befolkninger.
+**Modeltilpasning forklarer ikke mekanismer.** M3’s R² på ca. 75% i estimeringsgrundlaget viser betydelig statistisk overensstemmelse med observerede forskelle. Det betyder ikke, at indikatorerne forårsager denne andel af middellevetiden, og M4’s højere tilpasning udpeger ikke en bedre indsatsstrategi. Intern validering er mere krævende end træningstilpasning, men kan fortsat ikke sidestilles med forudsigelser i fremtidige perioder eller geografisk uafhængige befolkninger.
 
 **Profiler fastholder kompleksiteten.** PCA og klyngeanalysen understreger, at indikatorerne ikke alle følger én gunstig–ugunstig dimension. Alkoholkontrasten er væsentlig: den forhindrer, at profilerne opfattes som ét sundhedshierarki. Profiler er nyttige til at spørge, hvor lignende kombinationer af eksponeringer optræder, ikke til at klassificere borgere eller give kommuner en samlet score.
 
@@ -407,12 +430,12 @@ Socioøkonomiske forhold og sundhedsadfærd viser tydelige geografiske sammenhæ
 
 ### Reproducerbarhed
 
-Råfiler er bevaret; reproducerbar databehandling, proveniens, programmatisk genererede statistiske output og valideringstest indgår i projektet. Rapportfelter er knyttet til kontrolsumverificerede output, og eksisterende analysefigurer gengives uændret. Supplerende publikationsfigurer viser kun gemte værdier eller validerede observationer. Ingen tilbageholdte værdier for middellevetid imputeres. Byggevejledningen dokumenterer den nødvendige software; fortsat adgang til eksterne tjenester kan ikke garanteres.
+Råfiler er bevaret; reproducerbar databehandling, proveniens, programmatisk genererede statistiske output og valideringstest indgår i projektet. Rapportfelter og sprogligt tilpassede publikationsfigurer er knyttet til kontrolsumverificerede output. Figurerne viser udelukkende gemte værdier eller validerede observationer; analyserne estimeres ikke på ny. Ingen tilbageholdte værdier for middellevetid imputeres. Byggevejledningen dokumenterer den nødvendige software; fortsat adgang til eksterne tjenester kan ikke garanteres.
 
 <!-- page -->
-## Kilder og kildebemærkninger
+## Referencer
 
-Kilderegistreringer er indsamlet eller kontrolleret **6. november 2026**. Tabelnavnene nedenfor bevarer deres officielle ordlyd, så den præcise kilde kan identificeres. Analysen anvender det bevarede datasnapshot og ikke eventuelle senere revisioner af tabellerne.
+Referencerne følger et nummereret Vancouver-inspireret system. Kilderegistreringer er indsamlet eller kontrolleret **6. november 2026**. Tabelnavnene bevarer deres officielle ordlyd, så den præcise kilde kan identificeres. Analysen anvender det bevarede datasnapshot og ikke eventuelle senere revisioner af tabellerne.
 
 1. **Danmarks Statistik. INDKP106 — Disponibel indkomst efter område, enhed, køn, alder, indkomstinterval og tid.** 2024, gennemsnitlig disponibel indkomst i kroner, begge køn. [Officiel tabel](https://www.statbank.dk/INDKP106).
 2. **Danmarks Statistik. HFUDD11 — Befolkningens højeste fuldførte uddannelse (15–69 år) efter bopælsområde, herkomst, højeste fuldførte uddannelse, alder, køn og tid.** Udvalgte aldre 25–64 år, 2024. [Officiel tabel](https://www.statbank.dk/HFUDD11).
@@ -426,6 +449,6 @@ Kilderegistreringer er indsamlet eller kontrolleret **6. november 2026**. Tabeln
 
 ### Publikationsoplysninger
 
-Forfatter: Frederik Jensen. Professional Bachelor of Physiotherapy; Master of Science (MSc) in Health in Critical Health Studies (cand.san.). Selvstændig portfolio-analyse; ingen institutionel tilknytning eller arbejdsgivertilknytning angives. Analyseværdier stammer fra projektets validerede snapshot. Rapportversion 1.1; dansk og engelsk udgave har tilsvarende analytisk indhold, afsnitsrækkefølge, tabeller og figurer.
+Forfatter: Frederik Jensen. Professional Bachelor’s Degree in Physiotherapy; Master of Science (MSc) in Critical Health Studies. Selvstændigt folkesundhedsanalytisk porteføljeprojekt; ingen institutionel tilknytning eller arbejdsgivertilknytning angives. Analyseværdier stammer fra projektets validerede snapshot. Rapportversion 2.0, 12. november 2026; dansk og engelsk udgave har tilsvarende analytisk indhold, afsnitsrækkefølge, tabeller og figurer.
 
 De fulde uafrundede koefficient-, korrelations-, diagnostik- og følsomhedstabeller bevares i projektet. Rapportens udvalg af deskriptive mål er ikke filtreret efter signifikans; alle M4-hældninger og karakteristikkorrelationer vises, og de gemte output omfatter samtlige primære og sekundære estimater.

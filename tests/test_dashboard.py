@@ -62,9 +62,9 @@ class DashboardTests(unittest.TestCase):
         for phrase in ["official Danish municipality-level", "descriptive and exploratory"]:
             self.assertIn(phrase,text)
         self.assertNotIn("Professional Bachelor of Physiotherapy", text)
-        for key,title in [("home_explore","Health inequalities"),("home_report","Danish Health & Life Expectancy"),
-            ("home_final_dashboard","Health inequalities"),("home_final_english","Danish Health & Life Expectancy"),
-            ("home_final_danish","Sundhed og middellevetid i Danmark"),("home_final_methods","Methods & limitations")]:
+        for key,title in [("home_explore","Health inequalities"),("home_report","Publication library"),
+            ("home_final_dashboard","Health inequalities"),("home_final_english","Danish Health Inequality Atlas"),
+            ("home_final_danish","Dansk Atlas over Ulighed i Sundhed"),("home_final_methods","Methods & limitations")]:
             with self.subTest(action=key):
                 current=self.app().button(key=key).click().run()
                 self.assertFalse(current.exception)
@@ -86,7 +86,7 @@ class DashboardTests(unittest.TestCase):
             "No institutional or employer affiliation is claimed",
         ]:
             self.assertIn(phrase, text)
-        self.assertNotIn("Health analysis · Public health · Physiotherapist", text)
+        self.assertNotIn("Public-health analyst", text)
         self.assertTrue((data.ROOT / "assets/frederik_jensen_profile.png").exists())
         self.assertEqual(len(app.get("image")), 1)
         links = {item.value: item.url for item in app.get("link_button")}
@@ -198,7 +198,7 @@ class DashboardTests(unittest.TestCase):
     def test_chart_points_and_intervals_are_saved_results(self):
         b=self.bundle
         comparison=charts.model_comparison(b["fits"])
-        np.testing.assert_allclose(comparison.data[0].y,b["fits"].adjusted_R_squared)
+        np.testing.assert_allclose(comparison.data[0].x,b["fits"].adjusted_R_squared)
         coefficient=charts.coefficients(b["coefficients"],"Standardized beta")
         expected=b["coefficients"].loc[b["coefficients"].model.eq("M4") & b["coefficients"].term.ne("const")].iloc[::-1]
         np.testing.assert_allclose(coefficient.data[0].x,expected.standardized_beta)
@@ -234,16 +234,51 @@ class DashboardTests(unittest.TestCase):
         self.assertNotEqual(charts.pca_scatter(b["memberships"],None).data[0].marker.symbol,
                             charts.pca_scatter(b["memberships"],None).data[1].marker.symbol)
 
+    def test_chart_labels_are_complete_and_have_reserved_margins(self):
+        b=self.bundle
+        correlation=charts.correlation_bars(data.characteristics(b),limit=13)
+        labels=[str(label).replace("<br>"," ") for label in correlation.data[0].y]
+        self.assertIn("Unknown education (25–64)",labels)
+        self.assertIn("Alcohol above 10 drinks/week",labels)
+        self.assertGreaterEqual(correlation.layout.margin.l,220)
+        self.assertGreaterEqual(correlation.layout.margin.r,96)
+        self.assertEqual(len(correlation.layout.annotations),13)
+        coefficient=charts.coefficients(b["coefficients"],"Standardized beta")
+        self.assertGreaterEqual(coefficient.layout.margin.l,200)
+        association=charts.association_scatter(b,"daily_smoking_pct")
+        self.assertIn("Life expectancy",association.layout.yaxis.title.text)
+        self.assertGreaterEqual(association.data[1].line.width,2)
+
+    def test_profile_and_ranking_have_no_default_legends_or_collisions(self):
+        b=self.bundle
+        row=b["master"].set_index("municipality").loc["København"]
+        profile=charts.explorer_profile(b,row)
+        self.assertFalse(profile.layout.showlegend)
+        self.assertTrue(all(trace.showlegend is False for trace in profile.data))
+        annotation_text={annotation.text.replace("<br>"," ") for annotation in profile.layout.annotations}
+        self.assertIn("Below municipality mean",annotation_text)
+        self.assertIn("Above municipality mean",annotation_text)
+        self.assertEqual(profile.layout.xaxis.range[0],-profile.layout.xaxis.range[1])
+
+        ranking=charts.ranked(b["master"],"daily_smoking_pct","Highest 20")
+        self.assertFalse(ranking.layout.showlegend)
+        self.assertTrue(all(trace.showlegend is False for trace in ranking.data))
+        median=[a for a in ranking.layout.annotations if a.text=="Municipality median"]
+        self.assertEqual(len(median),1)
+        self.assertGreater(median[0].xshift,0)
+        self.assertGreater(ranking.layout.margin.t,40)
+
     def test_charts_have_summary_findings_and_detailed_explanations(self):
         app = self.app()
 
         def assert_story(key):
             story = app.get_by_key(f"chart_story_{key}")
             text = "\n".join(item.value for item in story.markdown)
-            self.assertIn("**What it shows**", text)
-            self.assertIn("**Key finding**", text)
-            detail = app.toggle(key=f"chart_detail_{key}")
-            self.assertEqual(detail.label, "Show detailed explanation")
+            self.assertIn("**What to notice:**", text)
+            self.assertIn("**What the figure shows.**", text)
+            self.assertIn("**How to interpret it.**", text)
+            detail = app.expander(key=f"chart_detail_{key}")
+            self.assertEqual(detail.label, "Read how to interpret this figure")
 
         for page, keys in [
             ("inequalities", ["inequality_ranked"]),
@@ -256,12 +291,6 @@ class DashboardTests(unittest.TestCase):
             self.assertFalse(app.exception)
             for key in keys:
                 assert_story(key)
-
-        app.switch_page("app_pages/inequalities.py").run()
-        app.toggle(key="chart_detail_inequality_ranked").set_value(True).run()
-        detail_body = app.get_by_key("chart_detail_body_inequality_ranked")
-        self.assertTrue(detail_body.markdown)
-        self.assertFalse(app.exception)
 
         app.switch_page("app_pages/explanation.py").run()
         app.get_by_key("explanation_view").set_value("Adjusted models").run()
@@ -279,6 +308,24 @@ class DashboardTests(unittest.TestCase):
             assert_story(key)
         app.get_by_key("profiles_view").set_value("Choosing the profiles").run()
         assert_story("cluster_selection")
+
+    def test_semantic_benchmark_colours_are_indicator_aware(self):
+        self.assertEqual(data.semantic_state("life_expectancy_total",1.0),"positive")
+        self.assertEqual(data.semantic_state("life_expectancy_total",-1.0),"negative")
+        self.assertEqual(data.semantic_state("daily_smoking_pct",-1.0),"positive")
+        self.assertEqual(data.semantic_state("daily_smoking_pct",1.0),"negative")
+        self.assertEqual(data.semantic_state("life_expectancy_sex_gap",1.0),"neutral")
+        self.assertEqual(data.semantic_state("population",1000),"neutral")
+        self.assertEqual(data.semantic_state("daily_smoking_pct",0),"neutral")
+
+        app=self.app().switch_page("app_pages/explorer.py").run()
+        badges=[item.value for item in app.markdown if "-badge[" in str(item.value)]
+        self.assertIn(":red-badge[-0.7 years vs Denmark]",badges)
+        self.assertIn(":red-badge[-1.0 years vs Denmark]",badges)
+        self.assertIn(":red-badge[-0.4 years vs Denmark]",badges)
+        self.assertTrue(any(value.startswith(":green-badge[-0.2 pp") for value in badges))
+        self.assertTrue(any(value.startswith(":red-badge[+3.8 pp") for value in badges))
+        self.assertTrue(any(value.startswith(":gray-badge[+0.7 years") for value in badges))
 
     def test_text_palette_meets_normal_text_contrast(self):
         def luminance(colour):

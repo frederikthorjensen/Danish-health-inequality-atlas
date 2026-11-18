@@ -52,6 +52,19 @@ LABELS = {c: value[0] for c, value in METRICS.items()}
 LABELS["income_per_10000_dkk"] = "Income · per DKK 10,000"
 MODEL_LABELS = {"M1": "Socioeconomic", "M2": "Health behaviours", "M3": "Combined", "M4": "Expanded health"}
 
+# Direction is declared only where a benchmark difference has a clear,
+# defensible interpretation. Everything else remains neutral by design.
+HIGHER_IS_BETTER = frozenset({
+    "life_expectancy_total", "life_expectancy_male", "life_expectancy_female",
+    "disposable_income_mean_dkk",
+})
+LOWER_IS_BETTER = frozenset({
+    "low_education_share_25_64_pct", "daily_smoking_pct", "obesity_pct",
+    "physical_inactivity_pct", "risky_alcohol_pct",
+    "less_good_or_poor_self_rated_health_pct", "poor_mental_health_pct",
+})
+SEMANTIC_BADGE_COLOURS = {"positive": "green", "negative": "red", "neutral": "gray"}
+
 
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -103,6 +116,32 @@ def format_value(value, variable):
     if unit == "people":
         return f"{value:,.0f}"
     return f"{value:.1f}{'%' if unit == '%' else ' years'}"
+
+
+def format_difference(value, variable):
+    """Format a benchmark difference while preserving its explicit sign."""
+    if pd.isna(value):
+        return "Difference unavailable"
+    unit = METRICS[variable][1]
+    decimals = 0 if unit in ("DKK", "people") else 1
+    suffix = "pp" if unit == "%" else unit
+    displayed = round(float(value), decimals)
+    if displayed == 0:
+        displayed = 0.0
+    return f"{displayed:+,.{decimals}f} {suffix}"
+
+
+def semantic_state(variable, difference):
+    """Return positive/negative/neutral from indicator meaning, not raw sign."""
+    if pd.isna(difference) or float(difference) == 0 or variable not in HIGHER_IS_BETTER | LOWER_IS_BETTER:
+        return "neutral"
+    favourable = float(difference) > 0 if variable in HIGHER_IS_BETTER else float(difference) < 0
+    return "positive" if favourable else "negative"
+
+
+def semantic_badge_colour(variable, difference):
+    """Map a meaningful benchmark difference to a restrained native badge colour."""
+    return SEMANTIC_BADGE_COLOURS[semantic_state(variable, difference)]
 
 
 def benchmark(bundle, variable):

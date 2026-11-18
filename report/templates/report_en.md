@@ -1,17 +1,17 @@
 <!-- page -->
-PUBLIC HEALTH · MUNICIPALITY ANALYSIS
+INDEPENDENT PUBLIC-HEALTH ANALYSIS
 
-# Danish Health & Life Expectancy
+# Danish Health Inequality Atlas
 
 ### Geographical differences in health, socioeconomic conditions and life expectancy across Danish municipalities
 
 **Frederik Jensen**  
-Professional Bachelor of Physiotherapy  
-Master of Science (MSc) in Health in Critical Health Studies (cand.san.)
+Professional Bachelor’s Degree in Physiotherapy  
+Master of Science (MSc) in Critical Health Studies
 
-Independent public-health data analysis and portfolio project
+Independent public-health analysis and portfolio project
 
-10 November 2026 · Version 1.1 · English edition
+12 November 2026 · Version 2.0 · English edition
 
 This report brings official Danish municipality data together to describe patterns in population health, examine their statistical associations and identify questions for further investigation.
 
@@ -22,6 +22,29 @@ Period life expectancy at birth: 2021–2025
 
 **Scope**  
 98 municipalities in the atlas · 94 complete cases in life-expectancy models · No imputation
+
+<!-- page -->
+## Contents
+
+| Section | Page |
+| --- | ---: |
+| Executive summary | 3 |
+| 1. Background | 4 |
+| 2. Aim and research questions | 4 |
+| 3. Data sources and dataset construction | 5 |
+| 4. Analytical methods | 6 |
+| 5. Geographical variation in health | 7 |
+| 6. Simple associations with life expectancy | 8 |
+| 7. Multivariable models | 9 |
+| 8. Fully adjusted results and collinearity | 11 |
+| 9. Expected versus observed life expectancy | 12 |
+| 10. PCA and municipal health profiles | 14 |
+| 11. Sex-specific analyses | 16 |
+| 12. Diagnostics and sensitivity | 16 |
+| 13. Discussion | 17 |
+| 14. Limitations | 18 |
+| 15. Conclusion | 18 |
+| References | 19 |
 
 <!-- page -->
 ## Executive summary
@@ -47,7 +70,7 @@ Model 3 leave-one-out R² is {{loo_r2}}, below its in-sample fit. Residuals may 
 **Interpretation:** 13 Discussion · 14 Limitations · 15 Conclusion  
 **Documentation:** Reproducibility · References
 
-Numerical tables use a decimal point in both language editions to make the reported results directly comparable. Figures are identical in both editions; their axes use English labels.
+Numerical tables use a decimal point in both language editions so the reported results remain directly comparable. Figures use the same saved values in both editions, with display labels localized for each language.
 
 <!-- page -->
 ## 1. Background
@@ -130,7 +153,7 @@ Model 3 residuals equal observed minus fitted life expectancy. Leave-one-out val
 
 Published municipal life expectancy ranges from **{{min_le}} to {{max_le}} years**. Figure 1 shows the distribution and selected municipalities at either end of the numerical ordering. These are descriptions of the published estimates, not quality ratings or tests of pairwise differences.
 
-![Figure 1. Municipal variation in life expectancy](figures/variation.png)
+![Figure 1. Municipal variation in life expectancy](figures/en/variation.png)
 
 **Figure 1. Published municipal life expectancy, 2021–2025.** Distribution and five municipalities at each end of the observed ordering; 94 published estimates. The national reference is the direct HISBK value, not a municipality average. Source: HISBK and the validated master dataset.
 
@@ -147,7 +170,7 @@ Table 2 places this variation alongside selected social and health indicators. S
 
 Low education (r = {{r_education}}) and smoking (r = {{r_smoking}}) have the strongest negative simple associations: higher shares generally accompany lower life expectancy. Income is positively associated (r = {{r_income}}). Figure 2 includes all characteristics, regardless of significance.
 
-![Figure 2. Correlation ranking](figures/correlations.png)
+![Figure 2. Correlation ranking](figures/en/correlations.png)
 
 **Figure 2. Pearson correlations with total life expectancy.** Algebraically related life-expectancy outcomes are excluded from this characteristics display. Positive and negative directions are shown explicitly. Source: saved correlation results, N=94 for each displayed pair.
 
@@ -162,7 +185,7 @@ Self-rated health, activity and obesity also show strong negative associations. 
 <!-- page -->
 ## 6. Simple associations with life expectancy — continued
 
-![Figure 3. Education and smoking scatterplots](figures/associations.png)
+![Figure 3. Education and smoking scatterplots](figures/en/associations.png)
 
 **Figure 3. Municipality patterns behind two strong simple associations.** Each point is one municipality with published life expectancy. Lines are descriptive guides reconstructed from the saved Pearson correlations and the plotted sample’s means and standard deviations; no new inferential model is fitted. Source: validated master and saved correlations, N=94.
 
@@ -192,7 +215,7 @@ All use the same 94 complete cases. M1 and M2 are alternative specifications; M1
 
 *Source: saved OLS model-fit table. Equal municipality weights; an intercept is included in every model but excluded from the predictor count. HC3 is used for coefficient inference, not to redefine R².*
 
-![Figure 4. Model fit comparison](figures/models.png)
+![Figure 4. Model fit comparison](figures/en/models.png)
 
 **Figure 4. R² and adjusted R² for the fixed primary models.** Text labels distinguish the two fit measures; the emphasis on combined specifications does not designate a universally preferred model. Source: saved model-fit results.
 
@@ -213,9 +236,9 @@ Table 5 reports every non-intercept M4 coefficient, including nonsignificant est
 
 *Source: saved regression coefficients. b is years per DKK 10,000 for income and per percentage point for other indicators. β is standardized beta. Intervals use HC3 covariance and residual-df t references; q covers all 20 primary non-intercept tests. All estimates use N=94.*
 
-![Figure 5. Fully adjusted standardized coefficients](../outputs/figures/model4_coefficients.png)
+![Figure 5. Fully adjusted standardized coefficients](figures/en/coefficients.png)
 
-**Figure 5. Model 4 standardized coefficients and 95% HC3 intervals.** Reproduced unchanged from the validated analysis figure. A point’s direction is conditional on the other predictors; the interval depicts uncertainty, not causal certainty. Source: saved Model 4 output.
+**Figure 5. Model 4 standardized coefficients and 95% HC3 intervals.** Publication rendering of the saved Model 4 output; no model was refitted. A point’s direction is conditional on the other predictors; the interval depicts uncertainty, not causal certainty.
 
 **Why the obesity sign needs caution.** Obesity has a negative simple association but a positive adjusted coefficient. Once predictors sharing much of the same variation are held constant, the remaining contrast can reverse direction: a suppression/collinearity pattern. Maximum M4 VIF is {{vif}}. This is **not evidence that obesity is protective**, and the coefficient should not be translated into an intervention recommendation. Inactivity, alcohol and self-rated health also have uncertain conditional estimates; their nonsignificance does not establish absence of a public-health relationship.
 
@@ -224,13 +247,13 @@ Table 5 reports every non-intercept M4 coefficient, including nonsignificant est
 
 **Residual = observed life expectancy − model-predicted life expectancy.** Positive values mean higher life expectancy than predicted by the included municipality indicators; negative values mean lower. Figure 6 compares observations with M3 fitted values; Figure 7 shows the largest positive and negative saved residuals.
 
-![Figure 6. Observed versus predicted life expectancy](../outputs/figures/observed_vs_predicted.png)
+![Figure 6. Observed versus predicted life expectancy](figures/en/predictions.png)
 
-**Figure 6. Observed and M3-predicted life expectancy.** The equality line represents an exact match. Predictions are in-sample fitted values for 94 municipalities; four withheld outcomes receive no predictions. Source: unchanged validated prediction figure.
+**Figure 6. Observed and M3-predicted life expectancy.** The equality line represents an exact match. Predictions are saved in-sample fitted values for 94 municipalities; four withheld outcomes receive no predictions. The figure is a publication rendering of those saved values.
 
-![Figure 7. Municipality residuals](../outputs/figures/prediction_residual_ranking.png)
+![Figure 7. Municipality residuals](figures/en/residuals.png)
 
-**Figure 7. Selected positive and negative M3 residuals.** Values are observed minus fitted life expectancy in years. This is an exploratory residual ordering, not a ranking of municipal performance or proof of statistically unusual outcomes. Source: unchanged validated residual figure.
+**Figure 7. Selected positive and negative M3 residuals.** Values are observed minus fitted life expectancy in years. This publication rendering uses the saved residuals and is not a ranking of municipal performance or proof of statistically unusual outcomes.
 
 <!-- page -->
 ## 9. Expected versus observed life expectancy — continued
@@ -254,13 +277,13 @@ Odder and København illustrate higher and lower life expectancy than predicted 
 
 PCA summarizes patterns shared by six standardized health indicators, using all 98 municipalities. PC1 accounts for **{{pc1}}%** and PC2 for **{{pc2}}%** of their variance. Figure 8 shows how much each component contributes; Figure 9 shows what the first two components represent.
 
-![Figure 8. PCA scree plot](../outputs/figures/pca_scree.png)
+![Figure 8. PCA scree plot](figures/en/scree.png)
 
-**Figure 8. Variance accounted for by the six principal components.** Reproduced unchanged from saved PCA output; percentages concern the health-feature matrix, not life-expectancy variation. Source: validated PCA, N=98.
+**Figure 8. Variance accounted for by the six principal components.** Publication rendering of the saved PCA output; percentages concern the health-feature matrix, not life-expectancy variation. PCA was not recomputed, N=98.
 
-![Figure 9. PCA loadings](figures/loadings.png)
+![Figure 9. PCA loadings](figures/en/loadings.png)
 
-**Figure 9. Indicator correlations with PC1 and PC2.** Signed loadings are saved feature–component correlations, not eigenvector weights. Source: saved PCA loadings. The same figure is used in both language editions.
+**Figure 9. Indicator correlations with PC1 and PC2.** Signed loadings are saved feature–component correlations, not eigenvector weights. The two language editions use the same saved values with localized display labels.
 
 PC1 loads positively on self-rated health (+0.912), obesity (+0.908), inactivity (+0.887), smoking (+0.855) and mental health (+0.443), but negatively on alcohol (−0.501). It is therefore a **mixed contrast dimension, not a simple health-risk score**. Alcohol was not reversed to force alignment; its direction does not imply a protective exposure. Component signs are a display convention rather than substantive evidence.
 
@@ -269,7 +292,7 @@ PC1 loads positively on self-rated health (+0.912), obesity (+0.908), inactivity
 
 The selected k-means solution has **two profiles**, containing **34 and 64 municipalities**, with mean silhouette **{{silhouette}}**. It has the highest mean silhouette among the eligible k=2–6 solutions. This measures separation relative to within-profile similarity; it does not establish two natural types of municipality.
 
-![Figure 10. Municipality projection and descriptive profiles](figures/profiles.png)
+![Figure 10. Municipality projection and descriptive profiles](figures/en/profiles.png)
 
 **Figure 10. Saved municipality profiles in PCA space and across the six indicators.** Shapes as well as colours distinguish profiles. The projection shows PC1 and PC2, but clustering used all six standardized features. Profile means are deviations from the 98-municipality mean in standard-deviation units. Source: saved scores, memberships and standardized profiles.
 
@@ -349,12 +372,12 @@ Socioeconomic conditions and health behaviours show pronounced geographical asso
 
 ### Reproducibility
 
-Raw source files are preserved; processed data, provenance, programmatic statistical outputs and validation tests are included in the project. Report fields are linked to checksum-verified saved outputs, and existing analysis figures are reproduced unchanged. Additional publication figures only display saved values or validated observations. No withheld life-expectancy values are imputed. The build instructions document the software needed to reproduce these publications; continued availability of external services is not guaranteed.
+Raw source files are preserved; processed data, provenance, programmatic statistical outputs and validation tests are included in the project. Report fields and localized publication figures are linked to checksum-verified saved outputs. The figures only display saved values or validated observations; no analysis is refitted. No withheld life-expectancy values are imputed. The build instructions document the software needed to reproduce these publications; continued availability of external services is not guaranteed.
 
 <!-- page -->
-## References and source notes
+## References
 
-Source records were acquired or checked on **6 November 2026**. Table titles below retain their official Danish names so the exact source can be identified. The analysis uses the preserved snapshot, not any subsequent revision of a live table.
+References use a numbered Vancouver-style system. Source records were acquired or checked on **6 November 2026**. Official table titles retain their Danish wording so each source can be identified precisely. The analysis uses the preserved snapshot, not any subsequent revision of a live table.
 
 1. **Statistics Denmark. INDKP106 — Disponibel indkomst efter område, enhed, køn, alder, indkomstinterval og tid.** 2024, mean disposable income in DKK, both sexes. [Official table](https://www.statbank.dk/INDKP106).
 2. **Statistics Denmark. HFUDD11 — Befolkningens højeste fuldførte uddannelse (15–69 år) efter bopælsområde, herkomst, højeste fuldførte uddannelse, alder, køn og tid.** Selected ages 25–64, 2024. [Official table](https://www.statbank.dk/HFUDD11).
@@ -368,6 +391,6 @@ Source records were acquired or checked on **6 November 2026**. Table titles bel
 
 ### Publication record
 
-Author: Frederik Jensen. Professional Bachelor of Physiotherapy; Master of Science (MSc) in Health in Critical Health Studies (cand.san.). Independent portfolio analysis; no institutional or employer affiliation is claimed. Analytical values come from the validated project snapshot. Report version 1.1; English and Danish editions have equivalent analytical content, section order, tables and figures.
+Author: Frederik Jensen. Professional Bachelor’s Degree in Physiotherapy; Master of Science (MSc) in Critical Health Studies. Independent public-health analysis and portfolio project; no institutional or employer affiliation is claimed. Analytical values come from the validated project snapshot. Report version 2.0, 12 November 2026; English and Danish editions have equivalent analytical content, section order, tables and figures.
 
 Full unrounded coefficient, correlation, diagnostic and sensitivity tables remain in the project. The report’s selective descriptive display is not a significance filter; all included M4 slopes and all characteristic correlations are shown, and the saved outputs retain every primary and secondary estimate.
