@@ -1,66 +1,99 @@
 # Danish Health & Life Expectancy
 
-*Geographical inequalities across Danish municipalities*
+**A municipality-level atlas of geographical health inequality in Denmark**
 
-An independent public-health analytics portfolio combining official municipality-level socioeconomic, health-profile and life-expectancy data. The project includes a Streamlit dashboard and equivalent English and Danish analytical reports.
+This independent public-health data and portfolio project brings together official Danish socioeconomic, health-profile and life-expectancy data. It examines how social conditions and health behaviours are associated with differences in population health across Denmark’s 98 municipalities.
 
-**Public dashboard:** _Not deployed yet. Replace this line with the public `https://…streamlit.app` URL after deployment._
+## [Open the live dashboard →](https://danish-health-inequality-atlas.streamlit.app)
+
+The dashboard presents the validated analysis through interactive comparisons, municipality profiles, statistical models and bilingual reports. Results describe municipality-level associations and should not be interpreted as individual or causal effects.
 
 ## Research question
 
-Which socioeconomic conditions and health-behaviour indicators are associated with geographical differences in life expectancy across Danish municipalities?
-
-The atlas describes ecological associations, not individual-level or causal effects.
+> **Which socioeconomic conditions and health-behaviour indicators are associated with geographical differences in life expectancy across Danish municipalities?**
 
 ## Data sources
 
-| Source | Data | Period |
+| Official source | Measures | Period |
 | --- | --- | --- |
-| Statistics Denmark [INDKP106](https://www.statbank.dk/INDKP106) | Mean personal disposable income | 2024 |
-| Statistics Denmark [HFUDD11](https://www.statbank.dk/HFUDD11), [FOLK1A](https://www.statbank.dk/FOLK1A) | Education, population and age structure | 2024 |
-| [Danish National Health Profile](https://www.danskernessundhed.dk/) | Smoking, obesity, physical activity, alcohol, self-rated and SF-12 mental health | 2025 |
-| Statistics Denmark [HISBK](https://www.statbank.dk/HISBK) | Period life expectancy at birth, total/male/female | 2021–2025 |
+| Statistics Denmark: [INDKP106](https://www.statbank.dk/INDKP106) | Mean personal disposable income | 2024 |
+| Statistics Denmark: [HFUDD11](https://www.statbank.dk/HFUDD11) and [FOLK1A](https://www.statbank.dk/FOLK1A) | Education, population and age structure | 2024 |
+| [Danish National Health Profile](https://www.danskernessundhed.dk/) | Smoking, obesity, physical activity, alcohol, self-rated health and mental health | 2025 |
+| Statistics Denmark: [HISBK](https://www.statbank.dk/HISBK) | Period life expectancy at birth, total/male/female | 2021–2025 |
 
-The master contains **98 municipalities**. Life expectancy is published for **94**; Ærø, Fanø, Samsø and Læsø are withheld for source uncertainty. No withheld values are imputed. Definitions, selections and attribution are recorded in the [source inventory](report/source_inventory.csv). Original publishers’ data terms apply separately from the project’s code.
+The municipality master table contains all **98 municipalities**. Life expectancy is published for **94**; Ærø, Fanø, Samsø and Læsø are withheld by the source because the estimates are too uncertain. No withheld values are imputed.
 
-## Methods and main findings
+## Analytical approach
 
-Methods include descriptive statistics, Pearson and Spearman correlations, Benjamini–Hochberg FDR correction, fixed OLS models with HC3 robust standard errors, standardized coefficients, VIF, PCA, k-means, Cook’s distance, influence sensitivities and leave-one-out validation.
+The project combines descriptive statistics with Pearson and Spearman correlations, Benjamini–Hochberg false-discovery-rate correction, prespecified OLS models, HC3 robust standard errors, standardized coefficients, VIF diagnostics, PCA, k-means clustering, Cook’s distance, sensitivity analysis and leave-one-out validation.
 
-- Low education (**r = −0.814**) and daily smoking (**r = −0.810**) show the strongest negative simple associations with life expectancy; income is positively associated (**r = +0.709**).
-- Adding health behaviours to the socioeconomic model increases R² by **0.062**. The combined model has **R² = 0.751**, adjusted R² **0.733** and leave-one-out R² **0.706**.
-- Predictors overlap substantially. The positive adjusted obesity coefficient is **not evidence of protection**.
-- PCA and clustering describe mixed municipality profiles. PC1 is not a single health-risk score, and profiles are not natural or causal groups.
+Primary analyses use saved and validated outputs; the dashboard does not refit the models at runtime.
 
-These are saved, validated results, including nonsignificant estimates—not analyses recomputed by the dashboard. See the [English report](Danish_Health_Life_Expectancy_Report_EN.pdf), [Danish report](Sundhed_og_Middellevetid_i_Danmark_Rapport_DA.pdf) and [full methods](report/analysis_methods.md).
+## Key validated findings
 
-## Dashboard features
+- **Education and smoking show the strongest negative simple associations.** The share with primary education is associated with life expectancy at **r = −0.814**, and daily smoking at **r = −0.810**.
+- **Income is positively associated with life expectancy.** Mean disposable income has a Pearson correlation of **r = +0.709**.
+- **Poor self-rated health is closely related to lower life expectancy.** The municipality-level correlation is **r = −0.763**.
+- **Health behaviours add information beyond income and education.** Adding the behavioural block increases R² by **0.062**, with a joint HC3 test of **p = 0.00097**.
+- **The combined model describes substantial—but not causal—variation.** Model 3 has **R² = 0.751**, adjusted **R² = 0.733** and leave-one-out **R² = 0.706**.
+- **Coverage is broad but not complete for the outcome.** Mean life expectancy across the 94 published municipality estimates is **81.6 years**; all 98 municipalities remain available for health-profile analyses.
 
-- Executive findings with plain-language interpretation.
-- Indicator distributions and municipality comparisons.
-- Correlations, adjusted models and saved coefficient intervals.
-- A municipality explorer and direct comparison of 2–4 municipalities across up to six factors.
-- Observed/predicted life expectancy, residuals and exploratory health profiles.
-- Separate English/Danish report readers, PDF downloads, data dictionary and CSV downloads.
+![Municipality-level associations between life expectancy, education and daily smoking](report/figures/en/associations.png)
+
+*Selected validated associations. Each point represents a municipality; fitted lines are descriptive and do not establish causation.*
+
+## Interactive dashboard
+
+The [live application](https://danish-health-inequality-atlas.streamlit.app) is designed as an accessible analytical report. Users can:
+
+- compare health and socioeconomic indicators across municipalities;
+- explore one municipality or compare two to four directly;
+- inspect correlations, robust regression estimates and model diagnostics;
+- examine observed versus model-predicted life expectancy;
+- explore PCA and descriptive municipality profiles; and
+- review data definitions, provenance and methodological limitations.
+
+## Reports
+
+- [English analytical report (PDF)](Danish_Health_Life_Expectancy_Report_EN.pdf)
+- [Danish analytical report (PDF)](Sundhed_og_Middellevetid_i_Danmark_Rapport_DA.pdf)
+- [Read the reports in the live dashboard](https://danish-health-inequality-atlas.streamlit.app/report)
+
+The English and Danish editions contain equivalent numerical tables and figures.
 
 ## Methodological limitations
 
-The analysis is ecological and observational. Municipality averages hide within-municipality inequality and cannot establish individual effects or causation. Source periods differ, survey measures are self-reported, four small municipalities lack published life expectancy, and collinearity, influential observations and unmeasured confounding complicate interpretation. Spatial dependence is not modelled; HC3 does not correct it. Residuals are not municipal performance rankings, and R² is not a causal percentage explained.
+This is an ecological, observational analysis. Municipality averages conceal variation within municipalities and cannot establish individual effects or causation. Socioeconomic measures refer to 2024, survey measures to 2025 and life expectancy to 2021–2025. Health-profile indicators are self-reported; four small municipalities lack published life-expectancy estimates; predictor collinearity and unmeasured confounding remain; and spatial dependence is not modelled. Residuals are exploratory diagnostics, not municipal performance rankings, and R² is a measure of model fit rather than a causal percentage explained.
+
+## Reproducibility and repository structure
+
+Raw source files are preserved outside the public release. Processed data, provenance, saved statistical outputs and publication files are generated through documented pipelines and integrity checks. No missing health-profile or life-expectancy observations are imputed.
+
+```text
+app.py                  Streamlit entry point and navigation
+app_pages/              Dashboard pages
+src/                    Data, analysis and presentation modules
+data/processed/         Validated municipality datasets and provenance
+outputs/                Saved statistical tables and figures
+report/                 Methods, sources and bilingual report materials
+scripts/                Publication and deployment validation tools
+tests/                  Numerical, presentation and deployment checks
+```
+
+See the [analysis methods](report/analysis_methods.md), [source inventory](report/source_inventory.csv) and [report build instructions](report/BUILD.md) for further documentation.
 
 ## Run locally
 
-Use **Python 3.14**, the tested analysis/runtime series. The dashboard needs no credentials, browser automation or network acquisition at runtime.
+Python **3.14** is the tested project version.
 
 ```sh
 python3.14 -m venv .venv
-source .venv/bin/activate             # Windows: .venv\Scripts\activate
+source .venv/bin/activate            # Windows: .venv\Scripts\activate
 python -m pip install -r requirements.txt
 python -m streamlit run app.py
 ```
 
-Run from the repository root. The committed release must contain the processed snapshot, saved outputs, assets and reports; installing packages alone does not supply those files.
-
-For checks:
+Optional validation:
 
 ```sh
 python -m pip install -r requirements-dev.txt
@@ -68,57 +101,16 @@ python -m unittest discover -s tests -v
 python -m scripts.check_deployment
 ```
 
-The GitHub Actions workflow also runs whole-project type checks. Acquisition integration tests require locally preserved raw snapshots and explicitly skip when these are absent from a public release; numerical, dashboard, report and comparison tests still run.
-
-## Repository structure
-
-```text
-app.py                       Streamlit entry point and navigation
-app_pages/                   Thin page scripts
-src/                         Acquisition, analysis and separate presentation modules
-assets/                      Wordmark, design tokens and dashboard styling
-.streamlit/config.toml       Public application theme; no secrets
-requirements*.txt            Runtime, development and optional build dependencies
-data/raw/                    Original local acquisition archive; excluded from public release
-data/processed/              Validated municipality datasets and provenance
-outputs/tables/              Saved statistical results, quality reports and manifest
-outputs/figures/             Validated analysis figures
-report/                      Bilingual reports, sources, methods and publication assets
-scripts/                     Report build, public export and deployment validation
-tests/                       Numerical, data-quality, UI and publication checks
-.github/workflows/ci.yml      Public-repository CI
-```
-
-## Reproducibility and public release
-
-Raw API responses and original health-profile exports are preserved locally. Processed data and saved outputs are generated programmatically; provenance and integrity checksums link the stages. No missing life-expectancy estimates are filled in. Optional acquisition and PDF-build tools are separated into `requirements-health.txt` and `requirements-report.txt`; see [report build instructions](report/BUILD.md).
-
-The original analysis manifest includes a historical README checksum and workstation paths. Its exact README is preserved at `report/analysis_snapshot/README.md`; the project README can now evolve without rewriting statistical results. Runtime path resolution uses the current repository, never the original workstation.
-
-**Publish the prepared release, not the unfiltered working folder:**
-
-```sh
-python -m scripts.prepare_public_repository --output public_release
-cd public_release
-python -m scripts.check_deployment
-```
-
-The exporter copies the code, required data, validated outputs and reports. It excludes raw acquisitions, virtual environments, local agent/editor files and secrets. It redacts workstation paths in **metadata copies only** and reconnects dependent checksum records. Observation/statistical CSVs, figures and PDFs are verified byte-for-byte unchanged. `public_export_manifest.json` records this process; original files remain untouched.
-
-See the [deployment readiness record](report/deployment_readiness.md) for verification results and remaining manual steps.
-
-Review the release folder, create your GitHub repository and push **its contents**. For Streamlit Community Cloud select the repository/branch, **`app.py`**, and **Python 3.14** in Advanced settings. No secrets or system packages are required for the read-only app. `.python-version` documents the local target; choose the Cloud Python version explicitly. See [Streamlit deployment documentation](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/deploy).
-
-After deployment, smoke-test all pages and downloads, then replace the public-dashboard placeholder above. Exact dependency pins and tests improve repeatability; external services and future hosting environments are not guaranteed to remain unchanged.
-
 ## Author
 
-**Frederik Jensen**  
-Professional Bachelor’s Degree in Physiotherapy  
-Master of Science (MSc) in Critical Health Studies
+**Frederik Jensen**<br>
+Master of Science (MSc) in Critical Health Studies<br>
+Professional Bachelor’s Degree in Physiotherapy
 
-Independent portfolio project focused on public-health data, statistical analysis, reproducibility and clear communication. No institutional or employer affiliation is claimed.
+Frederik Jensen works across public-health analysis, critical health research, applied statistics and evidence communication. [View the author profile in the dashboard](https://danish-health-inequality-atlas.streamlit.app/author) or [connect on LinkedIn](https://www.linkedin.com/in/frederik-thor-jensen-887839111/).
 
-## License
+This is an **independent public-health data and portfolio project**. No institutional or employer affiliation is claimed.
 
-No `LICENSE` file exists and no open-source license has been selected. This is a public portfolio presentation; do not assume the code has been licensed for unrestricted reuse. Select a license explicitly if desired. The official source data remain subject to their publishers’ terms and attribution requirements.
+## Use and attribution
+
+No open-source license has been selected. Public availability should not be interpreted as permission for unrestricted reuse. Official source data remain subject to their publishers’ terms and attribution requirements.
